@@ -1,4 +1,4 @@
-import { Component, ViewChild, OnInit, AfterViewInit, ElementRef, isDevMode } from '@angular/core';
+import { Component, ViewChild, OnInit, AfterViewInit, ElementRef, isDevMode, Input } from '@angular/core';
 
 import { FormsModule, ReactiveFormsModule, FormControl, FormGroup, Validators, ValidatorFn, AbstractControl } from '@angular/forms';
 
@@ -45,6 +45,7 @@ import { QuerystringserviceService } from '../Services/querystringservice.servic
 })
 
 export class MultitraceComponent implements OnInit, AfterViewInit {
+
   title = "MultiTrace";
   DEVELOPMENT:boolean = false;
   private MAXCHIPSIZE:number = 4;
