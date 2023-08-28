@@ -1,0 +1,70 @@
+<div class="flex-row width-full height-full" >
+    <form [formGroup]="tickerform" class="flex-col width-25 height-full" >
+        <label> <h3>{{title}}</h3></label>
+        <mat-form-field>
+            <mat-label>Tickers</mat-label>
+            <mat-chip-grid #tickerGrid>
+                <mat-chip-row *ngFor="let t of _SelectedTickers" (removed)="removeTicker(t)">
+                    {{t}}
+
+                    <button matChipRemove [attr.aria-label]="'remove ' + t">
+                        <mat-icon fontIcon="cancel">cancel</mat-icon>
+                    </button>
+                </mat-chip-row>
+            </mat-chip-grid>
+            <input formControlName="tickerSelected" type="text" oninput="this.value =this.value.toUpperCase()"  #tickerInput
+            [matChipInputFor]="tickerGrid"
+            [matAutocomplete]="tickerAutoComplete">  
+            <mat-autocomplete #tickerAutoComplete = "matAutocomplete" (optionSelected)="selected($event)" id="ticker-input-autocomplete-0">
+                <mat-option *ngFor="let t of _filteredTickers | async" [value]="t">
+                    {{t}}
+                </mat-option>
+            </mat-autocomplete>
+
+        </mat-form-field>
+        
+        <div *ngIf="ticker?.invalid && (ticker?.touched || ticker?.dirty)" >
+            <div *ngIf="ticker?.errors?.['TickersEmpty']" class="alert">
+                Need at least 1 ticker selected
+            </div> 
+        </div>
+
+        <mat-form-field>
+            <mat-label>Enter a date range</mat-label>
+            <mat-date-range-input [rangePicker]="picker">
+                <input matStartDate placeholder="Start date" formControlName="dateStart" placeholder="Start Date" >
+                <input matEndDate placeholder="End date" formControlName="dateEnd" placeholder="End Date">
+            </mat-date-range-input>
+            <mat-hint>MM/DD/YYYY – MM/DD/YYYY</mat-hint>
+            <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-date-range-picker #picker></mat-date-range-picker>
+
+            <div *ngIf="StartDate?.hasError('matStartDateInvalid')">
+                Invalid Start Date
+            </div>
+            <div *ngIf="StartDate?.hasError('matEndDateInvalid')">
+                Invalid End Date
+            </div>
+        </mat-form-field>
+        <button mat-raised-button color="primary" (click)="pullData()" [disabled]="tickerform.invalid"> 
+            Pull Data
+        </button>
+
+    </form>
+    <div class="width-full height-full">
+        <plotly-plot [useResizeHandler] = true 
+        [data]="MultiTraceData | closes" 
+        [layout] = ""
+        [style]="{width: '100%', height: '100%', autosize: 'true'}" >
+        </plotly-plot>
+    </div>
+ 
+    <!-- <div *ngIf="DEVELOPMENT">
+            <pre> {{StartDate?.valid}}</pre>
+            <pre> {{StartDate?.valid}}</pre>
+            <pre> {{ticker?.valid}}</pre> 
+    </div> -->
+
+</div>
+
+<!-- [layout] = "Data.layout" [config] = "Data.config" -->

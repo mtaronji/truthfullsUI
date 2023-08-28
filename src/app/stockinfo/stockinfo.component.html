@@ -1,0 +1,57 @@
+
+<div class="flex-row width-full height-full">
+
+    <form class="flex-col width-25 height-full" #tickersearchform>
+
+        <input 
+           type="text"
+           placeholder="Select a Ticker"
+           [formControl] = "tickerSelectCtrl"
+           [matAutocomplete]="actickers"
+           aria-label ="Ticker"
+           [value] = "selectedTicker"
+           #tickerInput       
+       />    
+
+       <div *ngIf="tickerSelectCtrl.invalid" class="alert">
+           <div *ngIf ="tickerSelectCtrl.errors?.['required']">Must Select a Ticker</div>
+           <div *ngIf ="tickerSelectCtrl.errors?.['tickerInvalid']">That ticker name is not found</div>
+       </div>
+
+       <mat-autocomplete #actickers >
+           <mat-option *ngFor = "let ticker of filteredTickers | async" [value] = "ticker">
+               {{ticker}}
+           </mat-option>
+       </mat-autocomplete>
+
+
+       <mat-radio-group [(ngModel)] = "TimeType" (change)="radioChange($event)" name="TimeTypeRadioGroup">
+           <mat-radio-button value="Daily" [checked]="TimeType == 'Daily'" name="Daily"> Daily </mat-radio-button>
+           <mat-radio-button value="Weekly" [checked]="TimeType == 'Weekly'"name = "Weekly" > Weekly </mat-radio-button>
+       </mat-radio-group>
+
+       <mat-form-field>
+           <mat-date-range-input [rangePicker]="picker">
+               <input [formControl]="dateBeginCtrl" placeholder="Date Begin" matStartDate [min]="minDate"/>
+               <input [formControl]="dateEndCtrl" placeholder="Date End" matEndDate [max]="maxDate"/>
+           </mat-date-range-input>
+           <mat-hint>MM/DD/YYYY – MM/DD/YYYY</mat-hint>
+           <mat-date-range-picker #picker></mat-date-range-picker>
+           <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+       </mat-form-field>
+
+       <button mat-raised-button color="primary" [disabled] = "tickerSelectCtrl.invalid" (click)="Search()" type="button" >Search</button>
+     
+    </form>
+
+    <div class="width-full height-full">
+        <plotly-plot [useResizeHandler] = true 
+        [data]="PriceData  | ohlc" 
+        [style]="{width: '100%', height: '100%', autosize: 'true'}" >
+        </plotly-plot>
+    </div>
+   
+</div>
+
+
+
