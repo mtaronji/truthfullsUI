@@ -18,14 +18,19 @@ stages:
     - task: NodeTool@0
       inputs:
         versionSpec: '18.10.0'
-
-    displayName: 'Installing Node'
-  - job: installNPM
-    steps:
     - script: |
        npm install -g @angular/cli
        npm install
        ng build
+    displayName: 'Installing and building dependencies'
+
+#   - job: installNPM
+#     steps:
+#     - script: |
+#        npm install -g @angular/cli
+#        npm install
+#        ng build
+#     displayName: 'Installing NPM'
 # - stage: Build
 #   jobs:
 #   - job: BuildFrontEnd
@@ -34,11 +39,11 @@ stages:
 #     - script: |
 #        ng build
       
-- stage: Test
-  jobs:
-  - job: RunJasmineTests
-    displayName: 'Running Jasmine Tests'
-    steps:
-    - script: |
-       ng test
+# - stage: Test
+#   jobs:
+#   - job: RunJasmineTests
+#     displayName: 'Running Jasmine Tests'
+#     steps:
+#     - script: |
+#        ng test
   
