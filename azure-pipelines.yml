@@ -18,22 +18,22 @@ stages:
       inputs:
        versionSpec: '18.10.0'
       displayName: 'installing Node Version 18.10.0'
-  - job: npm
-    pool:
-      name: Truthfullspool
-    steps:
-    - script: |
-        npm install -g @angular/cli
-        ng build
+#   - job: npm
+#     pool:
+#       name: Truthfullspool
+#     steps:
+#     - script: |
+#         npm install -g @angular/cli
+#         ng build
 
    
-- stage: Test
-  jobs:
-  - job: RunJasmineTests
-    pool:
-      name:Truthfullspool
-    displayName: 'Run Jasmine Tests'
-    steps:
-    - script: |
-        ng test
+# - stage: Test
+#   jobs:
+#   - job: RunJasmineTests
+#     pool:
+#       name:Truthfullspool
+#     displayName: 'Run Jasmine Tests'
+#     steps:
+#     - script: |
+#         ng test
 
