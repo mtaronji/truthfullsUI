@@ -11,7 +11,7 @@ pool:
   name: truthfullspool
 
 stages:
-- stage: Install
+- stage: Build
   jobs:
   - job: InstallNode
     steps:
@@ -23,27 +23,8 @@ stages:
        npm install
        ng build
     displayName: 'Installing and building dependencies'
-
-#   - job: installNPM
-#     steps:
-#     - script: |
-#        npm install -g @angular/cli
-#        npm install
-#        ng build
-#     displayName: 'Installing NPM'
-# - stage: Build
-#   jobs:
-#   - job: BuildFrontEnd
-#     displayName: 'Building TruthfullsUI'
-#     steps:
-#     - script: |
-#        ng build
-      
-# - stage: Test
-#   jobs:
-#   - job: RunJasmineTests
-#     displayName: 'Running Jasmine Tests'
-#     steps:
-#     - script: |
-#        ng test
-  
+- stage: Test
+  steps:
+  - script: |
+      ng test
+    displayName: 'Testing'
