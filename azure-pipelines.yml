@@ -30,7 +30,7 @@ stages:
 
    
 - stage: Test
-    dependsOn:Build
+  
   jobs:
   - job: RunJasmineTest
     displayName: 'Run Jasmine Tests'
