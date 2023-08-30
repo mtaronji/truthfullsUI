@@ -6,21 +6,21 @@
 
 trigger:
 - main
+pool:
+  name:Truthfullspool
 
 stages:
 - stage: Build
+
   jobs:
   - job: nodeInstall
-    pool:
-      name:Truthfullspool
+
     steps:
     - task: NodeTool@0
       inputs:
        versionSpec: '18.10.0'
       displayName: 'installing Node Version 18.10.0'
   - job: npm
-    pool:
-      Truthfullspool
     steps:
     - script: |
         npm install -g @angular/cli
@@ -29,9 +29,7 @@ stages:
    
 - stage: Test
   jobs:
-  - job: RunJasmineTests
-    pool:
-      Truthfullspool
+  - job: RunJasmineTest
     displayName: 'Run Jasmine Tests'
     steps:
     - script: |
