@@ -22,13 +22,14 @@ stages:
     - script: |
        npm install -g @angular/cli
        npm install
-- stage: Build
-  jobs:
-  - job: BuildFrontEnd
-    displayName: 'Building TruthfullsUI'
-    steps:
-    - script: |
        ng build
+# - stage: Build
+#   jobs:
+#   - job: BuildFrontEnd
+#     displayName: 'Building TruthfullsUI'
+#     steps:
+#     - script: |
+#        ng build
       
 - stage: Test
   jobs:
