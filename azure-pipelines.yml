@@ -7,7 +7,7 @@
 trigger:
 - main
 pool:
-  name:Truthfullspool
+ name: truthfullspool
 
 stages:
 - stage: Build
