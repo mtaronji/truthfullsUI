@@ -4,28 +4,20 @@
 # https://docs.microsoft.com/azure/devops/pipelines/languages/javascript
 
 
-# trigger:
-# - main
+trigger:
+- main
 
 pool:
- name: truthfullspool
+  name: truthfullspool
 
-stages:
-- stage: Build
+steps:
+- task: NodeTool@0
+  inputs:
+    versionSpec: '18.10.x'
+  displayName: 'Install Node.js'
 
-  jobs:
-  - job: nodeInstall
-
-    steps:
-    - task: NodeTool@0
-      inputs:
-       versionSpec: '18.10.0'
-      displayName: 'installing Node Version 18.10.0'
-  - job: npm
-    steps:
-    - script: |
-        npm install -g @angular/cli
-        npm install
-        ng build
-
-
+- script: |
+    npm install -g @angular/cli
+    npm install
+    ng build --prod
+  displayName: 'npm install and build'
