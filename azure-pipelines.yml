@@ -37,21 +37,3 @@ stages:
     - script: |
         ng test
 
-
-
-
-
-
-# - task: NodeTool@0
-#   inputs:
-#     versionSpec: '18.10.0'
-#   displayName: 'Install Node.js'
-
-# - script: |
-#     npm install -g @angular/cli
-#     npm install
-#     ng build
-#   displayName: 'npm install and build'
-# - script: |
-#     ng test
-#   displayName: 'Test the UI'
