@@ -9,10 +9,11 @@ trigger:
 
 stages:
 - stage: Build
+  pool:
+    name:Truthfullspool
   jobs:
   - job: nodeInstall
-    pool:
-      name:Truthfullspool
+    
     steps:
     - task: NodeTool@0
       inputs:
@@ -28,6 +29,8 @@ stages:
 
    
 - stage: Test
+  pool:
+    name:Truthfullspool
   jobs:
   - job: RunJasmineTests
     pool:
