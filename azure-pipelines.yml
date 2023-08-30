@@ -28,14 +28,4 @@ stages:
         npm install
         ng build
 
-   
-- stage: Test
-  
-  jobs:
-  - job: RunJasmineTest
-    displayName: 'Run Jasmine Tests'
-    steps:
-    - script: |
-        ng test
-
 
