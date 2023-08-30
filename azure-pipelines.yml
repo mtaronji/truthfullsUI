@@ -3,20 +3,53 @@
 # Add steps that analyze code, save build artifacts, deploy, and more:
 # https://docs.microsoft.com/azure/devops/pipelines/languages/javascript
 
+
 trigger:
 - main
 
-pool:
-  name: truthfullspool
+stages:
+- stage: Build
+  jobs:
+  - job: nodeInstall
+    pool:
+      name:truthfullspool
+    steps:
+    - task: NodeTool@0
+      inputs:
+       versionSpec: '18.10.0'
+      displayName: 'installing Node Version 18.10.0'
+  - job: npm
+    pool:
+      name: truthfullspool
+    steps:
+    - script: |
+        npm install -g @angular/cli
+        ng build
 
-steps:
-- task: NodeTool@0
-  inputs:
-    versionSpec: '18.10.0'
-  displayName: 'Install Node.js'
+   
+- stage: Test
+  jobs:
+  - job: RunJasmineTests
+    displayName: 'Run Jasmine Tests'
+    steps:
+    - script: |
+        ng test
 
-- script: |
-    npm install -g @angular/cli
-    npm install
-    ng build
-  displayName: 'npm install and build'
+
+
+
+
+
+# - task: NodeTool@0
+#   inputs:
+#     versionSpec: '18.10.0'
+#   displayName: 'Install Node.js'
+
+# - script: |
+#     npm install -g @angular/cli
+#     npm install
+#     ng build
+#   displayName: 'npm install and build'
+# - script: |
+#     ng test
+#   displayName: 'Test the UI'
