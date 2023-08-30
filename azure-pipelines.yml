@@ -24,7 +24,9 @@ stages:
        ng build
     displayName: 'Installing and building dependencies'
 - stage: Test
-  steps:
-  - script: |
-      ng test
+  jobs:
+  - job: Testing
+    steps:
+    - script: |
+       ng test
     displayName: 'Testing'
