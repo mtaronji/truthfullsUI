@@ -12,7 +12,7 @@ stages:
   jobs:
   - job: nodeInstall
     pool:
-      name:truthfullspool
+      name:Truthfullspool
     steps:
     - task: NodeTool@0
       inputs:
@@ -20,7 +20,7 @@ stages:
       displayName: 'installing Node Version 18.10.0'
   - job: npm
     pool:
-      name: truthfullspool
+      name: Truthfullspool
     steps:
     - script: |
         npm install -g @angular/cli
@@ -30,6 +30,8 @@ stages:
 - stage: Test
   jobs:
   - job: RunJasmineTests
+    pool:
+      name:Truthfullspool
     displayName: 'Run Jasmine Tests'
     steps:
     - script: |
