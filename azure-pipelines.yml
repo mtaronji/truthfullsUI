@@ -10,14 +10,31 @@ trigger:
 pool:
   name: truthfullspool
 
-steps:
-- task: NodeTool@0
-  inputs:
-    versionSpec: '18.10.x'
-  displayName: 'Install Node.js'
-
-- script: |
-    npm install -g @angular/cli
-    npm install
-    ng build --prod
-  displayName: 'npm install and build'
+stages:
+- stage: Install
+  jobs:
+  - job: InstallNode
+    steps:
+    - task: NodeTool@0
+    displayName: 'Installing Node'
+  - job: installNPM
+    steps:
+    - script: |
+       npm install -g @angular/cli
+       npm install
+- stage: Build
+  jobs:
+  - job: BuildFrontEnd
+    displayName: 'Building TruthfullsUI'
+    steps:
+    - script: |
+       ng build
+      
+- stage: Test
+  jobs:
+  - job: RunJasmineTests
+    displayName: 'Running Jasmine Tests'
+    steps:
+    - script: |
+       ng test
+  
