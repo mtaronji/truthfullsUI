@@ -14,15 +14,13 @@ stages:
 - stage: Build
 
   jobs:
-  - job: nodeInstall
+  - job: install
 
     steps:
     - task: NodeTool@0
       inputs:
        versionSpec: '18.10.0'
       displayName: 'installing Node Version 18.10.0'
-  - job: npm
-    steps:
     - script: |
         npm install -g @angular/cli
         npm install
