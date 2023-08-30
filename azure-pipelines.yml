@@ -16,7 +16,11 @@ steps:
   displayName: 'Install Node.js'
 
 - script: |
-    npm install -g @angular/cli
+    npm ci -g @angular/cli
     npm install
-    ng build --prod
+    ng build 
   displayName: 'npm install and build'
+
+- script: |
+    ng test
+  displayName: 'Running UI tests'
