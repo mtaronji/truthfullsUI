@@ -6,6 +6,7 @@
 
 trigger:
 - main
+
 pool:
  name: truthfullspool
 
@@ -24,10 +25,12 @@ stages:
     steps:
     - script: |
         npm install -g @angular/cli
+        npm install
         ng build
 
    
 - stage: Test
+    dependsOn:Build
   jobs:
   - job: RunJasmineTest
     displayName: 'Run Jasmine Tests'
