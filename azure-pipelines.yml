@@ -27,6 +27,20 @@ stages:
       displayName: "Installing npm and Angular"
     - script: |
        ng build
-       npx ng test --watch=false --karmaConfig karma.conf.ci.js --code-coverage
+       ng test --watch=false --code-coverage
       displayName: "Building and testing"
+    - task: PublishTestResults@2
+      condition: succeededOrFailed()
+      inputs:
+       testResultsFormat: 'JUnit'
+       testResultsFiles: '**/TESTS-*.xml'
+      displayName: 'publish unit test results'
+
+    - task: PublishCodeCoverageResults@1
+      displayName: 'publish code coverage report'
+      condition: succeededOrFailed()
+      inputs:
+        codeCoverageTool: Cobertura
+        summaryFileLocation: '$(Build.SourcesDirectory)/coverage/cobertura-coverage.xml'
+        failIfCoverageEmpty: true   
 
