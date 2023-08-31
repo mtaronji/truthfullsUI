@@ -27,6 +27,6 @@ stages:
       displayName: "Installing npm and Angular"
     - script: |
        ng build
-       ng test
+       npx ng test --watch=false --karmaConfig karma.conf.ci.js --code-coverage
       displayName: "Building and testing"
 
