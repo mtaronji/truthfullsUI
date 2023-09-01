@@ -48,7 +48,10 @@ stages:
         versionSpec: '18.10.0'
       displayName: "Installing Node"
     - script: |
-       ng test TruthfullsUI --code-coverage --karma-config karma.conf.ci.js 
+         npm install -g @angular/cli
+         npm ci
+         ng build
+         ng test TruthfullsUI --code-coverage --karma-config karma.conf.ci.js 
       displayName: "Karma Testing"
     - task: PublishTestResults@2
       condition: succeededOrFailed()
