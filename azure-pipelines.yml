@@ -7,28 +7,52 @@
 trigger:
 - main
 
+variables:
+    npm_config_cache: $(Pipeline.Workspace)/.npm
 pool:
   name: truthfullspool
 
 stages:
-- stage: Build_And_Test 
-  displayName: "Building and Testing Stage"
+- stage: Build
+  displayName: "Building Ap"
   jobs:
   - job: 
-    displayName: ""
+    displayName: "Build UI"
     steps:
+    - task: Cache@2
+      inputs:
+        key: 'npm | "$(Agent.OS)" | package-lock.json'
+        restoreKeys: |
+         npm | "$(Agent.OS)"
+        path: $(npm_config_cache)
+      displayName: "Caching NPM"
     - task: NodeTool@0
       inputs:
         versionSpec: '18.10.0'
       displayName: "Installing Node"
     - script: |
        npm install -g @angular/cli
-       npm install
+       npm ci
       displayName: "Installing npm and Angular"
     - script: |
        ng build
-       ng test --watch=false --code-coverage
-      displayName: "Building and testing"
+      displayName: "Building"
+- stage: Test
+  displayName: "Testing"
+  jobs:
+  - job: 
+    displayName: "Testing App"
+    steps:
+    - task: NodeTool@0
+      inputs:
+        versionSpec: '18.10.0'
+      displayName: "Installing Node"
+    - script: |
+         npm install -g @angular/cli
+         npm ci
+         ng build
+         ng test TruthfullsUI --code-coverage --karma-config karma.conf.ci.js 
+      displayName: "Karma Testing"
     - task: PublishTestResults@2
       condition: succeededOrFailed()
       inputs:
@@ -43,4 +67,3 @@ stages:
         codeCoverageTool: Cobertura
         summaryFileLocation: '$(Build.SourcesDirectory)/coverage/cobertura-coverage.xml'
         failIfCoverageEmpty: true   
-
