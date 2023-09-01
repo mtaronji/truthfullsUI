@@ -7,6 +7,8 @@
 trigger:
 - main
 
+variables:
+    npm_config_cache: $(Pipeline.Workspace)/.npm
 pool:
   name: truthfullspool
 
@@ -15,8 +17,15 @@ stages:
   displayName: "Building Ap"
   jobs:
   - job: 
-    displayName: ""
+    displayName: "Build UI"
     steps:
+    - task: Cache@2
+      inputs:
+        key: 'npm | "$(Agent.OS)" | package-lock.json'
+        restoreKeys: |
+         npm | "$(Agent.OS)"
+      path: $(npm_config_cache)
+      displayName: "Caching NPM"
     - task: NodeTool@0
       inputs:
         versionSpec: '18.10.0'
@@ -34,6 +43,10 @@ stages:
   - job: 
     displayName: "Testing App"
     steps:
+    - task: NodeTool@0
+      inputs:
+        versionSpec: '18.10.0'
+      displayName: "Installing Node"
     - script: |
        ng test TruthfullsUI --code-coverage --karma-config karma.conf.ci.js 
       displayName: "Karma Testing"
