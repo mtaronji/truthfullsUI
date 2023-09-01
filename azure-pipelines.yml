@@ -13,30 +13,23 @@ pool:
   name: truthfullspool
 
 stages:
-- stage: Build
-  displayName: "Building Ap"
-  jobs:
-  - job: 
-    displayName: "Build UI"
-    steps:
-    - task: Cache@2
-      inputs:
-        key: 'npm | "$(Agent.OS)" | package-lock.json'
-        restoreKeys: |
-         npm | "$(Agent.OS)"
-        path: $(npm_config_cache)
-      displayName: "Caching NPM"
-    - task: NodeTool@0
-      inputs:
-        versionSpec: '18.10.0'
-      displayName: "Installing Node"
-    - script: |
-       npm install -g @angular/cli
-       npm ci
-      displayName: "Installing npm and Angular"
-    - script: |
-       ng build
-      displayName: "Building"
+# - stage: Build
+#   displayName: "Building Ap"
+#   jobs:
+#   - job: 
+#     displayName: "Build UI"
+#     steps:
+#     - task: NodeTool@0
+#       inputs:
+#         versionSpec: '18.10.0'
+#       displayName: "Installing Node"
+#     - script: |
+#        npm install -g @angular/cli
+#        npm ci
+#       displayName: "Installing npm and Angular"
+#     - script: |
+#        ng build
+#       displayName: "Building"
 - stage: Test
   displayName: "Testing"
   jobs:
@@ -45,14 +38,14 @@ stages:
     steps:
     - task: NodeTool@0
       inputs:
-        versionSpec: '18.10.0'
-      displayName: "Installing Node"
+        versionSpec: '18.10.x'
+      displayName: "Using Node 18.10.x"
     - script: |
          npm install -g @angular/cli
          npm ci
          npm i puppeteer
          ng build
-      displayName: "Install Dependencies"   
+      displayName: "Install Dependencies and build"   
     - script: |
          ng test TruthfullsUI --code-coverage --karma-config karma.conf.ci.js 
       displayName: "Run Karma tests"
