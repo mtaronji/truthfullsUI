@@ -11,8 +11,8 @@ pool:
   name: truthfullspool
 
 stages:
-- stage: Build_And_Test 
-  displayName: "Building and Testing Stage"
+- stage: Build
+  displayName: "Building Ap"
   jobs:
   - job: 
     displayName: ""
@@ -28,8 +28,14 @@ stages:
     - script: |
        ng build
       displayName: "Building"
+- stage: Test
+  displayName: "Testing"
+  jobs:
+  - job: 
+    displayName: "Testing App"
+    steps:
     - script: |
-       ng test TruthfullsUI --code-coverage --karma-config src/karma.conf.ci.js 
+       ng test TruthfullsUI --code-coverage --karma-config karma.conf.ci.js 
       displayName: "Karma Testing"
     - task: PublishTestResults@2
       condition: succeededOrFailed()
@@ -45,4 +51,3 @@ stages:
         codeCoverageTool: Cobertura
         summaryFileLocation: '$(Build.SourcesDirectory)/coverage/cobertura-coverage.xml'
         failIfCoverageEmpty: true   
-
