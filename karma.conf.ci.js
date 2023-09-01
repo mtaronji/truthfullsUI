@@ -1,9 +1,8 @@
 // Karma configuration file, see link for more information
 // https://karma-runner.github.io/1.0/config/configuration-file.html
 
-const ChromiumRevision = require('puppeteer/package.json').puppeteer.chromium_revision
-const Downloader = require('puppeteer/utils/ChromiumDownloader')
-const revisionInfo = Downloader.revisionInfo(Downloader.currentPlatform(), ChromiumRevision)
+
+process.env.CHROME_BIN = require('puppeteer').executablePath()
 
 module.exports = function (config) {
 
@@ -12,7 +11,7 @@ module.exports = function (config) {
     frameworks: ['jasmine', '@angular-devkit/build-angular'],
     plugins: [
       require('karma-jasmine'),
-      require('karma-chrome-launcher'),
+      require('karma-phantomjs-launcher'),
       require('karma-jasmine-html-reporter'),
       require('karma-coverage'),
       require('karma-junit-reporter'),
@@ -39,7 +38,7 @@ module.exports = function (config) {
       ]
     },
     reporters: ['progress', 'kjhtml', 'junit'],
-    browsers: ['ChromeHeadless'],
+    browsers: ['PhantomJS'],
     singleRun: true,
     restartOnFileChange: false
   });
