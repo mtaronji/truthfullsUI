@@ -43,6 +43,7 @@ stages:
     - script: |
          npm install -g @angular/cli
          npm ci
+         npm install chromium
          npm i puppeteer
          ng build
       displayName: "Install Dependencies and build"   
