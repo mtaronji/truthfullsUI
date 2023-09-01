@@ -24,7 +24,7 @@ stages:
         key: 'npm | "$(Agent.OS)" | package-lock.json'
         restoreKeys: |
          npm | "$(Agent.OS)"
-      path: $(npm_config_cache)
+        path: $(npm_config_cache)
       displayName: "Caching NPM"
     - task: NodeTool@0
       inputs:
