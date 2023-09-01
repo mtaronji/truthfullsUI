@@ -23,12 +23,14 @@ stages:
       displayName: "Installing Node"
     - script: |
        npm install -g @angular/cli
-       npm install
+       npm ci
       displayName: "Installing npm and Angular"
     - script: |
        ng build
-       ng test --watch=false --code-coverage
-      displayName: "Building and testing"
+      displayName: "Building"
+    - script: |
+       npm test --code-coverage --karmaConfig src/karma.conf.ci.js'
+      displayName: "Karma Testing"
     - task: PublishTestResults@2
       condition: succeededOrFailed()
       inputs:
