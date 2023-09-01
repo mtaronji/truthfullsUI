@@ -29,7 +29,7 @@ stages:
        ng build
       displayName: "Building"
     - script: |
-       npm test --code-coverage --karmaConfig src/karma.conf.ci.js'
+       npm test --code-coverage --karmaConfig src/karma.conf.ci.js
       displayName: "Karma Testing"
     - task: PublishTestResults@2
       condition: succeededOrFailed()
