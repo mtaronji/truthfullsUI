@@ -50,9 +50,12 @@ stages:
     - script: |
          npm install -g @angular/cli
          npm ci
+         npm i puppeteer
          ng build
+      displayName: "Install Dependencies"   
+    - script: |
          ng test TruthfullsUI --code-coverage --karma-config karma.conf.ci.js 
-      displayName: "Karma Testing"
+      displayName: "Run Karma tests"
     - task: PublishTestResults@2
       condition: succeededOrFailed()
       inputs:
