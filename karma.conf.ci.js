@@ -38,6 +38,16 @@ module.exports = function (config) {
     },
     reporters: ['progress', 'kjhtml', 'junit'],
     browsers: ['ChromeHeadless'],
+    customLaunchers: {
+      MyHeadlessChrome: {
+        base: "Chrome",
+        flags: [
+          "--headless", 
+          "--disable-gpu", 
+          "--remote-debugging-port-9222"
+        ]
+      }
+    },
     singleRun: true,
     restartOnFileChange: false
   });
