@@ -42,7 +42,7 @@ stages:
       displayName: "Using Node 18.10.x"
     - script: |
          npm install -g @angular/cli
-         npm ci
+         npm install
          npm install -g puppeteer
          ng build
         #  npm install -g karma-cli
