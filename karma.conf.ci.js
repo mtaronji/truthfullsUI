@@ -38,16 +38,13 @@ module.exports = function (config) {
     },
     reporters: ['progress', 'kjhtml', 'junit'],
     browsers: ['ChromeHeadless'],
-    customLaunchers: {
-      MyHeadlessChrome: {
-        base: "Chrome",
-        flags: [
-          "--headless", 
-          "--disable-gpu", 
-          "--remote-debugging-port-9222"
-        ]
-      }
-    },
+    plugins: [
+      'karma-chrome-launcher',
+      'karma-typescript',
+      'karma-mocha',
+      'karma-junit-reporter',
+      'karma-mocha-reporter'
+  ],
     singleRun: true,
     restartOnFileChange: false
   });
