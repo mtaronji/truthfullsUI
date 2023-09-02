@@ -41,7 +41,9 @@ module.exports = function (config) {
     browsers: ['ChromeHeadless'],
     plugins: [
       'karma-chrome-launcher',
-      'karma-junit-reporter'
+      'karma-junit-reporter',
+      'karma-jasmine',
+      'karma-coverage'
   ],
 
     singleRun: true,
