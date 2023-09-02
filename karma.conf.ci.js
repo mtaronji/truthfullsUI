@@ -42,6 +42,7 @@ module.exports = function (config) {
     plugins: [
       'karma-chrome-launcher',
       'karma-junit-reporter',
+      'karma-jasmine-html-reporter',
       'karma-jasmine',
       'karma-coverage',
       '@angular-devkit/build-angular/plugins/karma'
