@@ -45,6 +45,9 @@ stages:
          npm install
          npm install -g puppeteer
          npm install -g karma-cli
+         npm install karma-jasmine-html-reporter
+         npm install @angular-devkit/build-angular
+
          ng build
       displayName: "Install Dependencies and build"   
     - script: |
