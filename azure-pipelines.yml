@@ -25,7 +25,7 @@ stages:
 #       displayName: "Installing Node"
 #     - script: |
 #        npm install -g @angular/cli
-#        npm install
+#        npm ci
 #       displayName: "Installing npm and Angular"
 #     - script: |
 #        ng build
