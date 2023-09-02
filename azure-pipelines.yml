@@ -47,7 +47,8 @@ stages:
          ng build
       displayName: "Install Dependencies and build"   
     - script: |
-         ng test TruthfullsUI --code-coverage --karma-config karma.conf.ci.js 
+        #  ng test TruthfullsUI --code-coverage --karma-config karma.conf.ci.js 
+        ng test --no-watch --no-progress --browsers=ChromeHeadless
       displayName: "Run Karma tests"
     - task: PublishTestResults@2
       condition: succeededOrFailed()
