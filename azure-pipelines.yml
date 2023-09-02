@@ -44,11 +44,10 @@ stages:
          npm install -g @angular/cli
          npm ci
          npm install -g puppeteer
-         npm install -g karma-cli
-         npm install karma-jasmine-html-reporter
-         npm install @angular-devkit/build-angular
-
          ng build
+        #  npm install -g karma-cli
+        #  npm install karma-jasmine-html-reporter
+        #  ng build
       displayName: "Install Dependencies and build"   
     - script: |
         ng test TruthfullsUI --code-coverage --karma-config karma.conf.ci.js 
