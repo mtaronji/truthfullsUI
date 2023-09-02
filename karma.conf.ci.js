@@ -37,7 +37,7 @@ module.exports = function (config) {
       ]
     },
     reporters: ['progress', 'kjhtml', 'junit'],
-    browsers: ['PhantomJS'],
+    browsers: ['ChromeHeadless'],
     singleRun: true,
     restartOnFileChange: false
   });
