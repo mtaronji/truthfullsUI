@@ -40,10 +40,7 @@ module.exports = function (config) {
     browsers: ['ChromeHeadless'],
     plugins: [
       'karma-chrome-launcher',
-      'karma-typescript',
-      'karma-mocha',
-      'karma-junit-reporter',
-      'karma-mocha-reporter'
+      'karma-junit-reporter'
   ],
     singleRun: true,
     restartOnFileChange: false
