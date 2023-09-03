@@ -13,23 +13,23 @@ pool:
   name: truthfullspool
 
 stages:
-# - stage: Build
-#   displayName: "Building Ap"
-#   jobs:
-#   - job: 
-#     displayName: "Build UI"
-#     steps:
-#     - task: NodeTool@0
-#       inputs:
-#         versionSpec: '18.10.0'
-#       displayName: "Installing Node"
-#     - script: |
-#        npm install -g @angular/cli
-#        npm ci
-#       displayName: "Installing npm and Angular"
-#     - script: |
-#        ng build
-#       displayName: "Building"
+- stage: Build
+  displayName: "Building Ap"
+  jobs:
+  - job: 
+    displayName: "Build UI"
+    steps:
+    - task: NodeTool@0
+      inputs:
+        versionSpec: '18.10.0'
+      displayName: "Installing Node"
+    - script: |
+       npm install -g @angular/cli
+       npm ci
+      displayName: "Installing npm and Angular"
+    - script: |
+       ng build
+      displayName: "Building"
 - stage: Test
   displayName: "Testing"
   jobs:
