@@ -30,6 +30,10 @@ stages:
     - script: |
        ng build
       displayName: "Building"
+    - task: PublishBuildArtifacts@1
+      inputs:
+        pathToPublish: '$(Build.SourcesDirectory/dist)'
+        artifactName: drop1
 - stage: Test
   displayName: "Testing"
   jobs:
