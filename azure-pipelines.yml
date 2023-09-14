@@ -7,8 +7,6 @@
 trigger:
 - dev
 
-variables:
-    npm_config_cache: $(Pipeline.Workspace)/.npm
 pool:
   name: truthfullspool
 
@@ -26,7 +24,6 @@ stages:
     - script: |
          npm install -g @angular/cli
          npm ci
-         npm install -g puppeteer
          ng build
       displayName: "Install Dependencies and build"   
     - script: |
