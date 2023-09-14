@@ -80,7 +80,7 @@ export class StockinfoComponent implements OnDestroy, OnInit{
     return this._traces;
   }
   constructor(private webapiservice:APIService, private datepipe:DatePipe, private querystringservice:QuerystringserviceService){
-  
+    this.selectedTicker = "SPY"; //default
     this._traces = [];
     this.plotlyid = "stockinfo-plotly";
     this._pricedata = {};
@@ -117,10 +117,11 @@ export class StockinfoComponent implements OnDestroy, OnInit{
         (symbol : string|null) => (symbol? this._filter(symbol) : this.availableTickers.slice()) 
       )
     );
-    this.selectedTicker = "SPY";
+    this.tickerSelectCtrl.setValue(this.selectedTicker);
   }
 
   Search(){
+    this.selectedTicker = this.tickerSelectCtrl.value;
     if(this.TimeType === "Daily"){
       let querystring:string = this.querystringservice.createQueryString([this.selectedTicker],this.dateBeginCtrl.getRawValue(), this.dateEndCtrl.getRawValue() );
       this.webapiservice.getDailyPriceData(querystring).subscribe(
