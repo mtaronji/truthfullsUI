@@ -13,7 +13,7 @@ pool:
   name: truthfullspool
 
 stages:
-- stage: Build&Test
+- stage: Build_Test
   displayName: "Building and Testing"
   jobs:
   - job: 
