@@ -36,11 +36,5 @@ stages:
         ng test TruthfullsUI --code-coverage --karma-config karma.conf.ci.js 
 
       displayName: "Run Karma tests"
-    - task: PublishTestResults@2
-      condition: succeededOrFailed()
-      inputs:
-       testResultsFormat: 'JUnit'
-       testResultsFiles: '**/TESTS-*.xml'
-      displayName: 'publish unit test results'
 
   
