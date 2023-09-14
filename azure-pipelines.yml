@@ -5,7 +5,7 @@
 
 
 trigger:
-- dev
+- main
 
 variables:
     npm_config_cache: $(Pipeline.Workspace)/.npm
