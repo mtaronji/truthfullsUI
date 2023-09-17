@@ -33,7 +33,7 @@ stages:
 
     - task: CopyFiles@2
       inputs:
-        SourceFolder: $(System.DefaultWorkingDirectory)
+        SourceFolder: $(System.DefaultWorkingDirectory)/dist
         
         TargetFolder: $(Build.ArtifactStagingDirectory)/truthfullsUI
       displayName: "Copying Angular build to Artifact staging directory"
