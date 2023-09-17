@@ -139,7 +139,7 @@ export class StockinfoComponent implements OnDestroy, OnInit{
     }
   }
   private _filter(val:string) : string[] {
-    return this.availableTickers.filter( symbol => symbol.includes(val.toUpperCase()));
+    return this.availableTickers.filter( symbol => symbol.startsWith(val.toUpperCase()));
   }
 
   radioChange(event: MatRadioChange) {
