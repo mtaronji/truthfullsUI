@@ -7,35 +7,12 @@
 trigger:
 - dev
 
-variables:
-    npm_config_cache: $(Pipeline.Workspace)/.npm
 pool:
   name: truthfullspool
 
 stages:
-- stage: Build
-  displayName: "Building Ap"
-  jobs:
-  - job: 
-    displayName: "Build UI"
-    steps:
-    - task: NodeTool@0
-      inputs:
-        versionSpec: '18.10.0'
-      displayName: "Installing Node"
-    - script: |
-       npm install -g @angular/cli
-       npm ci
-      displayName: "Installing npm and Angular"
-    - script: |
-       ng build
-      displayName: "Building"
-    - task: PublishBuildArtifacts@1
-      inputs:
-        pathToPublish: '$(Build.SourcesDirectory)/dist'
-        artifactName: drop1
-- stage: Test
-  displayName: "Testing"
+- stage: Build_Test
+  displayName: "Building and Testing"
   jobs:
   - job: 
     displayName: "Testing App"
@@ -47,20 +24,11 @@ stages:
     - script: |
          npm install -g @angular/cli
          npm ci
-         npm install -g puppeteer
          ng build
-        #  npm install -g karma-cli
-        #  npm install karma-jasmine-html-reporter
-        #  ng build
       displayName: "Install Dependencies and build"   
     - script: |
         ng test TruthfullsUI --code-coverage --karma-config karma.conf.ci.js 
 
       displayName: "Run Karma tests"
-    - task: PublishTestResults@2
-      condition: succeededOrFailed()
-      inputs:
-       testResultsFormat: 'JUnit'
-       testResultsFiles: '**/TESTS-*.xml'
-      displayName: 'publish unit test results'
 
+  
