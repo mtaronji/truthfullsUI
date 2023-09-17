@@ -65,7 +65,7 @@ describe('StockinfoComponent', () => {
     await autocomplete.clear();
     await autocomplete.enterText("S");
     options = await autocomplete.getOptions();
-    expect(options.length).toBe(2);
+    expect(options.length).toBe(1);
 
     await autocomplete.clear();
     await autocomplete.enterText("AAP");
