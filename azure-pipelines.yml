@@ -31,4 +31,15 @@ stages:
 
       displayName: "Run Karma tests"
 
-  
+    - task: CopyFiles@2
+      inputs:
+        SourceFolder: $(System.DefaultWorkingDirectory)
+        
+        TargetFolder: $(Build.ArtifactStagingDirectory)/truthfullsUI
+      displayName: "Copying Angular build to Artifact staging directory"
+      
+    - task: PublishPipelineArtifact@1
+      inputs:
+        targetPath: '$(Build.ArtifactStagingDirectory)' 
+        artifactName: 'truthfullsUI'
+      displayName: "Creating UI Artifact"
