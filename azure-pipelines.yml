@@ -39,6 +39,7 @@ stages:
         packageType: sdk
       
     - script: |
+         cd $(System.DefaultWorkingDirectory)/truthfullsUI
          npm install -g @angular/cli
          npm ci
       displayName: "Install angular"
