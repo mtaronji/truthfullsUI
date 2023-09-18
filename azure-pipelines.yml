@@ -10,11 +10,20 @@ trigger:
 pool:
   name: truthfullspool
 
+resources:
+  repositories:
+  - repository:  webapi
+    type: github
+    endpoint: mtaronji
+    name: mtaronji/truthfullswebapi
+    ref: "refs/heads/development"
+
 stages:
 - stage: Build_Test
   displayName: "Building and Testing"
   jobs:
   - job: 
+
     displayName: "Testing App"
     steps:
     - task: NodeTool@0
@@ -33,7 +42,7 @@ stages:
 
     - task: CopyFiles@2
       inputs:
-        SourceFolder: $(System.DefaultWorkingDirectory)
+        SourceFolder: $(System.DefaultWorkingDirectory)/dist
         
         TargetFolder: $(Build.ArtifactStagingDirectory)/truthfullsUI
       displayName: "Copying Angular build to Artifact staging directory"
