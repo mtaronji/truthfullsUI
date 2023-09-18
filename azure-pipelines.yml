@@ -10,11 +10,20 @@ trigger:
 pool:
   name: truthfullspool
 
+resources:
+  repositories:
+  - repository:  webapi
+    type: github
+    endpoint: mtaronji
+    name: mtaronji/truthfullswebapi
+    ref: "refs/heads/development"
+
 stages:
 - stage: Build_Test
   displayName: "Building and Testing"
   jobs:
   - job: 
+
     displayName: "Testing App"
     steps:
     - task: NodeTool@0
