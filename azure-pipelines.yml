@@ -24,7 +24,7 @@ resources:
     ref: "refs/heads/development"
 
 stages:
-- stage: Build_Test
+- stage: Running Test and build TruthfullsUI
   displayName: "Building and Testing"
   jobs:
   - job: 
