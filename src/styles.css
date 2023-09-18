@@ -31,6 +31,10 @@ body { font-family: Roboto, "Helvetica Neue", sans-serif;}
     color: #820000;
 }
 
+.margin-auto{
+    margin: auto;
+}
+
 mat-tab-body, mat-tab-group, mat-tab, .mat-mdc-tab-body-wrapper{
     height:100%;
     width:100%;

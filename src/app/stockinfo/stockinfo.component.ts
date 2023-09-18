@@ -12,12 +12,12 @@ import { APIService } from '../Services/api.service';
 import { PriceData, PriceModel,  } from 'src/assets/stockmodels';
 import { ValidatorFn } from '@angular/forms';
 import { AbstractControl,ValidationErrors } from '@angular/forms';
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 
 import * as PlotlyJS from 'plotly.js-dist-min';
 import { PlotlyModule } from 'angular-plotly.js';
 PlotlyModule.plotlyjs = PlotlyJS;
 import * as plotmodels from 'src/assets/plotlymodels';
-import {TimeType} from 'src/assets/stockmodels'
 import { QuerystringserviceService } from '../Services/querystringservice.service';
 import { StockPriceClosesPipe } from '../Pipes/stock-price-closes.pipe';
 import { OhlcPipe } from '../Pipes/ohlc.pipe';
@@ -41,6 +41,7 @@ PlotlyModule.plotlyjs = PlotlyJS;
     MatLuxonDateModule,
     MatFormFieldModule,
     MatButtonModule,
+    MatProgressSpinnerModule,
     PlotlyModule,
     StockPriceClosesPipe,
     OhlcPipe,
@@ -58,6 +59,7 @@ export class StockinfoComponent implements OnDestroy, OnInit{
   TimeTypes:string[];
   TimeType:string;
   plotlyid:string;
+  plotLoading:boolean;
 
   @ViewChild("tickerInput") tickerInput! : ElementRef<HTMLInputElement>;
   availableTickers:string[];
@@ -80,6 +82,7 @@ export class StockinfoComponent implements OnDestroy, OnInit{
     return this._traces;
   }
   constructor(private webapiservice:APIService, private datepipe:DatePipe, private querystringservice:QuerystringserviceService){
+    this.plotLoading = true;
     this.selectedTicker = "SPY"; //default
     this._traces = [];
     this.plotlyid = "stockinfo-plotly";
@@ -121,19 +124,24 @@ export class StockinfoComponent implements OnDestroy, OnInit{
   }
 
   Search(){
+    this.plotLoading = true;
     this.selectedTicker = this.tickerSelectCtrl.value;
+    let begindate:string | null = this.datepipe.transform(this.dateBeginCtrl.getRawValue(), "yyyy-MM-dd");
+    let enddate:string | null = this.datepipe.transform(this.dateEndCtrl.getRawValue(), "yyyy-MM-dd");
     if(this.TimeType === "Daily"){
-      let querystring:string = this.querystringservice.createQueryString([this.selectedTicker],this.dateBeginCtrl.getRawValue(), this.dateEndCtrl.getRawValue() );
+      let querystring:string = this.querystringservice.createQueryString([this.selectedTicker], begindate, enddate );
       this.webapiservice.getDailyPriceData(querystring).subscribe(
         (data:PriceData ) => {
-           this._pricedata = data;          
+           this._pricedata = data;   
+           this.plotLoading = false;       
         });
     }
     else if(this.TimeType == "Weekly"){
       let querystring:string = this.querystringservice.createQueryString([this.selectedTicker],this.dateBeginCtrl.getRawValue(), this.dateEndCtrl.getRawValue() );
       this.webapiservice.getWeeklyPriceData(querystring).subscribe(
         (data:PriceData ) => {
-           this._pricedata = data;            
+           this._pricedata = data;     
+           this.plotLoading = false;          
         });
       
     }
@@ -165,7 +173,6 @@ export class StockinfoComponent implements OnDestroy, OnInit{
         }
       );
   
-      this.Search();
     }
     else{
       this.webapiservice.getTickers().subscribe(
@@ -176,9 +183,10 @@ export class StockinfoComponent implements OnDestroy, OnInit{
         }
       );
   
-      this.Search();
+
     }
 
+    this.Search();
 
   }
   ngOnDestroy(): void {

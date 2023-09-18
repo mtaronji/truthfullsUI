@@ -7,7 +7,10 @@ export class QuerystringserviceService {
 
   constructor() { }
 
-  public createQueryString(tickers:string[], datebegin:string, dateend:string): string {
+  public createQueryString(tickers:string[], datebegin:string | null, dateend:string | null): string {
+    if (datebegin == null){throw "null date begin is not allowed"}
+    if (dateend == null){throw "null dateend is not allowed";}
+    
     let querystring : string = "";
     let queryobject:URLSearchParams = new URLSearchParams(); 
     let index = 0;
