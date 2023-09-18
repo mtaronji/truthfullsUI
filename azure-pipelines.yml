@@ -94,4 +94,4 @@ stages:
       inputs:
         targetPath: '$(Build.ArtifactStagingDirectory)' 
         artifactName: 'truthfullsUI'
-      displayName: "Creating UI Artifact"
+      displayName: "Creating build artifact"
