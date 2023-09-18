@@ -26,23 +26,53 @@ stages:
 
     displayName: "Testing App"
     steps:
+    - checkout: self
+    - checkout: webapi
     - task: NodeTool@0
       inputs:
         versionSpec: '18.10.x'
       displayName: "Using Node 18.10.x"
+    - task: UseDotNet@2 
+      displayName: ".Install NET Core 6.x"
+      inputs:
+        version: '6.x'
+        packageType: sdk
+      
     - script: |
          npm install -g @angular/cli
          npm ci
-         ng build
-      displayName: "Install Dependencies and build"   
-    - script: |
-        ng test TruthfullsUI --code-coverage --karma-config karma.conf.ci.js 
+      displayName: "Install angular"
 
+    - script: |
+              echo $(System.DefaultWorkingDirectory)
+              cd $(System.DefaultWorkingDirectory)/truthfullswebapi
+              dotnet build --configuration $(buildConfiguration)
+      displayName: 'Build Web API'
+    - script: |
+               cd $(System.DefaultWorkingDirectory)/truthfullswebapi
+               dotnet test
+      displayName: 'Testing WEB API'
+    - task: DotNetCoreCLI@2
+      inputs:
+        command: publish
+        publishWebProjects: True
+        arguments: '--configuration $(BuildConfiguration) --output $(Build.ArtifactStagingDirectory)'
+        zipAfterPublish: false
+      displayName: "Publishing webapi to artifact staging"
+
+    - script: |
+           echo $(System.DefaultWorkingDirectory)
+           cd $(System.DefaultWorkingDirectory)/truthfullsUI
+           ng build
+      displayName: "build the app"
+    - script: |
+          cd $(System.DefaultWorkingDirectory)/truthfullsUI
+          ng test TruthfullsUI --code-coverage --karma-config karma.conf.ci.js 
       displayName: "Run Karma tests"
 
     - task: CopyFiles@2
       inputs:
-        SourceFolder: $(System.DefaultWorkingDirectory)/dist
+        SourceFolder: $(System.DefaultWorkingDirectory)/truthfullsUI/dist
         
         TargetFolder: $(Build.ArtifactStagingDirectory)/truthfulls-ui
       displayName: "Copying Angular build to Artifact staging directory"
