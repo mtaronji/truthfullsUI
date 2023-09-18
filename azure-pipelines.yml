@@ -49,6 +49,13 @@ stages:
               cd $(System.DefaultWorkingDirectory)/truthfullswebapi
               dotnet build --configuration $(buildConfiguration)
       displayName: 'Build Web API'
+    - task: CopyFiles@2
+      inputs:
+        SourceFolder: $(Agent.RootDirectory)/testdata
+        Contents: |
+                *.db
+        TargetFolder: $(System.DefaultWorkingDirectory)/truthfullswebapi/TruthfullsTests
+      displayName: "Copying unit test db to the pipeline to run tests"
     - script: |
                cd $(System.DefaultWorkingDirectory)/truthfullswebapi
                dotnet test
