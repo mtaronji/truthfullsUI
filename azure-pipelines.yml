@@ -44,7 +44,7 @@ stages:
       inputs:
         SourceFolder: $(System.DefaultWorkingDirectory)/dist
         
-        TargetFolder: $(Build.ArtifactStagingDirectory)/truthfullsUI
+        TargetFolder: $(Build.ArtifactStagingDirectory)/truthfulls-ui
       displayName: "Copying Angular build to Artifact staging directory"
       
     - task: PublishPipelineArtifact@1
