@@ -77,11 +77,11 @@ stages:
            echo $(System.DefaultWorkingDirectory)
            cd $(System.DefaultWorkingDirectory)/truthfullsUI
            ng build
-      displayName: "build the app"
+      displayName: "build the UI"
     - script: |
           cd $(System.DefaultWorkingDirectory)/truthfullsUI
           ng test TruthfullsUI --code-coverage --karma-config karma.conf.ci.js 
-      displayName: "Run Karma tests"
+      displayName: "Run Karma tests on UI"
 
     - task: CopyFiles@2
       inputs:
