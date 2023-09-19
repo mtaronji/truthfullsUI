@@ -13,6 +13,8 @@ import { PriceData, PriceModel,  } from 'src/assets/stockmodels';
 import { ValidatorFn } from '@angular/forms';
 import { AbstractControl,ValidationErrors } from '@angular/forms';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
+import {MatCheckboxModule} from '@angular/material/checkbox';
+import {MatDividerModule} from '@angular/material/divider';
 
 import * as PlotlyJS from 'plotly.js-dist-min';
 import { PlotlyModule } from 'angular-plotly.js';
@@ -35,6 +37,7 @@ PlotlyModule.plotlyjs = PlotlyJS;
   imports :[
     ReactiveFormsModule,
     MatRadioModule,
+    MatCheckboxModule,
     MatAutocompleteModule,
     CommonModule,
     MatDatepickerModule,
@@ -45,7 +48,9 @@ PlotlyModule.plotlyjs = PlotlyJS;
     PlotlyModule,
     StockPriceClosesPipe,
     OhlcPipe,
-    FormsModule
+    FormsModule,
+    MatDividerModule
+    
   ],
   providers: [APIService,DatePipe, QuerystringserviceService]
   
@@ -58,6 +63,8 @@ export class StockinfoComponent implements OnDestroy, OnInit{
   today:string|null;
   TimeTypes:string[];
   TimeType:string;
+  ChartTypes:string[];
+  ChartType:string;
   plotlyid:string;
   plotLoading:boolean;
 
@@ -67,6 +74,8 @@ export class StockinfoComponent implements OnDestroy, OnInit{
   tickerSelectCtrl:FormControl;
   dateBeginCtrl:FormControl;
   dateEndCtrl:FormControl;
+  ohlcChartCtrl:FormControl;
+  lineChartCtrl:FormControl;
 
   selectedTicker:string;  
   filteredTickers:Observable<string[]>; //filter tickers for auto complete
@@ -88,7 +97,9 @@ export class StockinfoComponent implements OnDestroy, OnInit{
     this.plotlyid = "stockinfo-plotly";
     this._pricedata = {};
     this.TimeTypes = ["Daily","Weekly"];
+    this.ChartTypes = ["OHLC", "Line"];
     this.TimeType = this.TimeTypes[0];
+    this.ChartType = this.ChartTypes[0];
 
     this.searchBtnDisabled = true;
 
@@ -112,6 +123,13 @@ export class StockinfoComponent implements OnDestroy, OnInit{
     );
     this.dateEndCtrl = new FormControl(
       this.today,[Validators.required]
+    );
+
+    this.ohlcChartCtrl = new FormControl(
+      true, [Validators.required]
+    );
+    this.lineChartCtrl = new FormControl(
+      false,[Validators.required]
     );
 
     this.filteredTickers = this.tickerSelectCtrl.valueChanges.pipe(
@@ -151,7 +169,14 @@ export class StockinfoComponent implements OnDestroy, OnInit{
   }
 
   radioChange(event: MatRadioChange) {
-   this.TimeType = event.value;
+    if(event.source.name == "TimeTypeRadioGroup")
+    {
+      this.TimeType = event.value;
+    }
+    else if (event.source.name == "ChartTypeRadioGroup"){
+      this.ChartType = event.value;
+    }
+
   }
 
   tickerInvalidValidator():ValidatorFn {

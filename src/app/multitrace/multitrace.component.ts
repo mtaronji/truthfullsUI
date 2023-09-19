@@ -19,6 +19,7 @@ import { PriceData } from 'src/assets/stockmodels';
 import { CommonModule } from '@angular/common';
 import { StockPriceClosesPipe } from '../Pipes/stock-price-closes.pipe';
 import { QuerystringserviceService } from '../Services/querystringservice.service';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 
 @Component({
@@ -27,6 +28,7 @@ import { QuerystringserviceService } from '../Services/querystringservice.servic
   styleUrls: ['./Multitrace.component.css'],
   imports:[
     FormsModule,
+    MatProgressSpinnerModule,
     MatAutocompleteModule,
     MatChipsModule,
     ReactiveFormsModule,
@@ -57,6 +59,7 @@ export class MultitraceComponent implements OnInit, AfterViewInit {
   _endDateCtrl: FormControl;
   _SelectedTickers:string[];
   _filteredTickers: Observable<string[]> | undefined;
+  _plotLoading:boolean;
  
   @ViewChild(MatChipGrid) chipGrid: MatChipGrid | undefined; 
   @ViewChild('tickerInput') tickerInput: ElementRef<HTMLInputElement> | undefined;
@@ -101,6 +104,7 @@ export class MultitraceComponent implements OnInit, AfterViewInit {
   }
 
   constructor(private apiservice:APIService, private querystringservice:QuerystringserviceService){
+    this._plotLoading = true;
     this.DEVELOPMENT = isDevMode();
     this._chartVisible = true;
     this._allTickers = [];
@@ -173,13 +177,14 @@ export class MultitraceComponent implements OnInit, AfterViewInit {
   }
 
   pullData(){
-    
+    this._plotLoading = true;
     const datebegin = this.ExtractDate(this.StartDate?.value);
     const dateend = this.ExtractDate(this.EndDate?.value);
     let querystring = this.querystringservice.createQueryString(this._SelectedTickers, datebegin, dateend);
     //create the observable and subscribe. 
     this.apiservice.getDailyPriceData(querystring).subscribe( (response:PriceData) => {
         this._pricedata = response;
+        this._plotLoading = false;
       }
     );
     

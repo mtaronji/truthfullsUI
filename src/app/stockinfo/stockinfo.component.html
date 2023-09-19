@@ -40,8 +40,16 @@
        </mat-form-field>
 
        <button mat-raised-button color="primary" [disabled] = "tickerSelectCtrl.invalid" (click)="Search()" type="button" >Search</button>
+
+       <mat-divider> </mat-divider>
+    
+        <mat-radio-group [(ngModel)] = "ChartType" (change)="radioChange($event)" name="ChartTypeRadioGroup">
+            <mat-radio-button value="OHLC" [checked]="ChartType == 'OHLC'" name="OHLC"> OHLC </mat-radio-button>
+            <mat-radio-button value="Line" [checked]="ChartType == 'Line'"name = "Line" > Line </mat-radio-button>
+        </mat-radio-group>
      
     </form>
+
 
     <mat-spinner class="margin-auto" *ngIf="plotLoading"> </mat-spinner>
     <div class="width-full height-full" *ngIf="!plotLoading">

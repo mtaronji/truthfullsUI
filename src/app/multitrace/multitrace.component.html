@@ -51,7 +51,8 @@
         </button>
 
     </form>
-    <div class="width-full height-full">
+    <mat-spinner class="margin-auto" *ngIf="_plotLoading"> </mat-spinner>
+    <div class="width-full height-full" *ngIf="!_plotLoading">
         <plotly-plot [useResizeHandler] = true 
         [data]="MultiTraceData | closes" 
         [layout] = ""
