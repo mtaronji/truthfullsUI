@@ -53,8 +53,14 @@
     <mat-spinner class="margin-auto" *ngIf="plotLoading"> </mat-spinner>
     <div class="width-full height-full" *ngIf="!plotLoading">
 
-        <plotly-plot [useResizeHandler] = true 
+
+        <plotly-plot [useResizeHandler] = true *ngIf="ChartType == 'OHLC'"
         [data]="PriceData  | ohlc" 
+        [style]="{width: '100%', height: '100%', autosize: 'true'}" >
+        </plotly-plot>
+
+        <plotly-plot [useResizeHandler] = true *ngIf="ChartType == 'Line'"
+        [data]="PriceData  | closes" 
         [style]="{width: '100%', height: '100%', autosize: 'true'}" >
         </plotly-plot>
     </div>

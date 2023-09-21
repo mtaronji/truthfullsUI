@@ -26,6 +26,7 @@ import { OhlcPipe } from '../Pipes/ohlc.pipe';
 
 
 
+
 PlotlyModule.plotlyjs = PlotlyJS;
 
 
