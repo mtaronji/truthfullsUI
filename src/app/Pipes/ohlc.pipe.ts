@@ -23,9 +23,9 @@ export class OhlcPipe implements PipeTransform {
         low: prices.map(pm =>pm.low),
         open: prices.map(pm => pm.open),
         yaxis:"y",
-        increasing:{ line:{color:"#7F7F7F"}},
+        increasing:{ line:{color: "rgba(100, 200, 102, 0.7)"}},
         type:"ohlc",
-        decreasing:{ line:{color:"#17BECF"}},
+        decreasing:{ line:{color:  "rgba(255, 100, 102, 1)"}},
         xaxis:"x"
     };
     traces.push(trace);
