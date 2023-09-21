@@ -12,6 +12,6 @@ import { DashComponent } from './dash/dash.component';
   ]
 })
 export class AppComponent {
-  title = 'TruthfullsUI';
+  title = 'Truthfulls';
 
 }

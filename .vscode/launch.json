@@ -3,6 +3,11 @@
   "version": "0.2.0",
   "configurations": [
     {
+      "type": "firefox",
+      "request": "attach",
+      "name": "Attach"
+    },
+    {
       "name": "ng serve",
       "type": "chrome",
       "request": "launch",
@@ -11,10 +16,11 @@
     },
     {
       "name": "ng test",
-      "type": "chrome",
+      "type": "firefox",
       "request": "launch",
       "preLaunchTask": "npm: test",
-      "url": "http://localhost:9876/debug.html"
+      "url": "http://localhost:9876/debug.html",
+      "firefoxExecutable": "C:\\Program Files\\Firefox Developer Edition\\firefox.exe"
     }
   ]
 }

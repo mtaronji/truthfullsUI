@@ -1,7 +1,7 @@
 
-<div class="flex-row width-full height-full">
+<div class="" id="stockinfo-container">
 
-    <form class="flex-col width-25 height-full" #tickersearchform>
+    <form class="" #tickersearchform id="stockinfo-tickersearchform">
 
         <input 
            type="text"
@@ -23,7 +23,7 @@
            </mat-option>
        </mat-autocomplete>
 
-
+       
        <mat-radio-group [(ngModel)] = "TimeType" (change)="radioChange($event)" name="TimeTypeRadioGroup">
            <mat-radio-button value="Daily" [checked]="TimeType == 'Daily'" name="Daily"> Daily </mat-radio-button>
            <mat-radio-button value="Weekly" [checked]="TimeType == 'Weekly'"name = "Weekly" > Weekly </mat-radio-button>
@@ -38,15 +38,14 @@
            <mat-date-range-picker #picker></mat-date-range-picker>
            <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
        </mat-form-field>
-
-       <button mat-raised-button color="primary" [disabled] = "tickerSelectCtrl.invalid" (click)="Search()" type="button" >Search</button>
-
-       <mat-divider> </mat-divider>
-    
-        <mat-radio-group [(ngModel)] = "ChartType" (change)="radioChange($event)" name="ChartTypeRadioGroup">
+       
+        
+        <mat-radio-group [(ngModel)] = "ChartType" (change)="radioChange($event)" name="ChartTypeRadioGroup" class=""> 
             <mat-radio-button value="OHLC" [checked]="ChartType == 'OHLC'" name="OHLC"> OHLC </mat-radio-button>
             <mat-radio-button value="Line" [checked]="ChartType == 'Line'"name = "Line" > Line </mat-radio-button>
         </mat-radio-group>
+
+        <button mat-raised-button color="primary" [disabled] = "tickerSelectCtrl.invalid" (click)="Search()" type="button" class="flex-align-right" >Search</button>
      
     </form>
 
