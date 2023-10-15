@@ -1,0 +1,26 @@
+<div class="height-full width-full flex-col">
+  <div class="">
+    <h3 class="text-green">Options</h3>
+    <mat-form-field class="margin-auto">
+      <mat-label>Choose a Ticker</mat-label>
+      <mat-select [(value)]="_selectedticker"  (selectionChange)="OnTickerChange($event)">
+        <mat-option *ngFor="let ticker of Tickers" [value]="ticker">
+          {{ticker}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+    
+    <h4 class="">{{_selectedticker}} Monthly Call Options</h4>
+    <mat-form-field class="margin-auto">
+    
+      <mat-label></mat-label>
+      <mat-select [(value)]="_selectedOptionCode" (selectionChange)="OnOptionCodeChange($event)">
+        <mat-option *ngFor="let code of _optioncodes" [value]="code">
+          {{code}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+ 
+</div>
+

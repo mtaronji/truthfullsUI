@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
-import { DashComponent } from './dash/dash.component';
 
+import { DashboardComponent } from './dashboard/dashboard.component';
+import { OptionInfoComponent } from './option-info/option-info.component';
 
 @Component({
   selector: 'app-root',
@@ -8,7 +9,10 @@ import { DashComponent } from './dash/dash.component';
   styleUrls: ['./app.component.css'],
   standalone:true,
   imports:[
-    DashComponent
+    DashboardComponent,
+    OptionInfoComponent,
+
+
   ]
 })
 export class AppComponent {

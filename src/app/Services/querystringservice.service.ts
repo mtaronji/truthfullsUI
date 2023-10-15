@@ -23,4 +23,25 @@ export class QuerystringserviceService {
     querystring = querystring + queryobject.toString();
     return querystring;
   }
+  public createQueryString2(tickers:string[]): string {
+
+    let querystring : string = "";
+    let queryobject:URLSearchParams = new URLSearchParams(); 
+    let index = 0;
+    tickers.forEach(e => {
+      queryobject.append(index.toString(), e);
+      index = index + 1;
+    });
+    querystring = querystring + queryobject.toString();
+    return querystring;
+  }
+
+  public createQueryString3(optioncode:string): string {
+
+    let querystring : string = "";
+    let queryobject:URLSearchParams = new URLSearchParams(); 
+    queryobject.append("0", optioncode);
+    querystring = queryobject.toString();
+    return querystring;
+  }
 }

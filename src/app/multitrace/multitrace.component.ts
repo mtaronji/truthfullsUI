@@ -1,4 +1,4 @@
-import { Component, ViewChild, OnInit, AfterViewInit, ElementRef, isDevMode, Input } from '@angular/core';
+import { Component, ViewChild, OnInit, AfterViewInit, ElementRef, isDevMode, Output, EventEmitter } from '@angular/core';
 
 import { FormsModule, ReactiveFormsModule, FormControl, FormGroup, Validators, ValidatorFn, AbstractControl } from '@angular/forms';
 
@@ -12,8 +12,8 @@ import {MatButtonModule } from '@angular/material/button';
 import {MatTabsModule} from '@angular/material/tabs';
 
 import { Observable, startWith, map } from 'rxjs';
-import * as PlotlyJS from 'plotly.js-dist-min';
-import { PlotlyModule } from 'angular-plotly.js';
+// import * as PlotlyJS from 'plotly.js-dist-min';
+// import { PlotlyModule } from 'angular-plotly.js';
 import { APIService } from '../Services/api.service';
 import { PriceData } from 'src/assets/stockmodels';
 import { CommonModule } from '@angular/common';
@@ -38,7 +38,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
     MatNativeDateModule,
     MatButtonModule,
     MatTabsModule,
-    PlotlyModule,
+    // PlotlyModule,
     CommonModule,
     StockPriceClosesPipe
   ],
@@ -59,7 +59,7 @@ export class MultitraceComponent implements OnInit, AfterViewInit {
   _endDateCtrl: FormControl;
   _SelectedTickers:string[];
   _filteredTickers: Observable<string[]> | undefined;
-  _plotLoading:boolean;
+  //_plotLoading:boolean;
  
   @ViewChild(MatChipGrid) chipGrid: MatChipGrid | undefined; 
   @ViewChild('tickerInput') tickerInput: ElementRef<HTMLInputElement> | undefined;
@@ -67,6 +67,8 @@ export class MultitraceComponent implements OnInit, AfterViewInit {
   _mindate:Date;
   _maxdate:Date;
   _pricedata:PriceData; //from api
+  @Output() newPriceData = new EventEmitter<PriceData>()
+  @Output() newSelectedTickers = new EventEmitter<string[]>()
   
   //properties
   get ticker() {
@@ -95,6 +97,7 @@ export class MultitraceComponent implements OnInit, AfterViewInit {
 
   ngOnInit(): void {
     this._SelectedTickers.push("SPY", "QQQ"); this._tickerCtrl.markAsTouched;
+    this.newSelectedTickers.emit(this._SelectedTickers);
     this.pullData();
   }
   
@@ -104,7 +107,7 @@ export class MultitraceComponent implements OnInit, AfterViewInit {
   }
 
   constructor(private apiservice:APIService, private querystringservice:QuerystringserviceService){
-    this._plotLoading = true;
+    //this._plotLoading = true;
     this.DEVELOPMENT = isDevMode();
     this._chartVisible = true;
     this._allTickers = [];
@@ -166,7 +169,8 @@ export class MultitraceComponent implements OnInit, AfterViewInit {
         this._SelectedTickers[this.MAXCHIPSIZE - 1] = event.option.viewValue;
       }
       else{
-        this._SelectedTickers.push(event.option.viewValue);
+        this._SelectedTickers.push(event.option.viewValue); 
+
         this._tickerCtrl.reset();
         this._tickerCtrl.setValue(null);
         
@@ -177,14 +181,16 @@ export class MultitraceComponent implements OnInit, AfterViewInit {
   }
 
   pullData(){
-    this._plotLoading = true;
+    //this._plotLoading = true;
     const datebegin = this.ExtractDate(this.StartDate?.value);
     const dateend = this.ExtractDate(this.EndDate?.value);
     let querystring = this.querystringservice.createQueryString(this._SelectedTickers, datebegin, dateend);
     //create the observable and subscribe. 
     this.apiservice.getDailyPriceData(querystring).subscribe( (response:PriceData) => {
         this._pricedata = response;
-        this._plotLoading = false;
+        this.newPriceData.emit(this._pricedata);
+        this.newSelectedTickers.emit(this._SelectedTickers.slice()); //slice array so that other components are aware of the change 
+        //this._plotLoading = false;
       }
     );
     

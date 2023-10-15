@@ -1,75 +1,52 @@
 /* You can add global styles to this file, and also import other style files */
-$mat-green: (
- 50: #E8F5E9,
- 100: #C8E6C9,
- 200: #A5D6A7,
- 300: #81C784,
- 400: #66BB6A,
- 500: #4CAF50,
- 600: #43A047,
- 700: #388E3C,
- 800: #2E7D32,
- 900: #1B5E20,
- // ... continues to 900
- contrast: (
-    50: black,
-    100: black,
-    200: black,
-    300:black,
-    400: black,
-    500: white,
-    600: white,
-    700: white,
-    800: black,
-    900: black,
-    A100: black,
-    A200: white,
-    A400: white,
-    A700: white,
-   // ... continues to 900
- )
-);
+@use '@angular/material' as mat;
+@include mat.core();
 
-$mat-red: (
-  50: #ffebee,
-  100: #ffcdd2,
-  200: #ef9a9a,
-  300: #e57373,
-  400: #ef5350,
-  500: #f44336,
-  600: #e53935,
-  700: #d32f2f,
-  800: #c62828,
-  900: #b71c1c,
-  A100: #ff8a80,
-  A200: #ff5252,
-  A400: #ff1744,
-  A700: #d50000,
+
+$dark-primary-text: rgba(black, 0.87);
+$light-primary-text: white;
+
+$green-palette: (
+    50:#E8F5E9,
+    100: #C8E6C9,
+    200: #A5D6A7,
+    300:  #81C784,
+    400:  #66BB6A,
+    500:  #4CAF50,
+    600: #43A047,
+    700: #388E3C,
+    800: #2E7D32,
+    900:  #1B5E20,
+    A100: #B9F6CA,
+    A200: #69F0AE,
+    A400: #00E676,
+    A700: #00C853,
   contrast: (
-    50: black,
-    100: black,
-    200: black,
-    300: black,
-    400: black,
-    500: white,
-    600: white,
-    700: white,
-    800: white,
-    900: white,
-    A100: white,
-    A200: white,
-    A400: white,
-    A700: white,
+    50: $dark-primary-text,
+    100: $dark-primary-text,
+    200: $dark-primary-text,
+    300: $dark-primary-text,
+    400: $dark-primary-text,
+    500: $light-primary-text,
+    600: $light-primary-text,
+    700: $light-primary-text,
+    800: $light-primary-text,
+    900: $light-primary-text,
+    A100: $dark-primary-text,
+    A200: $dark-primary-text,
+    A400: $dark-primary-text,
+    A700: $light-primary-text,
   )
 );
-@import '@angular/material/theming';
-@include mat-core();
 
-$my-app-primary: mat-palette($mat-green);
-$my-app-accent: mat-palette($mat-red, A200, A100, A400);
-$my-app-theme: mat-light-theme($my-app-primary, $my-app-accent);
+$primary: mat.define-palette($green-palette);
+$accent: mat.define-palette(mat.$red-palette);
+$warn: mat.define-palette(mat.$pink-palette);
 
-@include angular-material-theme($my-app-theme);
+$my-theme: mat.define-light-theme((
+  color: (primary: $primary, accent: $accent, warn: $warn),
+));
+@include mat.all-component-themes($my-theme);
 
 html{position:relative;}
 html, body { height: 100%; margin:0; padding:0; width:100%;}
@@ -84,7 +61,9 @@ body { font-family: Roboto, "Helvetica Neue", sans-serif;}
     display:flex;
     flex-direction: row;
 }
-
+.width-auto{
+    width:auto;
+}
 .width-full{
     width:100%;
 }
@@ -94,10 +73,21 @@ body { font-family: Roboto, "Helvetica Neue", sans-serif;}
 .height-25{
     height:25%;
 }
+.height-10{
+    height:10%;
+}
+.height-50{
+    height:50%;
+}
+.width-50{
+    width:50%;
+}
 .height-full{
     height:100%;
 }
-
+.height-auto{
+    height:auto;
+}
 .alert div {
     background-color: #fed3d3;
     color: #820000;
@@ -105,6 +95,19 @@ body { font-family: Roboto, "Helvetica Neue", sans-serif;}
 
 .margin-auto{
     margin: auto;
+}
+
+.margin-left-auto{
+    margin-left: auto;
+}
+.margin-right-auto{
+    margin-right: auto;
+}
+.margin-top-auto{
+    margin-top: auto;
+}
+.margin-bottom-auto{
+    margin-bottom: auto;
 }
 
 mat-tab-body, mat-tab-group, mat-tab, .mat-mdc-tab-body-wrapper{
@@ -124,4 +127,19 @@ mat-tab-body, mat-tab-group, mat-tab, .mat-mdc-tab-body-wrapper{
 }
 .flex-align-bottom{
     margin-top:auto;
+}
+
+.bg-blue{
+    background: blue;
+}
+
+.bg-red{
+    background: red;
+}
+.bg-gold{
+    background: gold;
+}
+
+.bg-green{
+    background: #1B5E20;
 }

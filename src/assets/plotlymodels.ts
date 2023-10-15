@@ -96,6 +96,7 @@ export interface OHLCTrace{
     type:string;
     xaxis:string;
     yaxis:string;
+    name?:string;
 }
 
 export interface Increasing{

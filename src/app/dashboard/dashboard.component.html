@@ -1,1 +1,62 @@
-<p>dashboard works!</p>
+<div class="flex-col height-full width-full">
+
+  <mat-toolbar color="primary" class="height-10 width-full">
+    <!-- <button mat-icon-button class="margin-left" aria-label="Example icon-button with menu icon">
+      <mat-icon>menu</mat-icon>
+    </button> -->
+    <span class=""> <h3>Patternz </h3> </span>
+
+    <button mat-button color="primary" class="margin-left-auto"  >
+      <img src="assets/btn_google_signin_dark_pressed.png" alt="Google Sign in" class="brand-img img-google"/>
+    </button>
+
+    <button mat-button color="primary" class=""   >
+      <img src="assets/Facebook_Logo_Primary.png" alt="Google Sign in" class="brand-img img-fb" />
+    </button>
+    <button mat-button color="primary" class="width-10"  >
+      <img src="assets/logo-black-X.png" alt="Google Sign in" class="brand-img img-x"/>
+    </button>
+  </mat-toolbar>
+
+
+  <div class="dashboard-container">
+    <div class="dashboard-sidenav">
+      <Multitrace class="width-full" (newPriceData) = "PlotMultiTrace($event)" (newSelectedTickers) = "GetSelectedTickers($event)"></Multitrace>
+      <br>
+      <option-info [Tickers]="_tickers" (NewOptionPriceData)="PlotOptionPrice($event)" (NewSelectedOptionCode)="OptionCode($event)"></option-info>
+
+    </div>
+    <div class="dashboard-chartport">
+
+      
+      <div class="flex-col height-full width-full">
+
+        <!-- <mat-spinner class="margin-auto width-full height-full" *ngIf="_multitraceloading"> </mat-spinner> -->
+        
+        <div class="width-full height-50" *ngIf="!_multitraceloading">
+            <plotly-plot [useResizeHandler] = true 
+            [data]=  "_StockData | ohlc"
+            [layout] = ""
+            [style]="{width: '100%', height: '100%', autosize: 'true'}" >
+            </plotly-plot>
+        </div>
+    
+        <div class="width-full height-50">
+          <plotly-plot [useResizeHandler] = true 
+          [data]=  "OptionPricingData | ohlco"
+          [layout] = ""
+          [style]="{width: '100%', height: '100%', autosize: 'true'}" >
+          </plotly-plot>
+        </div>
+      </div>
+
+      <!-- <div class="flex-col height-full width-full">
+
+        <div class="bg-red height-full"></div>
+        <div class="bg-blue height-full"></div>
+
+      </div> -->
+
+    </div>
+  </div>
+</div>

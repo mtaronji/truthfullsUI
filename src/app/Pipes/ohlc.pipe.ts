@@ -9,7 +9,6 @@ import { PriceData, PriceModel } from 'src/assets/stockmodels';
 export class OhlcPipe implements PipeTransform {
 
   transform(pricedata:PriceData): OHLCTrace[] {
-
     let tickers:string[] = Object.keys(pricedata);
     let traces:OHLCTrace[] = [];
 
@@ -26,7 +25,8 @@ export class OhlcPipe implements PipeTransform {
         increasing:{ line:{color: "rgba(100, 200, 102, 0.7)"}},
         type:"ohlc",
         decreasing:{ line:{color:  "rgba(255, 100, 102, 1)"}},
-        xaxis:"x"
+        xaxis:"x",
+        name:_ticker
     };
     traces.push(trace);
     });
