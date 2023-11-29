@@ -1,18 +1,19 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import {HttpClientTestingModule} from '@angular/common/http/testing';
-import { DashComponent } from './dash.component';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
-describe('DashComponent', () => {
-  let component: DashComponent;
-  let fixture: ComponentFixture<DashComponent>;
+import { FredComponent } from './fred.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import {HttpClientTestingModule} from '@angular/common/http/testing';
+
+describe('FredComponent', () => {
+  let component: FredComponent;
+  let fixture: ComponentFixture<FredComponent>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [],
-      imports: [DashComponent, BrowserAnimationsModule, HttpClientTestingModule]
-    })
-    fixture = TestBed.createComponent(DashComponent);
+      imports:[FredComponent,BrowserAnimationsModule,HttpClientTestingModule]
+    });
+    fixture = TestBed.createComponent(FredComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
@@ -20,5 +21,4 @@ describe('DashComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
-
 });

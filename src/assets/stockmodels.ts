@@ -1,10 +1,10 @@
 //typical daily stock data 
-export interface PriceModel{
+export interface StockPrice{
 
     date:string;
     open:number;
     close:number;
-    adjclose?:number;
+    adjclose:number;
     high:number;
     low:number;
     volume:number;
@@ -14,12 +14,13 @@ export interface CloseModel{
     date:string;
     close:number;
 }
+
 export interface CloseTraces{
     closes:CloseModel[];
 }
 
-export interface PriceData{
-    [ticker:string]:PriceModel[]; 
+export interface StockPriceData{
+    [ticker:string]:StockPrice[]; 
 }
 //exponential moving average data
 export interface EMAData{
@@ -38,3 +39,19 @@ export enum TimeType{
     Quarterly = 4
 }
 
+export interface series{
+    seriesid:string;
+    title:string;
+    units:string;
+}
+
+export interface Observations{
+    date:string;
+    seriesid:string;
+    observation:number;
+}
+
+export interface FredData{
+    observations:Observations[];
+    series:series;
+}

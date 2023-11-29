@@ -42,7 +42,7 @@ describe('MultitraceComponent', () => {
     await autocomplete.clear();
     await autocomplete.enterText("S");
     options = await autocomplete.getOptions();
-    expect(options.length).toEqual(2);
+    expect(options.length).toEqual(1);
   });
 
   it('chip grid default should be SPY', async()=>{

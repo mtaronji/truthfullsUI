@@ -1,0 +1,39 @@
+<div class="flex-col width-full height-full"> 
+    <mat-toolbar>
+        <span class="height-full"> 
+            <a href="/">
+                <img class="brand-tb-container" src="assets/brand-white.png"/> 
+            </a>
+    
+        </span>
+        <span class="spacer"></span>
+        <!-- <span class="mat-toolbar-item">
+        
+            <a href="/dashboard" *ngIf="_authenticated">
+                <button mat-fab color="primary" matTooltip ="Dashboard" > <mat-icon>stacked_bar_chart</mat-icon></button>
+            </a>
+            <a *ngIf="!_authenticated" (click)="showLogin()">
+                <button mat-fab color="primary" matTooltip ="Dashboard" ><mat-icon>stacked_bar_chart</mat-icon></button>
+            </a>
+        </span> -->
+
+        <!-- <span class="">
+            <a href="/opinion">
+                <button mat-flat-button > <span class="color-charcoal">Opinion</span></button>
+            </a>
+        </span> -->
+        <span class="">
+            <login ></login> 
+        </span>
+    </mat-toolbar>
+
+    <!-- Content-->
+    <div class="flex-col height-full width-90 margin-auto">
+        <div class="width-full height-full">
+            <router-outlet ></router-outlet>
+        </div>
+
+        <!-- Footer if any-->
+
+    </div>
+</div>

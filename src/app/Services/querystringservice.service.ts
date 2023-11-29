@@ -15,7 +15,8 @@ export class QuerystringserviceService {
     let queryobject:URLSearchParams = new URLSearchParams(); 
     let index = 0;
     tickers.forEach(e => {
-      queryobject.append(index.toString(), e);
+      let new_e = e.replace("^","\^");
+      queryobject.append(index.toString(), new_e);
       index = index + 1;
     });
     queryobject.append("datebegin",datebegin);

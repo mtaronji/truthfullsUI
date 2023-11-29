@@ -18,6 +18,16 @@ export interface OptionPrice{
     vwap:number;
     duration:number;
 }
+
+export interface OptionPriceVM{
+    duration:number;
+    maturitydate:string;
+    open:number;
+    adjclose:number;
+    high:number;
+    low:number;
+    volume:number;
+}
 export interface OptionPriceData{
-    [ticker:string]: OptionPrice[];
+    [ticker:string]: OptionPriceVM[];
 }

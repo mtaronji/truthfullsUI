@@ -1,56 +1,69 @@
-
-<form [formGroup]="tickerform" class="flex-col width-full height-full" >
-    <label> <h3>{{title}}</h3></label>
-    <mat-form-field>
-        <mat-label>Tickers</mat-label>
-        <mat-chip-grid #tickerGrid>
-            <mat-chip-row *ngFor="let t of _SelectedTickers" (removed)="removeTicker(t)">
-                {{t}}
-
-                <button matChipRemove [attr.aria-label]="'remove ' + t">
-                    <mat-icon fontIcon="cancel">cancel</mat-icon>
-                </button>
-            </mat-chip-row>
-        </mat-chip-grid>
-        <input formControlName="tickerSelected" type="text" oninput="this.value =this.value.toUpperCase()"  #tickerInput
-        [matChipInputFor]="tickerGrid"
-        [matAutocomplete]="tickerAutoComplete">  
-        <mat-autocomplete #tickerAutoComplete = "matAutocomplete" (optionSelected)="selected($event)" id="ticker-input-autocomplete-0">
-            <mat-option *ngFor="let t of _filteredTickers | async" [value]="t">
-                {{t}}
-            </mat-option>
-        </mat-autocomplete>
-
-    </mat-form-field>
+<div class="">
+    <form [formGroup]="tickerform" class="flex-col width-full height-full" >
+        <label> <h3>{{title}}</h3></label>
+        <mat-form-field>
+            <mat-label>Tickers</mat-label>
+            <mat-chip-grid #tickerGrid>
+                <mat-chip-row *ngFor="let t of _SelectedTickers" (removed)="removeTicker(t)">
+                    {{t}}
     
-    <div *ngIf="ticker?.invalid && (ticker?.touched || ticker?.dirty)" >
-        <div *ngIf="ticker?.errors?.['TickersEmpty']" class="alert">
-            Need at least 1 ticker selected
-        </div> 
-    </div>
-
-    <mat-form-field>
-        <mat-label>Enter a date range</mat-label>
-        <mat-date-range-input [rangePicker]="picker">
-            <input matStartDate placeholder="Start date" formControlName="dateStart" placeholder="Start Date" >
-            <input matEndDate placeholder="End date" formControlName="dateEnd" placeholder="End Date">
-        </mat-date-range-input>
-        <mat-hint>MM/DD/YYYY – MM/DD/YYYY</mat-hint>
-        <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
-        <mat-date-range-picker #picker></mat-date-range-picker>
-
-        <div *ngIf="StartDate?.hasError('matStartDateInvalid')">
-            Invalid Start Date
+                    <button matChipRemove [attr.aria-label]="'remove ' + t">
+                        <mat-icon fontIcon="cancel">cancel</mat-icon>
+                    </button>
+                </mat-chip-row>
+            </mat-chip-grid>
+            <input formControlName="tickerSelected" type="text" oninput="this.value =this.value.toUpperCase()"  #tickerInput
+            [matChipInputFor]="tickerGrid"
+            [matAutocomplete]="tickerAutoComplete">  
+            <mat-autocomplete #tickerAutoComplete = "matAutocomplete" (optionSelected)="selected($event)" id="ticker-input-autocomplete-0">
+                <mat-option *ngFor="let t of _filteredTickers | async" [value]="t">
+                    {{t}}
+                </mat-option>
+            </mat-autocomplete>
+    
+        </mat-form-field>
+        
+        <div *ngIf="ticker?.invalid && (ticker?.touched || ticker?.dirty)" >
+            <div *ngIf="ticker?.errors?.['TickersEmpty']" class="alert">
+                Need at least 1 ticker selected
+            </div> 
+            <div *ngIf="tickerform?.errors?.['TickersEmpty']" class="alert">
+                Need at least 1 ticker selected
+            </div> 
         </div>
-        <div *ngIf="StartDate?.hasError('matEndDateInvalid')">
-            Invalid End Date
-        </div>
-    </mat-form-field>
-    <button mat-raised-button color="primary" (click)="pullData()" [disabled]="tickerform.invalid"> 
-        Pull Data
-    </button>
+    
+        <mat-form-field>
+            <mat-label>Enter a date range</mat-label>
+            <mat-date-range-input [rangePicker]="picker">
+                <input matStartDate placeholder="Start date" formControlName="dateStart" placeholder="Start Date" >
+                <input matEndDate placeholder="End date" formControlName="dateEnd" placeholder="End Date">
+            </mat-date-range-input>
+            <mat-hint>MM/DD/YYYY – MM/DD/YYYY</mat-hint>
+            <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-date-range-picker #picker></mat-date-range-picker>
+    
+            <div *ngIf="StartDate?.hasError('matStartDateInvalid')">
+                Invalid Start Date
+            </div>
+            <div *ngIf="StartDate?.hasError('matEndDateInvalid')">
+                Invalid End Date
+            </div>
+        </mat-form-field>
+        <button mat-raised-button color="primary" (click)="pullData()" [disabled]="tickerform.invalid"> 
+            Search
+        </button>
+    
+    </form>
+    <p class="footnote">*You may plot, simultaneously up to 4 different symbols.</p>
+    <section class="">
+        <h4>Data Visualization Type</h4>
+        <mat-radio-group aria-label="Select A Data Visualization" [(ngModel)] = "_selectedDataVisualRadio" (change)="onChangeDataVisualRadio($event)">
+          <mat-radio-button value="timeseries">Time Series</mat-radio-button>
+          <mat-radio-button value="ohlc">OHLC</mat-radio-button>
+        </mat-radio-group>
+    </section>
+</div>
 
-</form>
     <!-- <mat-spinner class="margin-auto" *ngIf="_plotLoading"> </mat-spinner>
     <div>
         

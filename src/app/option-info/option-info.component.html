@@ -1,25 +1,38 @@
 <div class="height-full width-full flex-col">
   <div class="">
-    <h3 class="text-green">Options</h3>
+    
+    <h4 >Options</h4> 
     <mat-form-field class="margin-auto">
       <mat-label>Choose a Ticker</mat-label>
-      <mat-select [(value)]="_selectedticker"  (selectionChange)="OnTickerChange($event)">
+      <mat-select [(value)]="_selectedticker"  (selectionChange)="OnTickerChangeSelect($event)" >
         <mat-option *ngFor="let ticker of Tickers" [value]="ticker">
           {{ticker}}
         </mat-option>
       </mat-select>
     </mat-form-field>
-    
-    <h4 class="">{{_selectedticker}} Monthly Call Options</h4>
-    <mat-form-field class="margin-auto">
-    
-      <mat-label></mat-label>
-      <mat-select [(value)]="_selectedOptionCode" (selectionChange)="OnOptionCodeChange($event)">
-        <mat-option *ngFor="let code of _optioncodes" [value]="code">
-          {{code}}
-        </mat-option>
-      </mat-select>
-    </mat-form-field>
+    <section>
+
+      <h4 >{{_selectedticker}} Monthly Options</h4>
+      <mat-form-field class="margin-auto">
+        
+        <mat-label></mat-label>
+        <mat-select [(value)]="_selectedOptionCode" (selectionChange)="OnOptionCodeChange($event)" >
+          <mat-option *ngFor="let code of _filteredoptioncodes" [value]="code">
+            {{code}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </section>
+
+    <section>
+      <h4 >Filter Options</h4>
+      <mat-radio-group aria-label="Select an option Filter" [(ngModel)] = "_selectedRadio" (change)="onFilterOptionRadio($event)">
+        <mat-radio-button value="Call">Calls</mat-radio-button>
+        <mat-radio-button value="Put">Puts</mat-radio-button>
+      </mat-radio-group>
+
+    </section>
+    <p class="footnote"> *We have roughly 2 years worth of options data for a vast majority of our symbols.</p>
   </div>
  
 </div>

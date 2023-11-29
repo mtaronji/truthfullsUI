@@ -1,0 +1,13 @@
+<form> 
+    <h4>FRED Data</h4>       
+    <label for="seriesctrl">Series</label>
+    <input #seriesctrl type="text" [formControl]="_series_ctrl" [matAutocomplete]="fredautocomplete">
+        
+    <mat-autocomplete #fredautocomplete = "matAutocomplete" (optionSelected)="onSelectSeriesID($event)" oninput="this.value =this.value.toUpperCase()">
+        <mat-option *ngFor="let s of _filteredSeries | async" [value]="s.seriesid">
+            {{s.seriesid}}
+        </mat-option>
+    </mat-autocomplete>
+    <p class="footnote">*This data is produced by the St Louis FED. For information, please visit <a href="https://www.stlouisfed.org/">https://www.stlouisfed.org/</a> </p>
+</form>
+

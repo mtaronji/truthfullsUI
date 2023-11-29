@@ -1,7 +1,5 @@
 import { Component } from '@angular/core';
-
-import { DashboardComponent } from './dashboard/dashboard.component';
-import { OptionInfoComponent } from './option-info/option-info.component';
+import { LayoutComponent } from './layout/layout.component';
 
 @Component({
   selector: 'app-root',
@@ -9,9 +7,7 @@ import { OptionInfoComponent } from './option-info/option-info.component';
   styleUrls: ['./app.component.css'],
   standalone:true,
   imports:[
-    DashboardComponent,
-    OptionInfoComponent,
-
+    LayoutComponent,
 
   ]
 })
