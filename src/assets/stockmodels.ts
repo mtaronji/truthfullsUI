@@ -40,14 +40,14 @@ export enum TimeType{
 }
 
 export interface series{
-    seriesid:string;
+    seriesID:string;
     title:string;
     units:string;
 }
 
 export interface Observations{
     date:string;
-    seriesid:string;
+    seriesID:string;
     observation:number;
 }
 

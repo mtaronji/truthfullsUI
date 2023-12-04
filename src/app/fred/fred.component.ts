@@ -41,7 +41,7 @@ export class FredComponent implements OnInit{
    
   }
   constructor(private api:APIService, private _sharedevents:EventemitService){
-    this._selectedseries = {title:'', units:'', seriesid:''};
+    this._selectedseries = {title:'', units:'', seriesID:''};
     this._allseries = [];
     this._series_ctrl  = new FormControl(null,
       [    
@@ -67,15 +67,15 @@ export class FredComponent implements OnInit{
       (response:series[])=>{
         this._allseries = response;
         this._selectedseries = response[0];
-        let id = this._selectedseries.seriesid;
-        this._series_ctrl.setValue(this._selectedseries.seriesid);
+        let id = this._selectedseries.seriesID;
+        this._series_ctrl.setValue(this._selectedseries.seriesID);
         this._sharedevents._fredSeries.next(this._selectedseries);    
       }
     );
   }
 
   private getObservations(selectedSeries:series){
-    this.api.getseriesobservations(selectedSeries.seriesid).subscribe(
+    this.api.getseriesobservations(selectedSeries.seriesID).subscribe(
       (response:Observations[])=>{
         this._sharedevents._fredData.next(response);
       }
@@ -86,7 +86,7 @@ export class FredComponent implements OnInit{
     //enable the chart here
     //set progress spinner
     const series:string = event.option.value;
-    let newseries:series | undefined = this._allseries.find(e => e.seriesid == series);
+    let newseries:series | undefined = this._allseries.find(e => e.seriesID == series);
     if (newseries == undefined){return;}
     else{ this._sharedevents._fredSeries.next(newseries);}
 
@@ -99,6 +99,6 @@ export class FredComponent implements OnInit{
 
   private filterSeries(entered:string){
     //filter for the seriesid
-    return this._allseries.filter((e) =>(e.seriesid.startsWith(entered)) );
+    return this._allseries.filter((e) =>(e.seriesID.startsWith(entered)) );
   }
 }

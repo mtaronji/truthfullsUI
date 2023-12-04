@@ -79,9 +79,9 @@ export class DashboardComponent {
     return this._OptionPriceData;
   }
   constructor(private snackbar:MatSnackBar, private _sharedevents:EventemitService ){
-    this._FredData = {observations:[], series:{title:'',units:'',seriesid:''}};
+    this._FredData = {observations:[], series:{title:'',units:'',seriesID:''}};
 
-    this._FredSelectedSeries = {title:'', seriesid:'',units:'' };
+    this._FredSelectedSeries = {title:'', seriesID:'',units:'' };
     this._FredObservationData = [];
     this._multitraceloading = true;
     this._optionchartingloading = true;
@@ -134,8 +134,10 @@ export class DashboardComponent {
 
     this._sharedevents.newFredData$.subscribe(
       (response:Observations[])=>{
+        this._FredData = {observations:response,series: this._FredData.series};
         this._FredObservationData = response;
-        this._FredData.observations = this._FredObservationData;
+        
+       
       }
     );
     this._sharedevents.newFredSeries$.subscribe(
