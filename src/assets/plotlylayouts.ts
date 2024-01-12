@@ -51,7 +51,15 @@ var defaultTitlefont:models.Font =
     size:50
 }
 
-var DefaultTitle:models.Title = 
+var DefaultTitleStock:models.Title = 
+{
+    font: defaultTitlefont
+}
+var DefaultTitleOption:models.Title = 
+{
+    font: defaultTitlefont
+}
+var DefaultTitleModel:models.Title = 
 {
     font: defaultTitlefont
 }
@@ -138,7 +146,7 @@ var defaultyaxis4:models.layout_axis =
 
 var defaultstocklayout:models.Layout = 
 {
-    title:DefaultTitle,
+    title:DefaultTitleStock,
     plot_bgcolor: '#FAFAFA',
     paper_bgcolor:'#FAFAFA', 
     xaxis:{     
@@ -237,7 +245,7 @@ export{defaultstocklayout}
 
 var defaultoptionlayout:models.Layout = 
 {
-    title:DefaultTitle,
+    title:DefaultTitleOption,
     plot_bgcolor: '#FAFAFA',
     paper_bgcolor:'#FAFAFA', 
     xaxis:defaultxaxis_option,
@@ -249,7 +257,7 @@ export{defaultoptionlayout}
 
 var defaultmodellayout:models.Layout = 
 {
-    title:DefaultTitle,
+    title:DefaultTitleModel,
     plot_bgcolor: '#FAFAFA',
     paper_bgcolor:'#FAFAFA', 
     xaxis:defaultxaxis,

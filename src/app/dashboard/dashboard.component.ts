@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { MultitraceComponent } from '../multitrace/multitrace.component';
 import { CommonModule } from '@angular/common';
 import {MatIconModule} from '@angular/material/icon';
@@ -26,6 +26,7 @@ import {MatSnackBar, MatSnackBarModule} from '@angular/material/snack-bar';
 import { EventemitService } from '../Services/eventemit.service';
 import { FredComponent } from '../fred/fred.component';
 
+
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
@@ -50,7 +51,7 @@ import { FredComponent } from '../fred/fred.component';
     FredComponent
   ]
 })
-export class DashboardComponent {
+export class DashboardComponent implements AfterViewInit{
 
   _multitraceloading : boolean;
   _optionchartingloading:boolean;
@@ -74,6 +75,15 @@ export class DashboardComponent {
   _fredconfig:any;
 
 
+  ngAfterViewInit(): void {
+    let w = window.innerWidth;
+    let h = window.innerHeight;
+    let message = "For the best possible experience, we recommend viewing datanets on a larger screen";
+    if (w < 1200){
+      this.snackbar.open(message, undefined,{duration:10000});
+    }
+ 
+  }
 
   get OptionPricingData(){
     return this._OptionPriceData;
@@ -131,7 +141,7 @@ export class DashboardComponent {
         this._visualType = visual;
       }
     )
-
+''
     this._sharedevents.newFredData$.subscribe(
       (response:Observations[])=>{
         this._FredData = {observations:response,series: this._FredData.series};
