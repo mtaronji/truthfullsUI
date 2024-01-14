@@ -1,0 +1,14 @@
+.bold{
+    font:bolder;
+}
+.text-green{
+    color: 	#1B5E20;
+}
+
+
+.disabled
+{
+  pointer-events: none;
+  /* for "disabled" effect */
+  opacity: 0.5;
+}

@@ -1,0 +1,320 @@
+/* You can add global styles to this file, and also import other style files */
+@use '@angular/material' as mat;
+@include mat.core();
+
+
+$dark-primary-text: rgba(black, 0.87);
+$light-primary-text: white;
+
+$green-palette: (
+    50:#E8F5E9,
+    100: #C8E6C9,
+    200: #A5D6A7,
+    300:  #81C784,
+    400:  #66BB6A,
+    500:  #4CAF50,
+    600: #43A047,
+    700: #388E3C,
+    800: #2E7D32,
+    900:  #1B5E20,
+    A100: #B9F6CA,
+    A200: #69F0AE,
+    A400: #00E676,
+    A700: #00C853,
+  contrast: (
+    50: $dark-primary-text,
+    100: $dark-primary-text,
+    200: $dark-primary-text,
+    300: $dark-primary-text,
+    400: $dark-primary-text,
+    500: $light-primary-text,
+    600: $light-primary-text,
+    700: $light-primary-text,
+    800: $light-primary-text,
+    900: $light-primary-text,
+    A100: $dark-primary-text,
+    A200: $dark-primary-text,
+    A400: $dark-primary-text,
+    A700: $light-primary-text,
+  )
+);
+
+$babyblue-palette: (
+    50:#337def,
+    100: #337def,
+    200: #337def,
+    300:  #337def,
+    400:  #337def,
+    500:  #337def,
+    600: #337def,
+    700: #337def,
+    800: #337def,
+    900:  #337def,
+    A100: #337def,
+    A200: #337def,
+    A400: #337def,
+    A700: #337def,
+  contrast: (
+    50: $dark-primary-text,
+    100: $dark-primary-text,
+    200: $dark-primary-text,
+    300: $dark-primary-text,
+    400: $light-primary-text,
+    500: $light-primary-text,
+    600: $light-primary-text,
+    700: $light-primary-text,
+    800: $light-primary-text,
+    900: $light-primary-text,
+    A100: $dark-primary-text,
+    A200: $dark-primary-text,
+    A400: $dark-primary-text,
+    A700: $light-primary-text,
+  )
+);
+
+
+$primary: mat.define-palette($green-palette);
+$accent: mat.define-palette(mat.$red-palette);
+$warn: mat.define-palette($babyblue-palette);
+
+$my-theme: mat.define-light-theme((
+  color: (primary: $primary, accent: $accent, warn: $warn),
+));
+@include mat.all-component-themes($my-theme);
+
+html{position:relative;}
+html, body { height: 100%; margin:0; padding:0; width:100%;}
+body { font-family: Roboto, "Helvetica Neue", sans-serif; width:100%;}
+
+.flex-col{
+    display:flex;
+    flex-direction: column;
+}
+
+.flex-row{
+    display:flex;
+    flex-direction: row;
+}
+.flex-row-reverse{
+    display: flex;
+    flex-direction: row-reverse;
+}
+.width-auto{
+    width:auto;
+}
+.width-full{
+    width:100%;
+}
+.width-5{
+    width:5%;
+}
+.width-10{
+    width:10%;
+}
+.width-15{
+    width:15%;
+}
+.width-25{
+    width:25%;
+}
+.width-50{
+    width:50%;
+}
+.width-90{
+    width:90%;
+}
+.width-95{
+    width:95%;
+}
+
+.height-10{
+    height:10%;
+}
+.height-15{
+    height:15%;
+}
+.height-25{
+    height:25%;
+}
+.height-50{
+    height:50%;
+}
+
+.height-85{
+    height:85%;
+}
+
+.height-full{
+    height:100%;
+}
+.height-auto{
+    height:auto;
+}
+
+.alert div {
+    background-color: #fed3d3;
+    color: #820000;
+}
+
+.margin-auto{
+    margin: auto;
+}
+
+.margin-left-auto{
+    margin-left: auto;
+}
+.margin-right-auto{
+    margin-right: auto;
+}
+.margin-top-auto{
+    margin-top: auto;
+}
+.margin-bottom-auto{
+    margin-bottom: auto;
+}
+
+mat-tab-body, mat-tab-group, mat-tab, .mat-mdc-tab-body-wrapper{
+    height:100%;
+    width:100%;
+}
+
+.flex-align-left{
+    margin-right:auto;
+}
+
+.flex-align-right{
+    margin-left:auto;
+}
+.flex-align-top{
+    margin-bottom:auto;
+}
+.flex-align-bottom{
+    margin-top:auto;
+}
+
+.bg-blue{
+    background: blue;
+}
+
+.bg-red{
+    background: red;
+}
+.bg-gold{
+    background: gold;
+}
+
+.bg-green{
+    background: #1B5E20;
+}
+.color-fafafa{
+     background: #FAFAFA;
+}
+
+.img-fb{
+    width: 250px;
+    height:60px;
+    object-fit:contain;
+    background: white;
+}
+
+.img-google{
+    width: 70px;
+    height:70px;
+    object-fit:contain;
+}
+
+.img-x{
+    width: 250px;
+    height:60px;
+    object-fit:contain;
+    background: white;
+}
+
+.cancel-btn{
+    height:30px;
+    width:auto;
+}
+
+.login-dialog{
+    background: gray;
+    height:500px;
+}
+.login-dialog > #login-header{
+    background: #00C853;
+    height:30%;
+}
+
+.padding-top-30px{
+    padding-top:30px;
+}
+
+.padding-right-30px{
+    padding-right:30px;
+}
+.padding-left-30px{
+    padding-left:30px;
+}
+.padding-bottom-30px{
+    padding-bottom: 30px;
+}
+
+.brand-tb-container{
+    height:50px;
+    width: 60px;
+    border-radius: 60px;
+    border: 1px solid silver;
+}
+
+.brand-tb-container:hover{
+    border: 1px solid  green;
+    border-radius: 40px;
+    cursor:pointer;
+}
+
+
+.brand-container{
+    width:350px;
+    height:100px;
+
+    background:white;
+    border: 1px solid silver;
+    border-radius: 40px;
+}
+
+.brand-container :hover{
+    height:100%;
+    width:80%;
+    cursor:pointer;
+}
+
+.color-charcoal{
+    color:#36454f;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    font-size: larger;
+    
+}
+.font-small{
+    font-size: smaller;
+}
+.padding-sides-10{
+    padding-left: 10%;
+    padding-right: 10%;
+}
+
+.padding-levels-10{
+    padding-top: 10%;
+    padding-bottom: 10%;
+}
+
+.fefefe{
+    color: #fefefe;
+}
+
+.mat-toolbar-row, .mat-toolbar-single-row {
+    background-color: white !important;
+}
+
+.footnote{
+    font-size: small;
+    color:#57a057;
+}

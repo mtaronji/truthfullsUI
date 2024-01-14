@@ -1,0 +1,80 @@
+
+
+<div class="dashboard-container">
+  <div class="dashboard-sidenav">
+    <Multitrace class="width-full"></Multitrace>
+
+    <mat-divider></mat-divider>
+    <option-info  class="width-full" ></option-info>
+
+    <mat-divider></mat-divider>
+    <fred class="width-full"></fred>
+    
+  </div>
+  <div class="dashboard-chartport">
+
+    <mat-tab-group>
+      <div class="flex-col height-full width-full">
+
+        <!-- <mat-spinner class="margin-auto width-full height-full" *ngIf="_multitraceloading"> </mat-spinner> -->
+        <mat-tab label="Stock" >
+          <ng-template matTabContent>
+                      
+            <div *ngIf="_visualType == 'ohlc'" class="height-full width-full">
+              <plotly-plot [useResizeHandler] = true [data]=  "_StockData | ohlc : 'stock'"
+              [layout] = "_stocklayout"
+              [style]="{width: '100%', height: '100%', autosize: 'true'}" 
+              [config]="_stockconfig">
+              </plotly-plot>
+            </div> 
+            <div *ngIf="_visualType == 'timeseries'" class="height-full width-full">
+              <plotly-plot [useResizeHandler] = true [data]=  "_StockData | timeseries :'stock'"
+              [layout] = "_stocklayout"
+              [style]="{width: '100%', height: '100%', autosize: 'true'}" 
+              [config]="_stockconfig">
+              </plotly-plot>
+            </div> 
+
+          </ng-template>
+
+        </mat-tab>
+
+        <!-- <mat-tab label="Option"> -->
+          <mat-tab >
+            <ng-template mat-tab-label>
+                <span>Options</span>
+
+            </ng-template>
+            <ng-template matTabContent>
+
+            <div *ngIf="_visualType == 'ohlc'" class="height-full width-full">
+              <plotly-plot [useResizeHandler] = true  [data]=  "OptionPricingData | ohlc : 'option'"  [layout]="_optionlayout" [style]="{width: '100%', height: '100%', autosize: 'true'}"  [config]="_stockconfig"></plotly-plot>
+            </div>
+            <div *ngIf="_visualType == 'timeseries'" class="height-full width-full">
+              <plotly-plot [useResizeHandler] = true  [data]=  "OptionPricingData | timeseries : 'option'"  [layout]="_optionlayout" [style]="{width: '100%', height: '100%', autosize: 'true'}"  [config]="_stockconfig"></plotly-plot>
+            </div>
+            
+          </ng-template>
+        </mat-tab>
+
+        <!-- <mat-tab label="Models"> -->
+          <mat-tab >
+            <ng-template mat-tab-label>
+                <span>FRED</span>
+            </ng-template>
+          <ng-template matTabContent>
+            <plotly-plot [useResizeHandler] = true 
+            [data]=  "_FredData | timeseries:'fred'"
+            [layout] = "_fredlayout"
+            [style]="{width: '100%', height: '100%', autosize: 'true'}" 
+            [config]="_fredconfig">
+            </plotly-plot>
+          </ng-template>
+        </mat-tab>
+      
+      </div>
+
+    </mat-tab-group>
+    
+  </div>
+</div>

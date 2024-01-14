@@ -1,12 +1,12 @@
-<div class="flex-row width-full height-full" >
-    <form [formGroup]="tickerform" class="flex-col width-25 height-full" >
+<div class="">
+    <form [formGroup]="tickerform" class="flex-col width-full height-full" >
         <label> <h3>{{title}}</h3></label>
         <mat-form-field>
             <mat-label>Tickers</mat-label>
             <mat-chip-grid #tickerGrid>
                 <mat-chip-row *ngFor="let t of _SelectedTickers" (removed)="removeTicker(t)">
                     {{t}}
-
+    
                     <button matChipRemove [attr.aria-label]="'remove ' + t">
                         <mat-icon fontIcon="cancel">cancel</mat-icon>
                     </button>
@@ -20,15 +20,18 @@
                     {{t}}
                 </mat-option>
             </mat-autocomplete>
-
+    
         </mat-form-field>
         
         <div *ngIf="ticker?.invalid && (ticker?.touched || ticker?.dirty)" >
             <div *ngIf="ticker?.errors?.['TickersEmpty']" class="alert">
                 Need at least 1 ticker selected
             </div> 
+            <div *ngIf="tickerform?.errors?.['TickersEmpty']" class="alert">
+                Need at least 1 ticker selected
+            </div> 
         </div>
-
+    
         <mat-form-field>
             <mat-label>Enter a date range</mat-label>
             <mat-date-range-input [rangePicker]="picker">
@@ -38,7 +41,7 @@
             <mat-hint>MM/DD/YYYY – MM/DD/YYYY</mat-hint>
             <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
             <mat-date-range-picker #picker></mat-date-range-picker>
-
+    
             <div *ngIf="StartDate?.hasError('matStartDateInvalid')">
                 Invalid Start Date
             </div>
@@ -47,17 +50,31 @@
             </div>
         </mat-form-field>
         <button mat-raised-button color="primary" (click)="pullData()" [disabled]="tickerform.invalid"> 
-            Pull Data
+            Search
         </button>
-
+    
     </form>
-    <div class="width-full height-full">
+    <p class="footnote">*You may plot, simultaneously up to 4 different symbols.</p>
+    <section class="">
+        <h4>Data Visualization Type</h4>
+        <mat-radio-group aria-label="Select A Data Visualization" [(ngModel)] = "_selectedDataVisualRadio" (change)="onChangeDataVisualRadio($event)">
+          <mat-radio-button value="timeseries">Time Series</mat-radio-button>
+          <mat-radio-button value="ohlc">OHLC</mat-radio-button>
+        </mat-radio-group>
+    </section>
+</div>
+
+    <!-- <mat-spinner class="margin-auto" *ngIf="_plotLoading"> </mat-spinner>
+    <div>
+        
+    </div>
+    <div class="width-full height-full" *ngIf="!_plotLoading">
         <plotly-plot [useResizeHandler] = true 
         [data]="MultiTraceData | closes" 
         [layout] = ""
         [style]="{width: '100%', height: '100%', autosize: 'true'}" >
         </plotly-plot>
-    </div>
+    </div> -->
  
     <!-- <div *ngIf="DEVELOPMENT">
             <pre> {{StartDate?.valid}}</pre>
@@ -65,6 +82,6 @@
             <pre> {{ticker?.valid}}</pre> 
     </div> -->
 
-</div>
+
 
 <!-- [layout] = "Data.layout" [config] = "Data.config" -->

@@ -1,0 +1,55 @@
+.dashboard-container{
+  
+    @media only screen and (min-width: 1200px){ 
+        height:100%;
+        width:100%;
+
+        display:flex;
+        flex-direction: row;
+   } 
+}
+
+.dashboard-sidenav{
+   
+    @media only screen and (min-width: 1200px){
+        height:100%;
+        width:20%;
+        display:flex;
+        flex-direction: column;
+    } 
+    @media only screen and (min-width: 2000px){
+        height:100%;
+        width:15%;
+        display:flex;
+        flex-direction: column;
+    } 
+}
+.dashboard-chartport{
+   
+    @media only screen and (min-width: 1200px){
+        height:100%;
+        width:80%;
+        display:flex;
+        flex-direction: row;
+
+    }
+    @media only screen and (min-width: 2000px){
+        height:100%;
+        width:88%;
+        display:flex;
+        flex-direction: row;
+    }
+}
+
+/* .brand-tb-container{
+    height:50px;
+    width: 60px;
+    border-radius: 60px;
+    border: 1px solid silver;
+}
+
+.brand-tb-container:hover{
+    border: 1px solid  green;
+    border-radius: 40px;
+    cursor:pointer;
+} */

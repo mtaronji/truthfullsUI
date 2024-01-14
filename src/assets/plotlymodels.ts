@@ -1,4 +1,3 @@
-import { PriceModel } from "./stockmodels";
 
 //models used for creating plotly graphing models
 export interface Trace{
@@ -19,7 +18,7 @@ export interface PlotlyMultiTraceModel{
 }
 
 export interface Layout{
-    
+    title?:Title;
     xaxis?:layout_axis;
     yaxis?:layout_axis;
     yaxis2?:layout_axis;
@@ -33,6 +32,9 @@ export interface Layout{
     yaxis10?:layout_axis;
     autosize?: boolean;
     showlegend?:boolean; 
+    plot_bgcolor?:string;
+    paper_bgcolor?:string;
+
 }
 
 export interface Config{
@@ -41,12 +43,13 @@ export interface Config{
 }
 
 export interface layout_axis{
-    title:string;
-    type:string;
-    showgrid:boolean;
+
+    title?:string;
+    type?:string;
+    showgrid?:boolean;
     rangeslider?:Rangeslider;
-    titlefont?:TitleFont;
-    tickfont?:TickFont;
+    titlefont?:Font;
+    tickfont?:Font;
     overlaying?:string;
     anchor?:string;
     side?:string;
@@ -55,17 +58,18 @@ export interface layout_axis{
 }
 
 export interface Title{
-    font:Font;
-    text:string;
+    automargin?:boolean;
+    font?:Font;
+    text?:string;
 }
 export interface Font{
-    color:string;
-    family:string;
-    size:number;
+    color?:string;
+    family?:string;
+    size?:number;
 }
 
 export interface Rangeslider{
-    visible:boolean;
+    visible?:boolean;
 }
 
 export interface Marker{
@@ -81,12 +85,8 @@ export interface TickFont{
     color:string;
 }
 
-export interface TitleFont{
-    color:string;
-}
-
 export interface OHLCTrace{
-    x:string[]; //dates
+    x:string[] | number[]; //dates or duration
     close:number[];
     high:number[];
     low:number[];
@@ -96,6 +96,8 @@ export interface OHLCTrace{
     type:string;
     xaxis:string;
     yaxis:string;
+    name?:string;
+    opacity?:number;
 }
 
 export interface Increasing{
@@ -106,6 +108,8 @@ export interface Decreasing{
     line:Line;
 
 }
+
+
 
 
 // var trace1 = {

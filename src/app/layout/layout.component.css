@@ -1,0 +1,25 @@
+/* .brand-container{
+    width:350px;
+    height:100px;
+    background:white;
+    border: 1px solid silver;
+    border-radius: 40px;
+} */
+
+.mat-toolbar-item{
+
+    @media only screen and (min-width: 1200px){ 
+     
+    }
+    @media only screen and (max-width: 700){ 
+        
+    }
+    @media only screen and (max-width: 1200){ 
+       
+    }
+   
+}
+
+.spacer{
+    flex: 1 1 auto;
+}

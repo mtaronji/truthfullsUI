@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
-import { DashComponent } from './dash/dash.component';
-
+import { LayoutComponent } from './layout/layout.component';
 
 @Component({
   selector: 'app-root',
@@ -8,10 +7,11 @@ import { DashComponent } from './dash/dash.component';
   styleUrls: ['./app.component.css'],
   standalone:true,
   imports:[
-    DashComponent
+    LayoutComponent,
+
   ]
 })
 export class AppComponent {
-  title = 'TruthfullsUI';
+  title = 'Truthfulls';
 
 }

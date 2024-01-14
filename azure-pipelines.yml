@@ -7,60 +7,95 @@
 trigger:
 - main
 
-variables:
-    npm_config_cache: $(Pipeline.Workspace)/.npm
 pool:
   name: truthfullspool
 
+variables:
+  solution: '**/*.sln'
+  buildPlatform: 'Any CPU'
+  buildConfiguration: 'Release'
+  
+resources:
+  repositories:
+  - repository:  webapi
+    type: github
+    endpoint: mtaronji
+    name: mtaronji/truthfullswebapi
+    ref: "refs/heads/development"
+  pipelines:
+    - pipeline: 10 # Required as first property. ID of the pipeline resource.
+      source: mtaronji.truthfullswebapi # Name of the pipeline that produces the artifact.
+      branch: development # Branch to pick the artifact. Optional; defaults to all branches, used only for manual or scheduled triggers.
+      trigger: true
 stages:
-- stage: Build
-  displayName: "Building Ap"
+- stage: BuildTest
+  displayName: "Build and Test TruthfullsUI"
   jobs:
   - job: 
-    displayName: "Build UI"
-    steps:
-    - task: NodeTool@0
-      inputs:
-        versionSpec: '18.10.0'
-      displayName: "Installing Node"
-    - script: |
-       npm install -g @angular/cli
-       npm ci
-      displayName: "Installing npm and Angular"
-    - script: |
-       ng build
-      displayName: "Building"
-    - task: PublishBuildArtifacts@1
-      inputs:
-        pathToPublish: '$(Build.SourcesDirectory)/dist'
-        artifactName: drop1
-- stage: Test
-  displayName: "Testing"
-  jobs:
-  - job: 
+
     displayName: "Testing App"
     steps:
+    - checkout: self
+    - checkout: webapi
     - task: NodeTool@0
       inputs:
-        versionSpec: '18.10.x'
-      displayName: "Using Node 18.10.x"
+        versionSpec: '18.13.x'
+      displayName: "Using Node 18.13.x"
+    - task: UseDotNet@2 
+      displayName: ".Install NET Core 7.x"
+      inputs:
+        version: '7.x'
+        packageType: sdk
+      
     - script: |
+         cd $(System.DefaultWorkingDirectory)/truthfullsUI
          npm install -g @angular/cli
          npm ci
-         npm install -g puppeteer
-         ng build
-        #  npm install -g karma-cli
-        #  npm install karma-jasmine-html-reporter
-        #  ng build
-      displayName: "Install Dependencies and build"   
+      displayName: "Install angular"
+
     - script: |
-        ng test TruthfullsUI --code-coverage --karma-config karma.conf.ci.js 
-
-      displayName: "Run Karma tests"
-    - task: PublishTestResults@2
-      condition: succeededOrFailed()
+              echo $(System.DefaultWorkingDirectory)
+              cd $(System.DefaultWorkingDirectory)/truthfullswebapi
+              dotnet build --configuration $(buildConfiguration)
+      displayName: 'Build Web API'
+    - task: CopyFiles@2
       inputs:
-       testResultsFormat: 'JUnit'
-       testResultsFiles: '**/TESTS-*.xml'
-      displayName: 'publish unit test results'
+        SourceFolder: $(Agent.RootDirectory)/testdata
+        Contents: |
+                *.db
+        TargetFolder: $(System.DefaultWorkingDirectory)/truthfullswebapi/TruthfullsTests
+      displayName: "Copying unit test db to the pipeline to run tests"
+    - script: |
+               cd $(System.DefaultWorkingDirectory)/truthfullswebapi
+               dotnet test
+      displayName: 'Testing WEB API'
+    - task: DotNetCoreCLI@2
+      inputs:
+        command: publish
+        publishWebProjects: True
+        arguments: '--configuration $(BuildConfiguration) --output $(Build.ArtifactStagingDirectory)'
+        zipAfterPublish: false
+      displayName: "Publishing webapi to artifact staging"
 
+    - script: |
+           echo $(System.DefaultWorkingDirectory)
+           cd $(System.DefaultWorkingDirectory)/truthfullsUI
+           ng build
+      displayName: "build the UI"
+    - script: |
+          cd $(System.DefaultWorkingDirectory)/truthfullsUI
+          ng test TruthfullsUI --code-coverage --karma-config karma.conf.ci.js 
+      displayName: "Run Karma tests on UI"
+
+    - task: CopyFiles@2
+      inputs:
+        SourceFolder: $(System.DefaultWorkingDirectory)/truthfullsUI/dist
+        
+        TargetFolder: $(Build.ArtifactStagingDirectory)/truthfulls.com
+      displayName: "Copying Angular build to Artifact staging directory"
+      
+    - task: PublishPipelineArtifact@1
+      inputs:
+        targetPath: '$(Build.ArtifactStagingDirectory)' 
+        artifactName: 'truthfullsUI'
+      displayName: "Creating build artifact"

@@ -1,0 +1,19 @@
+<!-- comment out signin button for now -->
+<!-- <button mat-flat-button (click)="openlogindialog()"  *ngIf="!authenticated"> <span class="color-charcoal">Sign In to Dashboard</span></button> -->
+
+<span class="color-charcoal" *ngIf="authenticated">Hello {{username}}!</span>
+<span class="" *ngIf="authenticated">
+    <button mat-icon-button class="" matTooltip ="User Profile">
+        <mat-icon color ="primary" class="">face_2</mat-icon>
+     </button>
+</span>
+<span class="" *ngIf="authenticated"> 
+    <button mat-icon-button (click)="openlogoutdialog()" matTooltip ="Logout">
+        <mat-icon color="primary">logout</mat-icon>
+    </button> 
+</span>
+
+
+
+
+
