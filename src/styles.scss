@@ -3,31 +3,32 @@
 @include mat.core();
 
 
-$dark-primary-text: rgba(black, 0.87);
-$light-primary-text: white;
+$dark-primary-text: rgba(#4A148C, 0.87);
+$light-primary-text: rgba(#edeaee,0.75);
 
-$green-palette: (
-    50:#E8F5E9,
-    100: #C8E6C9,
-    200: #A5D6A7,
-    300:  #81C784,
-    400:  #66BB6A,
-    500:  #4CAF50,
-    600: #43A047,
-    700: #388E3C,
-    800: #2E7D32,
-    900:  #1B5E20,
-    A100: #B9F6CA,
-    A200: #69F0AE,
-    A400: #00E676,
-    A700: #00C853,
+
+$cyber-yellow-palette: (
+    50:#FAFFF0,
+    100: #F3FFDA ,
+    200: #EBFFC1 ,
+    300: #E3FFA8 ,
+    400: #DDFF96 ,
+    500: #D7FF83 ,
+    600: #D3FF7B ,
+    700: #CDFF70 ,
+    800: #C7FF66 ,
+    900: #BEFF53 ,
+    A100: #FFFFFF ,
+    A200: #FFFFFF ,
+    A400: #FCFFF8 ,
+    A700: #F2FFDF ,
   contrast: (
     50: $dark-primary-text,
     100: $dark-primary-text,
     200: $dark-primary-text,
     300: $dark-primary-text,
     400: $dark-primary-text,
-    500: $light-primary-text,
+    500: $dark-primary-text,
     600: $light-primary-text,
     700: $light-primary-text,
     800: $light-primary-text,
@@ -39,21 +40,21 @@ $green-palette: (
   )
 );
 
-$babyblue-palette: (
-    50:#337def,
-    100: #337def,
-    200: #337def,
-    300:  #337def,
-    400:  #337def,
-    500:  #337def,
-    600: #337def,
-    700: #337def,
-    800: #337def,
-    900:  #337def,
-    A100: #337def,
-    A200: #337def,
-    A400: #337def,
-    A700: #337def,
+$purple-palette: (
+    50:#F3E5F5,
+    100: #E1BEE7,
+    200: #CE93D8,
+    300:  #BA68C8,
+    400:  #AB47BC,
+    500:  #9C27B0,
+    600: #8E24AA,
+    700: #7B1FA2,
+    800: #6A1B9A,
+    900:  #4A148C,
+    A100: #EA80FC,
+    A200: #E040FB,
+    A400: #D500F9,
+    A700: #AA00FF,
   contrast: (
     50: $dark-primary-text,
     100: $dark-primary-text,
@@ -73,14 +74,31 @@ $babyblue-palette: (
 );
 
 
-$primary: mat.define-palette($green-palette);
-$accent: mat.define-palette(mat.$red-palette);
-$warn: mat.define-palette($babyblue-palette);
+$app-primary: mat.define-palette($purple-palette,500);
+$app-accent: mat.define-palette($cyber-yellow-palette,500);
+ 
+$app-warn: mat.define-palette(mat.$pink-palette,800);
 
-$my-theme: mat.define-light-theme((
-  color: (primary: $primary, accent: $accent, warn: $warn),
+$app-light-theme: mat.define-light-theme((
+  color: (primary: $app-primary, accent: $app-accent, warn: $app-warn)
 ));
-@include mat.all-component-themes($my-theme);
+
+$app-dark-theme: mat.define-dark-theme((
+  color: (primary: $app-primary, accent: $app-accent, warn: $app-warn)
+));
+@include mat.all-component-themes($app-light-theme);
+// Include theme styles for core and each component used in your app.
+// Alternatively, you can import and @include the theme mixins for each component
+// that you are using.
+// .my-special-section {
+//     $special-primary: mat.define-palette(mat.$orange-palette);
+//     $special-accent: mat.define-palette(mat.$brown-palette);
+//     $special-theme: mat.define-dark-theme((
+//       color: (primary: $special-primary, accent: $special-accent),
+//     ));
+   
+//     @include mat.button-color($special-theme);
+// }
 
 html{position:relative;}
 html, body { height: 100%; margin:0; padding:0; width:100%;}
@@ -166,6 +184,10 @@ body { font-family: Roboto, "Helvetica Neue", sans-serif; width:100%;}
 .margin-right-auto{
     margin-right: auto;
 }
+.margin-sides-auto{
+    margin-right: auto;
+    margin-left: auto;
+}
 .margin-top-auto{
     margin-top: auto;
 }
@@ -173,6 +195,15 @@ body { font-family: Roboto, "Helvetica Neue", sans-serif; width:100%;}
     margin-bottom: auto;
 }
 
+.padding-sides-25{
+    padding-left:25%;
+    padding-right:25%;
+}
+
+.padding-sides-10{
+    padding-left:10px;
+    padding-right:10px;
+}
 mat-tab-body, mat-tab-group, mat-tab, .mat-mdc-tab-body-wrapper{
     height:100%;
     width:100%;
@@ -203,6 +234,9 @@ mat-tab-body, mat-tab-group, mat-tab, .mat-mdc-tab-body-wrapper{
     background: gold;
 }
 
+.bg-white{
+    background:white;
+}
 .bg-green{
     background: #1B5E20;
 }
@@ -210,28 +244,59 @@ mat-tab-body, mat-tab-group, mat-tab, .mat-mdc-tab-body-wrapper{
      background: #FAFAFA;
 }
 
+.color-yellow{
+    color:#ffc300;
+
+}
+.bg-cyber-purple{
+    background:#58427C;
+}
 .img-fb{
-    width: 250px;
-    height:60px;
+    width: 70px;
+    height:70px;
     object-fit:contain;
-    background: white;
+    object-position: left;
 }
 
 .img-google{
     width: 70px;
     height:70px;
     object-fit:contain;
+
+    object-position: left;
+    
 }
 
 .img-x{
-    width: 250px;
-    height:60px;
+    width: 70px;
+    height:70px;
     object-fit:contain;
-    background: white;
+
+    object-position: left;
+}
+.brand-button{
+    background:white;
+    height:90px;
+    width:90px;
+    border:none;
+}
+.brand-button:hover{
+    border: 2px solid silver;
+    cursor: pointer
+    ;
+}
+
+.signin-provider-container{
+    height:500px;
+    width:100px;
+}
+.signin-brand{
+    height:100px;
+    width:100px;
 }
 
 .cancel-btn{
-    height:30px;
+    height:40px;
     width:auto;
 }
 
@@ -272,20 +337,6 @@ mat-tab-body, mat-tab-group, mat-tab, .mat-mdc-tab-body-wrapper{
 }
 
 
-.brand-container{
-    width:350px;
-    height:100px;
-
-    background:white;
-    border: 1px solid silver;
-    border-radius: 40px;
-}
-
-.brand-container :hover{
-    height:100%;
-    width:80%;
-    cursor:pointer;
-}
 
 .color-charcoal{
     color:#36454f;
@@ -300,7 +351,12 @@ mat-tab-body, mat-tab-group, mat-tab, .mat-mdc-tab-body-wrapper{
     padding-left: 10%;
     padding-right: 10%;
 }
-
+.padding-left-10{
+    padding-left:10%;
+}
+.padding-right-10{
+    padding-right:10%;
+}
 .padding-levels-10{
     padding-top: 10%;
     padding-bottom: 10%;
@@ -310,11 +366,123 @@ mat-tab-body, mat-tab-group, mat-tab, .mat-mdc-tab-body-wrapper{
     color: #fefefe;
 }
 
-.mat-toolbar-row, .mat-toolbar-single-row {
-    background-color: white !important;
-}
+// .mat-toolbar-row, .mat-toolbar-single-row {
+//     background-color: #36454f !important;
+// }
 
 .footnote{
     font-size: small;
     color:#57a057;
+}
+
+//punkide styling for syntax
+#PunkEditor{
+    border:2px solid mat.get-color-from-palette($app-primary, 700);
+}
+#PunkEditor:focus{
+  outline: 1px solid mat.get-color-from-palette($app-accent,700);
+  border:none;
+}
+
+.syntax-keyword{
+    color:blue;
+}
+.syntax-datatype{
+    color:purple;
+}
+  
+.syntax-binary-operator{
+    color:rgb(255, 251, 0);
+}
+  
+.syntax-identifier{
+    color:crimson;
+}
+  
+.syntax-number{
+    color:rgb(219, 219, 0);
+}
+  
+.syntax-register{
+    color:rgb(0, 136, 68);
+}
+  
+.syntax-grouping{
+    color:rgb(92, 0, 0);
+    font-weight: bold;
+}
+
+//this controls the size of elements inserted into the DOM on the material tabs
+.mat-mdc-tab-body-wrapper{
+    width:90%;
+    margin:auto;
+}
+
+.dashboard-container{
+  
+    @media only screen and (min-width: 1200px){ 
+        height:100%;
+        width:100%;
+
+        display:flex;
+        flex-direction: row;
+   } 
+}
+
+.dashboard-sidenav{
+   
+    @media only screen and (min-width: 1200px){
+        height:100%;
+        width:20%;
+        display:flex;
+        flex-direction: column;
+    } 
+    @media only screen and (min-width: 2000px){
+        height:100%;
+        width:15%;
+        display:flex;
+        flex-direction: column;
+    } 
+}
+.dashboard-chartport{
+    display:flex;
+    flex-direction: row;
+    @media only screen and (min-width: 1200px){
+        height:100%;
+        width:80%;
+    }
+    @media only screen and (min-width: 2000px){
+        height:100%;
+        width:88%;
+    }
+}
+playground{
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.color-primary500{
+    color: mat.get-color-from-palette($app-primary,500);
+}
+.color-primary900{
+    color: mat.get-color-from-palette($app-primary,900);
+}
+.color-primary800{
+    color : mat.get-color-from-palette($app-primary,800);
+}
+.color-accent900{
+    color: mat.get-color-from-palette($app-accent,900);
+}
+
+.color-warn800{
+    color: mat.get-color-from-palette($app-warn,800);
+}
+
+.close-x {
+    color:purple;
+    opacity:0.6;
+    font-size:2.0em;
+}
+.close-x:hover{
+    cursor: pointer;
 }

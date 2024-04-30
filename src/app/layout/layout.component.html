@@ -1,5 +1,5 @@
 <div class="flex-col width-full height-full"> 
-    <mat-toolbar>
+    <mat-toolbar  >
         <span class="height-full"> 
             <a href="/">
                 <img class="brand-tb-container" src="assets/brand-white.png"/> 
@@ -7,31 +7,34 @@
     
         </span>
         <span class="spacer"></span>
-        <!-- <span class="mat-toolbar-item">
+        <span class="mat-toolbar-item">
         
             <a href="/dashboard" *ngIf="_authenticated">
-                <button mat-fab color="primary" matTooltip ="Dashboard" > <mat-icon>stacked_bar_chart</mat-icon></button>
+                <button mat-flat-button  > Account</button>
             </a>
             <a *ngIf="!_authenticated" (click)="showLogin()">
-                <button mat-fab color="primary" matTooltip ="Dashboard" ><mat-icon>stacked_bar_chart</mat-icon></button>
+                <button mat-raised-button class="layout-btn" color="accent" >Sign Up</button>
             </a>
-        </span> -->
+            <a *ngIf="!_authenticated" (click)="showLogin()">
+                <button mat-stroked-button class="layout-btn">Sign In</button>
+            </a>
+        </span> 
 
-        <!-- <span class="">
+        <!-- <span class="mat-toolbar-item">
             <a href="/opinion">
-                <button mat-flat-button > <span class="color-charcoal">Opinion</span></button>
+                <button mat-flat-button > Opinion</button>
             </a>
         </span> -->
         <span class="">
-
             <login ></login> 
         </span>
     </mat-toolbar>
 
     <!-- Content-->
-    <div class="flex-col height-full width-90 margin-auto">
+    <div class="flex-col height-full width-90">
         <div class="width-full height-full">
-            <router-outlet ></router-outlet>
+            <!-- <router-outlet ></router-outlet> -->
+            <app-dashboard></app-dashboard>
         </div>
 
         <!-- Footer if any-->

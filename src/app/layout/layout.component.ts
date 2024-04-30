@@ -8,6 +8,7 @@ import {MatIconModule} from '@angular/material/icon';
 import {MatButtonModule} from '@angular/material/button';
 import {MatTooltipModule} from '@angular/material/tooltip';
 import { EventemitService } from '../Services/eventemit.service';
+import { DashboardComponent } from '../dashboard/dashboard.component';
 
 @Component({
   selector: 'app-layout',
@@ -15,7 +16,7 @@ import { EventemitService } from '../Services/eventemit.service';
   styleUrls: ['./layout.component.css'],
   standalone:true,
   imports:[MatToolbarModule, LoginComponent,RouterOutlet, 
-          MatIconModule,MatButtonModule,MatTooltipModule,CommonModule
+          MatIconModule,MatButtonModule,MatTooltipModule,CommonModule,DashboardComponent
           ]
 
 })

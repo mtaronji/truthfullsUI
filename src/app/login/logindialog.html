@@ -2,42 +2,48 @@
 
 <div class="width-full height-full flex-col">
 
-  <button mat-icon-button aria-label="close dialog" mat-dialog-close class="margin-left-auto cancel-btn">
-    <mat-icon>close</mat-icon>
-  </button>
-
-
-  <h3 class="margin-left-auto margin-right-auto"> Log in </h3>
-
-  <p class="margin-left-auto margin-right-auto">
-     <b>Please choose a Signin Provider</b>
-  </p>
-
-  <a [href] ="facebookurl">
-    <button class="brand-container" >
-      <img src="assets/Facebook_Logo_Primary.png" alt="Facebook Sign in" class="img-fb" /> 
+    <button aria-label="close dialog" mat-dialog-close class="margin-left-auto cancel-btn bg-white">
+      <span class="close-x">&times;</span>
     </button>
-  </a>
 
-  <br>
-  <a [href] ="twitterloginurl">
-    <button class="brand-container">
-      <img src="assets/logo-black-X.png" alt="X Sign in" class="img-x" /> 
-    </button>
-  </a>
-  <br>
+
+    <h3 class="margin-left-auto margin-right-auto"> Log in </h3>
+
+    <p class="margin-left-auto margin-right-auto">
+      <b>Please choose a Signin Provider</b>
+    </p>
+
+    <div class="padding-left-30px signin-provider-container"> <!-- If any new providers added. Make sure to resize this container-->
   
-  <a [href] ="googleurl">
-    <button class="brand-container">
-      <img src="assets/Google_G_Logo.svg" alt="Google Sign in" class="img-google"/>
-    </button>
-  </a>
-  <br>
+      <br><br><br>
+      <a [href] ="twitterloginurl" class="signin-brand">
+        <button  class="brand-button" >
+          <img src="assets/logo-black-X.png" alt="X Sign in" class="img-x" /> 
+        </button>
+      </a>
+      <br><br><br>
+      
+      <a [href] ="googleurl" class="signin-brand">                    
+        <button  class="brand-button">
+          <img src="assets/Google_G_Logo.svg" alt="Google Sign in" class="img-google"/>
+        </button>
+      </a>
+      <br><br><br>
+      <a [href] ="facebookurl" class="signin-brand">
+        <button  class="brand-button" >
+          <img src="assets/Facebook_Logo_Primary.png" alt="X Sign in" class="img-x" /> 
+        </button>
+      </a>
 
-  <p class="color-pink padding-sides-10 width-75">
-    ** We require that these login providers share your email address with us. Please read our privacy policy 
-      <span> <a href="/privacy">here</a></span> to learn more about how we use email addresses 
-  </p>
+    </div>
+  
+    <br>
+  
 
+    <p class="color-yellow padding-sides-10 width-75">
+      ** We require that these login providers share your email address with us. Please read our privacy policy 
+        <span> <a href="/privacy">here</a></span> to learn more about how we use email addresses 
+    </p>
+  
 </div>
 

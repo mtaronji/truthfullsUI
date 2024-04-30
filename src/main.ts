@@ -6,8 +6,9 @@ import { provideAnimations } from '@angular/platform-browser/animations';
 import { importProvidersFrom } from '@angular/core';
 import {HttpClientModule} from '@angular/common/http';
 import {RouterModule} from '@angular/router';
-import { DashboardComponent } from './app/dashboard/dashboard.component';
-import { LandingComponent } from './app/landing/landing.component';
+import { PlotComponent } from './app/plot/plot.component';
+import { SidebarComponent } from './app/sidebar/sidebar.component';
+import { DocumentationComponent } from './app/documentation/documentation.component';
 
 bootstrapApplication(AppComponent,
   {
@@ -16,7 +17,8 @@ bootstrapApplication(AppComponent,
         [
           {path:'privacy', component:PrivacyComponent},
           {path:'termsofservice', component:TermsofserviceComponent},
-          {path:'', component:DashboardComponent}
+          {path:'', component:PlotComponent},
+          {path:'documentation', component:DocumentationComponent}
           // {path:'', component:LandingComponent}
         ]))
       ]

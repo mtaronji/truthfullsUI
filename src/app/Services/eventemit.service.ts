@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { Observable } from "rxjs"
 import { Subject } from "rxjs";
 import { OptionCodeData, OptionPriceData } from 'src/assets/optionmodels';
 import { Observations, StockPriceData, series } from 'src/assets/stockmodels';
@@ -42,7 +41,8 @@ export class EventemitService {
   public _databegin = new Subject<string>();
   public newdatabegin$ = this._databegin.asObservable();
 
-  
+  public _traceData = new Subject<any>();
+  public newTraceData = this._traceData.asObservable();
 
   constructor() {
     
