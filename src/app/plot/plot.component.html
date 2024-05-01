@@ -1,0 +1,48 @@
+<div class="plot-component-container">
+    <punk-pad class="width-full" (Code) = "NewSyntax($event)"> </punk-pad>
+    <p class="margin-left-auto"> 
+      <!-- <button mat-icon-button color="primary"><mat-icon>computer</mat-icon><span class="font-tiny">Ram: {{}}</span></button> -->
+      <button mat-icon-button  color = "primary" (click)="fileInput.click()"><mat-icon fontIcon="attach_file"></mat-icon></button>
+      <input hidden (change)="onFileSelected($event)" #fileInput type="file" multiple  accept=".csv">
+      <button mat-button (click)="ClearData()" class="width-100px" color="warn">Clear Data</button>
+      <button mat-raised-button (click)="OpenExpressionSettings()" class="width-100px" color="primary">Plot</button>
+    </p>
+
+   
+
+   
+    
+    @if(Expressions.length > 0){
+      <h4 class="color-primary900">Expressions</h4> 
+      <mat-list role="list" >
+        @for(exp of Expressions; track exp){
+          <mat-list-item  role="listitem" color="accent" >{{exp.syntax}}</mat-list-item>        
+        }                         
+      </mat-list>
+    }
+    <p class="color-warn800">{{PunkErrorMsg}}</p>
+
+    <plotly-plot [useResizeHandler] = true [data]=  "tracedata" *ngIf="ViewPlot"
+      [layout] = "layout"
+      [style]="{width: '100%', height:'85vh', autosize: 'true',border:'1px solid #BEFF53'}" 
+      [config]=config 
+    >
+    </plotly-plot>
+
+    <table mat-table [dataSource]="tabledata" class="mat-elevation-z8" *ngIf="ViewTable">
+
+        <ng-container [matColumnDef]="col" *ngFor="let col of  headers">
+          <th mat-header-cell *matHeaderCellDef> {{col | uppercase}} </th>
+          <td mat-cell *matCellDef="let element"> {{element[col]}} </td>
+        </ng-container>
+      
+        <tr mat-header-row *matHeaderRowDef="headers"></tr>
+        <tr mat-row *matRowDef="let row; columns: headers;"></tr>
+
+    </table>
+    <mat-paginator [pageSizeOptions]="[5, 10, 20]" *ngIf="ViewTable"
+    showFirstLastButtons
+    aria-label="Select Page">
+    </mat-paginator>
+
+</div>

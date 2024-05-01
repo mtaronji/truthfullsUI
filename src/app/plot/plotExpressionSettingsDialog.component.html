@@ -1,0 +1,215 @@
+
+
+<button aria-label="close dialog" mat-dialog-close class="margin-left-auto cancel-btn bg-white">
+  <span class="close-x">&times;</span>
+</button>
+  <mat-dialog-content>
+
+    <h4>Evaluated Expressions Data</h4> 
+    <mat-selection-list #Evaluations [multiple]="false" [(ngModel)]="SelectedDataIndex">
+      @for(d of data;track d){
+        <mat-list-option [value]="$index" >{{d.syntax}}</mat-list-option>        
+      }  
+    </mat-selection-list>
+
+    <p>Type : {{data[SelectedDataIndex].type}}</p>
+    <p>Syntax : {{data[SelectedDataIndex].syntax}}</p>
+    <strong><p >Fields Availble to plot:</p> </strong>
+    @for(h of data[SelectedDataIndex].headers; track h){
+      <p class="color-primary800">{{h}}</p>
+    }
+    
+    <mat-accordion>
+      <mat-expansion-panel>
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            Trace Info
+          </mat-panel-title>
+          <mat-panel-description>
+            <p>Trace Data For Plot </p>
+        
+          </mat-panel-description>
+        </mat-expansion-panel-header>
+
+        <mat-form-field>
+          <mat-label>Trace Type</mat-label>
+          <mat-select [(ngModel)] = "SelectedTrace">
+            @for (name of TraceNames; track name) {
+              <mat-option [value]="name">{{name}}</mat-option>
+            }
+          </mat-select>
+        </mat-form-field>
+
+      
+          @if(SelectedTrace == "candlestick"){    
+            <p>
+            <mat-form-field><mat-label>  X Axis Data </mat-label><mat-select [(ngModel)] = "selectedOHLC.X">@for(h of data[SelectedDataIndex].headers;track h){<mat-option [value] = "h" (click)="selectedOHLC.xindex = SelectedDataIndex">{{h}}</mat-option>}</mat-select></mat-form-field>                 
+            <mat-form-field><mat-label> Open</mat-label><mat-select [(ngModel)] = "selectedOHLC.open">@for(h of data[SelectedDataIndex].headers;track h){<mat-option [value] = "h" (click)="selectedOHLC.openindex = SelectedDataIndex">{{h}}</mat-option>}</mat-select></mat-form-field>
+            <mat-form-field><mat-label>Close</mat-label><mat-select [(ngModel)] = "selectedOHLC.close">@for(h of data[SelectedDataIndex].headers;track h){<mat-option [value] = "h" (click)="selectedOHLC.closeindex = SelectedDataIndex">{{h}}</mat-option>}</mat-select></mat-form-field>
+            <mat-form-field><mat-label> High</mat-label><mat-select [(ngModel)] = "selectedOHLC.high">@for(h of data[SelectedDataIndex].headers;track h){<mat-option [value] = "h" (click)="selectedOHLC.highindex = SelectedDataIndex">{{h}}</mat-option>}</mat-select></mat-form-field>
+            </p>
+            <p>
+            <mat-form-field><mat-label>  Low</mat-label><mat-select [(ngModel)] = "selectedOHLC.low">@for(h of data[SelectedDataIndex].headers;track h){<mat-option [value] = "h" (click)="selectedOHLC.lowindex = SelectedDataIndex" >{{h}}</mat-option>}</mat-select></mat-form-field>   
+            <mat-form-field><mat-label>  Decrease Color</mat-label><input matInput [(ngModel)] = "selectedOHLC.decreasecolor" type="color"></mat-form-field>   
+            <mat-form-field><mat-label>  Increase Color</mat-label><input matInput [(ngModel)] = "selectedOHLC.increasecolor" type="color"></mat-form-field>   
+            <mat-form-field><mat-label>Xaxis Name</mat-label><mat-select [(ngModel)] = "selectedOHLC.xaxis">@for(a of XAxes;track a){<mat-option [value] = "a">{{a}}</mat-option>}</mat-select></mat-form-field>
+            </p>
+            <!-- <mat-form-field><mat-label>Yaxis Name</mat-label><mat-select [(ngModel)] = "selectedOHLC.yaxis">@for(a of YAxes;track a){<mat-option [value] = "a">{{a}}</mat-option>}</mat-select></mat-form-field> -->
+
+          }
+          @else if(SelectedTrace == "scatter"){
+            <p>
+            <mat-form-field><mat-label> X </mat-label><mat-select [(ngModel)] = "selectedFields.x">@for(h of data[SelectedDataIndex].headers;track h){<mat-option [value] = "h" (click)="selectedFields.xindex= SelectedDataIndex">{{h}}</mat-option>}</mat-select></mat-form-field>
+            <mat-form-field><mat-label>Y</mat-label><mat-select [(ngModel)] = "selectedFields.y">@for(h of data[SelectedDataIndex].headers;track h){<mat-option [value] = "h" (click)="selectedFields.yindex = SelectedDataIndex">{{h}}</mat-option>}</mat-select></mat-form-field>
+            <mat-form-field><mat-label>Xaxis Name</mat-label><mat-select [(ngModel)] = "selectedFields.xaxis">@for(a of XAxes;track a){<mat-option [value] = "a">{{a}}</mat-option>}</mat-select></mat-form-field>
+            <mat-form-field><mat-label>Yaxis Name</mat-label><mat-select [(ngModel)] = "selectedFields.yaxis">@for(a of YAxes;track a){<mat-option [value] = "a">{{a}}</mat-option>}</mat-select></mat-form-field>
+            </p>
+            <p>
+            <mat-form-field><mat-label>Mode</mat-label><mat-select [(ngModel)] = "SelectedScatterMode">@for(m of ScatterModes;track m){<mat-option [value] = "m">{{m}}</mat-option>}</mat-select></mat-form-field> 
+            </p>
+
+             @if(SelectedScatterMode == "markers" || SelectedScatterMode == "lines+markers" || SelectedScatterMode =="lines+markers+text"){ 
+              <p>
+              <mat-form-field><mat-label> Marker Color </mat-label><input matInput [(ngModel)] = "ScatterMarker.color" type="color"></mat-form-field>   
+              <mat-form-field><mat-label> Marker Opacity </mat-label><input matInput [(ngModel)] = "ScatterMarker.opacity" type="number" minlength="0.0" maxlength="1.0"></mat-form-field>   
+              <mat-form-field><mat-label> Marker Size </mat-label><input matInput [(ngModel)] = "ScatterMarker.size" type="number" minlength="0.0" ></mat-form-field>  
+              </p>
+              <p>
+              <mat-form-field><mat-label> Marker Line Color </mat-label><input matInput [(ngModel)] = "ScatterMarkerLine.color" type="color"></mat-form-field>                
+              <mat-form-field><mat-label> Marker Line Width </mat-label><input matInput [(ngModel)] = "ScatterMarkerLine.width" type="number" minlength="0.0" ></mat-form-field>  
+              </p>
+              <p>
+                @if(SelectedScatterMode == "lines+markers+text"){
+                  <mat-form-field><mat-label> X </mat-label><mat-select [(ngModel)] = "selectedFields.x">@for(h of data[SelectedDataIndex].headers;track h){<mat-option [value] = "h" (click)="selectedFields.xindex= SelectedDataIndex">{{h}}</mat-option>}</mat-select></mat-form-field>
+                }
+              </p>
+
+            }
+            <p>
+            <mat-form-field><mat-label>Line Shape</mat-label><mat-select [(ngModel)] = "ScatterLineSettings.shape">@for(s of ScatterLineShapes;track s){<mat-option [value] = "s">{{s}}</mat-option>}</mat-select></mat-form-field>
+            <mat-form-field><mat-label> Line Color</mat-label><input matInput [(ngModel)] = "ScatterLineSettings.color" type="color"></mat-form-field>   
+            </p>
+            <p>
+            @if(ScatterLineSettings.shape == "spline"){
+              <mat-form-field ><mat-label> Line Smoothing </mat-label><input matInput type="number" [(ngModel)] = "ScatterLineSettings.smoothing" placeholder="0 - 1.3" minlength="0.0" maxlength="1.3"></mat-form-field>    
+            }
+            </p>
+          }
+
+          @else if(SelectedTrace == "surface" || SelectedTrace == "contour"){
+            <p>
+            <mat-form-field><mat-label> X </mat-label><mat-select [(ngModel)] = "selectedFields.x">@for(h of data[SelectedDataIndex].headers;track h){<mat-option [value] = "h" (click)="selectedFields.xindex = SelectedDataIndex">{{h}}</mat-option>}</mat-select></mat-form-field>
+            <mat-form-field><mat-label>Y</mat-label><mat-select [(ngModel)] = "selectedFields.y">@for(h of data[SelectedDataIndex].headers;track h){<mat-option [value] = "h" (click)="selectedFields.yindex = SelectedDataIndex">{{h}}</mat-option>}</mat-select></mat-form-field>
+            <mat-form-field><mat-label>Z</mat-label><mat-select [(ngModel)] = "selectedFields.z">@for(h of data[SelectedDataIndex].headers;track h){<mat-option [value] = "h" (click)="selectedFields.zindex = SelectedDataIndex">{{h}}</mat-option>}</mat-select></mat-form-field>
+            <mat-form-field><mat-label>Color Scales</mat-label><mat-select [(ngModel)] = "SelectedColorScale">@for(cs of ColorScales;track cs){<mat-option [value] = "cs">{{cs}}</mat-option>}</mat-select></mat-form-field>
+            </p>
+            
+          }
+          @else{
+
+          }
+      
+      
+
+      </mat-expansion-panel>
+      <mat-expansion-panel>
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            Axis Settings
+          </mat-panel-title>
+          <mat-panel-description>
+            <p>Customize Axis Settings</p>
+           
+          </mat-panel-description>
+        </mat-expansion-panel-header>
+
+            <p><mat-checkbox  [(ngModel)]="xChk" >X</mat-checkbox> </p>
+            @if(xChk){   
+              <p class="width-full"><mat-form-field class="width-full"><mat-label> Label for X Axis </mat-label><input matInput [(ngModel)] = "xAxis.title" placeholder="Label"></mat-form-field></p>
+              <p>
+                            
+              <mat-form-field><mat-label> Font Family</mat-label><mat-select [(ngModel)] = "xfont.family">@for(f of FontFamilies; track f){<mat-option [value] = "f">{{f}}</mat-option>}</mat-select></mat-form-field>
+              <mat-form-field ><mat-label>  Font Size </mat-label><input matInput type="number" [(ngModel)] = "xfont.size" placeholder="Font Size"></mat-form-field>     
+              <mat-form-field ><mat-label>  Font Color </mat-label><input matInput type="color" [(ngModel)] = "xfont.color" placeholder="Color For Axis" ></mat-form-field>     
+              <mat-form-field><mat-label>  Data Type </mat-label><mat-select [(ngModel)] = "xAxis.type">@for(t of AxisDataTypes; track t){<mat-option [value] = "t">{{t}}</mat-option>}</mat-select></mat-form-field>  
+              <!-- <mat-form-field><mat-label>  Range Start </mat-label><input matInput [ngModel] = "SelectedRangeStart.get('x')" (ngModelChange)="SelectedRangeStart.set('x', $event)" placeholder="Start of Range"></mat-form-field>
+              <mat-form-field><mat-label>  Range End</mat-label><input matInput [ngModel] = "SelectedRangeEnd.get('x')" (ngModelChange)="SelectedRangeEnd.set('x', $event)" placeholder="End of Range"></mat-form-field> -->
+              </p>
+            } 
+            <p><mat-checkbox  [(ngModel)]="x2Chk"  >X2</mat-checkbox></p>
+            @if(x2Chk){  
+              <p class="width-full"><mat-form-field class="width-full"><mat-label>  Label For X Axis 2 </mat-label><input matInput [(ngModel)] = "x2Axis.title" placeholder="Label"></mat-form-field> </p>     
+              <p>                
+              <mat-form-field><mat-label> Font Family</mat-label><mat-select [(ngModel)] = "x2font.family">@for(f of FontFamilies; track f){<mat-option [value] = "f">{{f}}</mat-option>}</mat-select></mat-form-field>
+              <mat-form-field ><mat-label>  Font Size </mat-label><input matInput type="number" [(ngModel)] = "x2font.size" placeholder="Font Size"></mat-form-field>     
+              <mat-form-field ><mat-label>  Font Color </mat-label><input matInput type="color" [(ngModel)] = "x2font.color" placeholder="Color For Axis"></mat-form-field>
+              <mat-form-field><mat-label>  Data Type </mat-label><mat-select [(ngModel)] = "x2Axis.type">@for(t of AxisDataTypes; track t){<mat-option [value] = "t">{{t}}</mat-option>}</mat-select></mat-form-field>    
+
+              </p>   
+            }
+            <!-- <mat-checkbox  [(ngModel)]="x3Chk">X3</mat-checkbox>
+            @if(x3Chk){    
+              
+            }
+            <mat-checkbox  [(ngModel)]="x4Chk">X4</mat-checkbox>
+            @if(x4Chk){    
+       
+            } -->
+            <p><mat-checkbox [(ngModel)]="yChk" >Y</mat-checkbox></p>
+            @if(yChk){    
+              <p class ="width-full"><mat-form-field class="width-full"><mat-label> Label For y Axis </mat-label><input matInput [(ngModel)] = "yAxis.title" placeholder="Label"></mat-form-field></p>
+              <p>             
+              <mat-form-field><mat-label> Font Family</mat-label><mat-select [(ngModel)] = "yfont.family">@for(f of FontFamilies; track f){<mat-option [value] = "f">{{f}}</mat-option>}</mat-select></mat-form-field>
+              <mat-form-field ><mat-label>  Font Size </mat-label><input matInput type="number" [(ngModel)] = "yfont.size" placeholder="Title For Axis"></mat-form-field>     
+              <mat-form-field ><mat-label>  Font Color </mat-label><input matInput type="color" [(ngModel)] = "yfont.color" placeholder="Color For Axis"></mat-form-field>     
+              <mat-form-field><mat-label>  Data Type </mat-label><mat-select [(ngModel)] = "yAxis.type">@for(t of AxisDataTypes; track t){<mat-option [value] = "t">{{t}}</mat-option>}</mat-select></mat-form-field>    
+              </p>
+            }
+            <p><mat-checkbox  [(ngModel)]="y2Chk">Y2</mat-checkbox></p>
+            @if(y2Chk){    
+              <p class ="width-full"><mat-form-field class="width-full"><mat-label> Label For Y Axis 2 </mat-label><input matInput [(ngModel)] = "y2Axis.title" placeholder="Label"></mat-form-field></p>
+              <p>
+                         
+              <mat-form-field><mat-label> Font Family</mat-label><mat-select [(ngModel)] = "y2font.family">@for(f of FontFamilies; track f){<mat-option [value] = "f">{{f}}</mat-option>}</mat-select></mat-form-field>
+              <mat-form-field ><mat-label>  Font Size </mat-label><input matInput type="number" [(ngModel)] = "y2font.size" placeholder="Font Size"></mat-form-field>     
+              <mat-form-field ><mat-label>  Font Color </mat-label><input matInput type="color" [(ngModel)] = "y2font.color" placeholder="Color For Axis"></mat-form-field>   
+              <mat-form-field><mat-label>  Data Type </mat-label><mat-select [(ngModel)] = "y2Axis.type">@for(t of AxisDataTypes; track t){<mat-option [value] = "t">{{t}}</mat-option>}</mat-select></mat-form-field>   
+              </p>  
+            }
+            <!-- <mat-checkbox  [(ngModel)]="y3Chk">Y3</mat-checkbox>
+            @if(y3Chk){    
+            
+            }
+            <mat-checkbox  [(ngModel)]="y4Chk">Y4</mat-checkbox>
+            @if(y4Chk){    
+             
+            }       -->
+
+
+      </mat-expansion-panel>
+
+      <mat-expansion-panel>
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            Layout
+          </mat-panel-title>
+          <mat-panel-description>
+            <p>Customize Layout</p>
+        
+          </mat-panel-description>
+        </mat-expansion-panel-header>
+        <mat-form-field><mat-label> DragMode</mat-label><mat-select [(ngModel)] = "layout.dragmode">@for(m of Dragmodes; track m){<mat-option [value] = "m">{{m}}</mat-option>}</mat-select></mat-form-field>
+        <p><mat-checkbox [(ngModel)]="layout.showlegend" >Show Legend</mat-checkbox></p>
+        @if(layout.showlegend){ 
+          <p> 
+          <mat-form-field ><mat-label> BG color </mat-label><input matInput type="color" [(ngModel)] = "LegendLayout.bgcolor" placeholder="Choose background color for legend"></mat-form-field>  
+          </p>
+        }
+      
+      </mat-expansion-panel>
+    </mat-accordion>
+
+  </mat-dialog-content>
+<mat-dialog-actions>
+  <button mat-raised-button cdkFocusInitial color="primary" (click)="onCreatePlot()">Create Plot</button>
+</mat-dialog-actions>

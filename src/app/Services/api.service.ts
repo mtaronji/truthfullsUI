@@ -1,11 +1,12 @@
 import { Injectable, isDevMode, inject } from '@angular/core';
 import { Observable, Subscription, throwError, map, catchError} from 'rxjs';
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { Observations, StockPriceData, series } from 'src/assets/stockmodels';
 import { OnInit, OnDestroy } from '@angular/core';
 import { OptionCodeData, OptionPriceData } from 'src/assets/optionmodels';
 import { ActivatedRouteSnapshot, CanActivateFn, RouterStateSnapshot } from '@angular/router';
 import { User } from 'src/assets/authmodels';
+import { PunkSyntaxObject } from '../plot/plot.component';
 
 export interface ErrorModel{
   error:string;//message about error
@@ -22,6 +23,7 @@ export class APIService implements OnDestroy, OnInit {
   private URLRoot:string;
   private redirecturl:string;
 
+  private PostHeaders = new Headers();
 
   constructor(private httpclient:HttpClient) { 
     if(isDevMode()){
@@ -32,6 +34,7 @@ export class APIService implements OnDestroy, OnInit {
       this.URLRoot = "";
       this.redirecturl = "";
     }
+    this.PostHeaders.append('Content-Type','application/json');
   }
   
   public getDailyPriceData(querystring:string) : Observable<StockPriceData>{
@@ -40,6 +43,16 @@ export class APIService implements OnDestroy, OnInit {
     return this.httpclient.get<StockPriceData>(url);
   }
 
+  public EvaluatePunkSyntax(evaluationobj:PunkSyntaxObject):Observable<any>{
+    // let encoded = encodeURIComponent(syntax);
+    let url = `${this.URLRoot}/interpret`;
+    let resultFiles = evaluationobj.csvfiles;
+
+    let data = [{'syntax':evaluationobj.syntax},{'csvfiles':evaluationobj.csvfiles}]
+    return this.httpclient.post<any>(url,data);
+  }
+
+  
   public getOptionCodes(querystring:string) : Observable<OptionCodeData>{
 
     let url = `${this.URLRoot}/option/getoptioncodes/${querystring}`;
@@ -99,9 +112,6 @@ export class APIService implements OnDestroy, OnInit {
   public getallseries():Observable<series[]>{
     let url = `${this.URLRoot}/fred/getseries`;
     return this.httpclient.get<series[]>(url).pipe(catchError(this.handleError)); 
-  }
-  public getSMA(ticker:string, daycount:number){
-
   }
   ngOnInit(): void {
   
