@@ -25,7 +25,7 @@
     "luxon": "^3.4.0",
     "papaparse": "^5.4.1",
     "plotly.js-dist-min": "^2.26.0",
-    "punk-lib": "file:../ang-workspace/dist/punk-lib/punk-lib-1.0.8.tgz",
+    "punk-lib": "^1.0.8",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.14.4"
