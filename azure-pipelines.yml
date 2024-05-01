@@ -42,9 +42,9 @@ stages:
         versionSpec: '18.13.x'
       displayName: "Using Node 18.13.x"
     - task: UseDotNet@2 
-      displayName: ".Install NET Core 7.x"
+      displayName: ".Install NET Core 8.x"
       inputs:
-        version: '7.x'
+        version: '8.x'
         packageType: sdk
       
     - script: |
