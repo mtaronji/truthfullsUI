@@ -49,8 +49,9 @@ stages:
       
     - script: |
          cd $(System.DefaultWorkingDirectory)/truthfullsUI
-         npm install -g @angular/cli
          npm ci
+         npm install -g @angular/cli
+        
       displayName: "Install angular"
 
     - script: |
