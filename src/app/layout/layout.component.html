@@ -1,6 +1,6 @@
 <div class="flex-col width-full height-full"> 
-    <mat-toolbar  >
-        <span class="height-full"> 
+    <mat-toolbar class="app-background-color" >
+        <span class="height-full width-full"> 
             <a href="/">
                 <img class="brand-tb-container" src="assets/brand-white.png"/> 
             </a>
@@ -9,35 +9,24 @@
         <span class="spacer"></span>
         <span class="mat-toolbar-item">
         
-            <a href="/dashboard" *ngIf="_authenticated">
-                <button mat-flat-button  > Account</button>
-            </a>
-            <a *ngIf="!_authenticated" (click)="showLogin()">
-                <button mat-raised-button class="layout-btn" color="accent" >Sign Up</button>
-            </a>
-            <a *ngIf="!_authenticated" (click)="showLogin()">
-                <button mat-stroked-button class="layout-btn">Sign In</button>
-            </a>
-        </span> 
 
-        <!-- <span class="mat-toolbar-item">
-            <a href="/opinion">
-                <button mat-flat-button > Opinion</button>
-            </a>
-        </span> -->
-        <span class="">
+            <!-- <a *ngIf="!_authenticated" (click)="showLogin()">
+                <button mat-raised-button class="layout-btn" color="accent" >Sign Up</button>
+            </a> -->
+            <!-- Comment below out until we add third party authentication back to the application-->
+            <!-- <a *ngIf="!_authenticated" (click)="showLogin()">
+                <button mat-raised-button class="layout-btn" color="accent">Sign In</button>
+            </a> -->
+        </span> 
+        <!-- Comment out below as above-->
+        <!-- <span class="">
             <login ></login> 
-        </span>
+        </span> -->
     </mat-toolbar>
 
-    <!-- Content-->
-    <div class="flex-col height-full width-90">
-        <div class="width-full height-full">
-            <!-- <router-outlet ></router-outlet> -->
-            <app-dashboard></app-dashboard>
-        </div>
+    <router-outlet class="width-full"></router-outlet>  
 
-        <!-- Footer if any-->
+    <!-- Footer if any-->
+    <app-footer class="width-full height-full" ></app-footer>
 
-    </div>
 </div>

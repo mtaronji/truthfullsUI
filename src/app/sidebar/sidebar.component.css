@@ -1,4 +1,7 @@
-.sidebar-text{
-    color:#ff00dd;
+.sidebar-linktext{
+    font-family: "Lucida Console", "Courier New", monospace;
+}
+.sidebar-IDE-link{
+    font-size: larger;
     font-family: "Lucida Console", "Courier New", monospace;
 }

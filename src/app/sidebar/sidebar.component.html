@@ -1,2 +1,39 @@
-<h4 class="sidebar-text"> Punk Documentation</h4>
-<button (click)="SequenceClick()">Click to scroll</button>
+<cdk-accordion class="">
+    <cdk-accordion-item role="button" tabindex="0"  #accordionItem="cdkAccordionItem" expanded="true">
+        <div class="example-accordion-item-header" (click)="accordionItem.toggle()">
+            
+            <button mat-icon-button color="charcoal" aria-label="">
+                <mat-icon>menu</mat-icon>
+              </button>
+        </div>
+
+        <div role="region"  [style.display]="accordionItem.expanded ? '' : 'none'"  >
+            <!-- <p><a mat-button  [routerLink] ="['/home/ide']"  color="charcoal">PunkIDE</a> </p>
+            <p><a mat-button  [routerLink] ="['/home/documentation']" color="charcoal" >Punk Documentation</a> </p>
+            <p><a mat-button  [routerLink] ="['/home/documentation','/DocBaseTypes']" color="charcoal" class="margin-left-auto width-full">Base Types</a> </p>
+            <p><a mat-button  [routerLink] ="['/home/documentation','/DocSequences']" color="charcoal" class="margin-left-auto width-full">Sequences</a> </p>
+            <p><a mat-button  [routerLink] ="['/home/documentation','/DocRegisters']" color="charcoal" class="margin-left-auto width-full">Registers</a> </p>
+            <p><a mat-button  [routerLink] ="['/home/documentation','/DocQueries']" color="charcoal" class="margin-left-auto width-full" >Querys</a> </p>
+            <p><a mat-button  [routerLink] ="['/home/documentation','/DocFiles']" color="charcoal" class="margin-left-auto width-full sidebar-linktext" >Files</a></p>
+            <p><a mat-button  [routerLink] ="['/home/documentation','/DocMatrices']" color="charcoal" class="margin-left-auto width-full sidebar-linktext">Matrices</a></p>
+            <p><a mat-button  [routerLink] ="['/home/documentation','/DocProbability']" color="charcoal" class="margin-left-auto width-full sidebar-linktext">Probability </a></p>
+            <p><a mat-button  [routerLink] ="['/home/documentation','/DocIntegration']" color="charcoal" class="margin-left-auto width-full sidebar-linktext">Integration</a></p>
+            <p><a mat-button  [routerLink] ="['/home/documentation','/DocPlotting']" color="charcoal" class="margin-left-auto width-full sidebar-linktext">Plotting</a></p>
+            <p><a mat-button  [routerLink] ="['/home/documentation','/DocMath']" color="charcoal" class="margin-left-auto width-full sidebar-linktext">Math Functions</a></p>
+            <p><a mat-button  [routerLink] ="['/home/feedback']" class="margin-top-auto" color="charcoal">Feedback</a></p> -->
+            <p><a mat-button  [routerLink] ="['/']"  color="charcoal">PunkIDE</a> </p>
+            <p><a mat-button  [routerLink] ="['/documentation']" color="charcoal" >Punk Documentation</a> </p>
+            <p><a mat-button  [routerLink] ="['/documentation','/DocBaseTypes']" color="charcoal" class="margin-left-auto width-full">Base Types</a> </p>
+            <p><a mat-button  [routerLink] ="['/documentation','/DocSequences']" color="charcoal" class="margin-left-auto width-full">Sequences</a> </p>
+            <p><a mat-button  [routerLink] ="['/documentation','/DocRegisters']" color="charcoal" class="margin-left-auto width-full">Registers</a> </p>
+            <p><a mat-button  [routerLink] ="['/documentation','/DocQueries']" color="charcoal" class="margin-left-auto width-full" >Querys</a> </p>
+            <p><a mat-button  [routerLink] ="['/documentation','/DocFiles']" color="charcoal" class="margin-left-auto width-full sidebar-linktext" >Files</a></p>
+            <p><a mat-button  [routerLink] ="['/documentation','/DocMatrices']" color="charcoal" class="margin-left-auto width-full sidebar-linktext">Matrices</a></p>
+            <p><a mat-button  [routerLink] ="['/documentation','/DocProbability']" color="charcoal" class="margin-left-auto width-full sidebar-linktext">Probability </a></p>
+            <p><a mat-button  [routerLink] ="['/documentation','/DocIntegration']" color="charcoal" class="margin-left-auto width-full sidebar-linktext">Integration</a></p>
+            <p><a mat-button  [routerLink] ="['/documentation','/DocPlotting']" color="charcoal" class="margin-left-auto width-full sidebar-linktext">Plotting</a></p>
+            <p><a mat-button  [routerLink] ="['/documentation','/DocMath']" color="charcoal" class="margin-left-auto width-full sidebar-linktext">Math Functions</a></p>
+            <p><a mat-button  [routerLink] ="['/feedback']" class="margin-top-auto" color="charcoal">Feedback</a></p>
+        </div>
+    </cdk-accordion-item>
+</cdk-accordion>

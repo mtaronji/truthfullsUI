@@ -2,16 +2,13 @@
     <punk-pad class="width-full" (Code) = "NewSyntax($event)"> </punk-pad>
     <p class="margin-left-auto"> 
       <!-- <button mat-icon-button color="primary"><mat-icon>computer</mat-icon><span class="font-tiny">Ram: {{}}</span></button> -->
-      <button mat-icon-button  color = "primary" (click)="fileInput.click()"><mat-icon fontIcon="attach_file"></mat-icon></button>
+      <button mat-icon-button  color = "primary" (click)="fileInput.click()"><mat-icon fontIcon="attach_file">Attach</mat-icon></button>
       <input hidden (change)="onFileSelected($event)" #fileInput type="file" multiple  accept=".csv">
       <button mat-button (click)="ClearData()" class="width-100px" color="warn">Clear Data</button>
-      <button mat-raised-button (click)="OpenExpressionSettings()" class="width-100px" color="primary">Plot</button>
+      <button mat-button (click)="OpenExpressionSettings()" class="width-100px" color="primary">Plot</button>
     </p>
 
    
-
-   
-    
     @if(Expressions.length > 0){
       <h4 class="color-primary900">Expressions</h4> 
       <mat-list role="list" >

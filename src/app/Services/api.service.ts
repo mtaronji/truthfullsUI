@@ -1,9 +1,7 @@
 import { Injectable, isDevMode, inject } from '@angular/core';
 import { Observable, Subscription, throwError, map, catchError} from 'rxjs';
 import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
-import { Observations, StockPriceData, series } from 'src/assets/stockmodels';
 import { OnInit, OnDestroy } from '@angular/core';
-import { OptionCodeData, OptionPriceData } from 'src/assets/optionmodels';
 import { ActivatedRouteSnapshot, CanActivateFn, RouterStateSnapshot } from '@angular/router';
 import { User } from 'src/assets/authmodels';
 import { PunkSyntaxObject } from '../plot/plot.component';
@@ -37,11 +35,11 @@ export class APIService implements OnDestroy, OnInit {
     this.PostHeaders.append('Content-Type','application/json');
   }
   
-  public getDailyPriceData(querystring:string) : Observable<StockPriceData>{
+  // public getDailyPriceData(querystring:string) : Observable<StockPriceData>{
 
-    let url = `${this.URLRoot}/stock/getdailyprices/${querystring}`;
-    return this.httpclient.get<StockPriceData>(url);
-  }
+  //   let url = `${this.URLRoot}/stock/getdailyprices/${querystring}`;
+  //   return this.httpclient.get<StockPriceData>(url);
+  // }
 
   public EvaluatePunkSyntax(evaluationobj:PunkSyntaxObject):Observable<any>{
     // let encoded = encodeURIComponent(syntax);
@@ -49,36 +47,36 @@ export class APIService implements OnDestroy, OnInit {
     let resultFiles = evaluationobj.csvfiles;
 
     let data = [{'syntax':evaluationobj.syntax},{'csvfiles':evaluationobj.csvfiles}]
-    return this.httpclient.post<any>(url,data);
+    return this.httpclient.post<any>(url,data,{withCredentials:true});
   }
 
   
-  public getOptionCodes(querystring:string) : Observable<OptionCodeData>{
+  // public getOptionCodes(querystring:string) : Observable<OptionCodeData>{
 
-    let url = `${this.URLRoot}/option/getoptioncodes/${querystring}`;
-    return this.httpclient.get<OptionCodeData>(url,{withCredentials:true}).pipe(catchError(this.handleError));
-  }
+  //   let url = `${this.URLRoot}/option/getoptioncodes/${querystring}`;
+  //   return this.httpclient.get<OptionCodeData>(url,{withCredentials:true}).pipe(catchError(this.handleError));
+  // }
 
-  public getOptionPriceData(querystring:string) : Observable<OptionPriceData>{
+  // public getOptionPriceData(querystring:string) : Observable<OptionPriceData>{
 
-    let url = `${this.URLRoot}/option/getDailyOptionPrices/${querystring}`;
-    return this.httpclient.get<OptionPriceData>(url,{withCredentials:true});
-  }
+  //   let url = `${this.URLRoot}/option/getDailyOptionPrices/${querystring}`;
+  //   return this.httpclient.get<OptionPriceData>(url,{withCredentials:true});
+  // }
 
-  public getWeeklyPriceData(querystring:string): Observable<StockPriceData>{
-    let url = `${this.URLRoot}/stock/getweeklyprices/${querystring}`;
-    return this.httpclient.get<StockPriceData>(url);
-  }
+  // public getWeeklyPriceData(querystring:string): Observable<StockPriceData>{
+  //   let url = `${this.URLRoot}/stock/getweeklyprices/${querystring}`;
+  //   return this.httpclient.get<StockPriceData>(url);
+  // }
 
-  public getTickers(): Observable<string[]>{
+  // public getTickers(): Observable<string[]>{
       
-    let url = `${this.URLRoot}/stock/getalltickers`;
-    return this.httpclient.get<string[]>(url);
-  }
+  //   let url = `${this.URLRoot}/stock/getalltickers`;
+  //   return this.httpclient.get<string[]>(url);
+  // }
 
-  public getEMA(ticker:string, daycount:number){
+  // public getEMA(ticker:string, daycount:number){
 
-  }
+  // }
 
   public isUser() :Observable<boolean> {
     let url = `${this.URLRoot}/account/isuser`;
@@ -94,25 +92,37 @@ export class APIService implements OnDestroy, OnInit {
     let url = `${this.URLRoot}/account/externallogin?provider=${provider}`;
     return this.httpclient.get<void>(url);
   }
-  public isAuthenicated():Observable<User>{
-    let url = `${this.URLRoot}/account/isauthenicated`;
+  public GetAuthenicationDetails():Observable<User>{
+    let url = `${this.URLRoot}/account/authenicationdetails`;
     return this.httpclient.get<User>(url, {withCredentials:true}).pipe(catchError(this.handleError)); //include application cookie
   }
 
+  public IsAuthenticated():Observable<boolean>{
+    let url = `${this.URLRoot}/account/isauthenticated`;
+    return this.httpclient.get<boolean>(url, {withCredentials:true}).pipe(catchError(this.handleError)); //include application cookie
+  }
   public externalsignout():Observable<boolean>{
     let url = `${this.URLRoot}/account/externalsignout`;
     return this.httpclient.get<boolean>(url, {withCredentials:true}).pipe(catchError(this.handleError)); //include application cookie
   }
 
-  public getseriesobservations(seriesid:string):Observable<Observations[]>{
-    let url = `${this.URLRoot}/fred/seriesobservations/${seriesid}`;
-    return this.httpclient.get<Observations[]>(url).pipe(catchError(this.handleError)); 
+  public PostFeedback(comment:string):Observable<boolean>{
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json'
+    }); 
+    let url = `${this.URLRoot}/account/feedback`;  
+    return this.httpclient.post<boolean>(url,JSON.stringify(comment), {withCredentials:true,headers:headers}).pipe(catchError(this.handleError)); //include application cookie
   }
 
-  public getallseries():Observable<series[]>{
-    let url = `${this.URLRoot}/fred/getseries`;
-    return this.httpclient.get<series[]>(url).pipe(catchError(this.handleError)); 
-  }
+  // public getseriesobservations(seriesid:string):Observable<Observations[]>{
+  //   let url = `${this.URLRoot}/fred/seriesobservations/${seriesid}`;
+  //   return this.httpclient.get<Observations[]>(url).pipe(catchError(this.handleError)); 
+  // }
+
+  // public getallseries():Observable<series[]>{
+  //   let url = `${this.URLRoot}/fred/getseries`;
+  //   return this.httpclient.get<series[]>(url).pipe(catchError(this.handleError)); 
+  // }
   ngOnInit(): void {
   
   }

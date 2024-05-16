@@ -23,9 +23,10 @@
     "@angular/router": "^17.3.1",
     "angular-plotly.js": "^5.2.2",
     "luxon": "^3.4.0",
+    "ngx-cookie-service": "^17.1.0",
     "papaparse": "^5.4.1",
     "plotly.js-dist-min": "^2.26.0",
-    "punk-lib": "^1.0.8",
+    "punk-lib": "^1.0.9",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.14.4"

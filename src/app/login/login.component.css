@@ -1,5 +1,3 @@
-
-
 .login-font{
     font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
     font-size: large;
@@ -7,4 +5,18 @@
 
 .color-pink{
     color:pink;
+}
+
+.signin-provider-container{
+    height:500px;
+    width:200px;
+}
+.signin-brand{
+    height:100px;
+    width:100px;
+}
+
+.cancel-btn{
+    height:40px;
+    width:auto;
 }

@@ -1,0 +1,38 @@
+<div class="feedback-form">
+    <h2 class="bubblegum-sans color-primary900">Feedback</h2>
+    <form [formGroup]="feedbackForm" (ngSubmit)="submitFeedback()">
+        <!-- <div>
+            <mat-form-field>
+                <mat-label for="feedback-name">Name</mat-label>
+                <input type="text" id="feedback-name" formControlName="name" matInput>
+                <div *ngIf="f['name'].invalid && (f['name'].dirty || f['name'].touched)" class="text-danger">
+                    <mat-error *ngIf="f['name'].errors?.['required']">Name is required.</mat-error>
+                </div>
+            </mat-form-field>
+
+        </div>
+        <div>
+            <mat-form-field>
+                <mat-label for="feedback-email">Email</mat-label>
+                <input type="text" id="feedback-email" formControlName="email" matInput>
+                <div *ngIf="f['email'].invalid && (f['email'].dirty || f['email'].touched)" class="text-danger">
+                    <mat-error *ngIf="f['email'].errors?.['required']">Email is required.</mat-error>
+                    <mat-error *ngIf="f['email'].errors?.['email']">Invalid email format.</mat-error>
+                </div>
+            </mat-form-field>
+        </div> -->
+        <h2>Please enter your feedback or issues. We will contact you via your username</h2>
+        <div class="">
+            <mat-form-field class="width-400px">
+                <mat-label for="feedback-message">Message:</mat-label>
+                <textarea id="feedback-message" formControlName="message" matInput placeholder="Enter your feedback here..."></textarea>
+                <div *ngIf="f['message'].invalid && (f['message'].dirty || f['message'].touched)" class="text-danger">
+                    <mat-error *ngIf="f['message'].errors?.['required']">Message is required.</mat-error>
+                </div>
+            </mat-form-field>
+        </div>
+        <button type="submit" mat-stroked-button color="primary"  [disabled]="feedbackForm.invalid" matInput>Submit</button>
+    </form>
+    <p *ngIf="PostSuccess" class="text-success">{{Postmessage}}</p>
+    <p *ngIf="!PostSuccess" class="text-danger">{{Postmessage}}</p>
+</div>

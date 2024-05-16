@@ -42,7 +42,7 @@ export class LoginComponent implements AfterViewInit {
         
       }
     );
-    this.api.isAuthenicated().subscribe(
+    this.api.GetAuthenicationDetails().subscribe(
       (response:User)=>{
 
         if(response == null){
@@ -59,8 +59,7 @@ export class LoginComponent implements AfterViewInit {
             this._sharedevents._isAuthenticated.next(true);
           }
     
-        }
-    
+        } 
       }
     );
   }
@@ -77,7 +76,18 @@ export class LoginComponent implements AfterViewInit {
   openlogindialog(): void {
 
     let dialogRef = this.logindialog.open(logindialog, {height:'700px', width:'350px', panelClass:"login-dialog"});
-
+    dialogRef.afterClosed().subscribe(
+      (login:boolean)=>{
+        
+        if(login){
+          this.externalsignout();
+        }
+        else{
+          return;
+        }
+      }
+      
+    );
 
   }
 
@@ -131,11 +141,12 @@ export class logindialog {
   constructor(public dialogref: MatDialogRef<logindialog>) {
     this.provider ="";
     if(isDevMode()){
-      this.redirecturl = encodeURIComponent("http://localhost:4200"); //encode it to pass it as a parameter
+      this.redirecturl = encodeURIComponent("http://localhost:4200/home/ide"); //encode it to pass it as a parameter
+      //this.redirecturl = encodeURIComponent("http://localhost:50814/home/punk"); //encode it to pass it as a parameter
       this.authenticationurl = "https://localhost:50814/account/externallogin";
     }
     else{
-      this.redirecturl = "";
+      this.redirecturl = "/home/ide";
       this.authenticationurl = "/account/externallogin";
     }
 

@@ -24,6 +24,7 @@ import { MatDialog} from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { PapaparseService } from '../Services/papaparse.service';
+import { RouterModule } from '@angular/router';
 
 
 export interface PunkData {
@@ -45,7 +46,7 @@ export interface PunkSyntaxObject{
 @Component({
   selector: 'punk-plot',
   standalone: true,
-  imports: [PunkLibModule,PlotlyModule,MatTableModule,UpperCasePipe, CommonModule,MatPaginatorModule, MatListModule,MatButtonModule,MatIconModule],
+  imports: [PunkLibModule,PlotlyModule,MatTableModule,UpperCasePipe, CommonModule,MatPaginatorModule, MatListModule,MatButtonModule,MatIconModule,RouterModule],
   templateUrl: './plot.component.html',
   styleUrl: './plot.component.scss'
   

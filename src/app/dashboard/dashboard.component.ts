@@ -9,7 +9,7 @@ import {MatSnackBar, MatSnackBarModule} from '@angular/material/snack-bar';
 
 import { PlotComponent } from '../plot/plot.component';
 import { SidebarComponent } from '../sidebar/sidebar.component';
-import {RouterOutlet } from '@angular/router';
+import {RouterOutlet, RouterModule } from '@angular/router';
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
@@ -23,6 +23,7 @@ import {RouterOutlet } from '@angular/router';
     PlotComponent,
     SidebarComponent,
     RouterOutlet,
+    RouterModule
   ]
 })
 export class DashboardComponent implements AfterViewInit{
@@ -50,7 +51,6 @@ export class DashboardComponent implements AfterViewInit{
   public AuthenticationChange(isauthenticated:boolean){
 
     this._authenticated = isauthenticated;
-
     if(isauthenticated){
       this.snackbar.open("You are now logged in", undefined,{duration:3000});
     }

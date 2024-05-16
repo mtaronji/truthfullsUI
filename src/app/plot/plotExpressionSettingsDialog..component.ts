@@ -14,6 +14,7 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatInputModule } from '@angular/material/input';
 import {MatListModule} from '@angular/material/list';
 import { PunkData } from './plot.component';
+import { Observable, Subject, from,of } from 'rxjs';
 
 interface Trace{
     ["OHLC"] : PlotlyJS.OhlcData,
@@ -78,11 +79,15 @@ interface Trace{
     Trace:Trace;
     ColorScales:string[] = ["Greys","YlGnBu","Greens","YlOrRd","Bluered","RdBu","Reds","Blues","Picnic","Rainbow","Portland","Jet","Hot","Blackbody","Earth","Electric","Viridis","Cividis"];
     SelectedColorScale:string = "Reds";
+    SelectedTraceName:string = "";
     //data from Expressions
-   
+    SelectedHeader$:Subject<string> = new Subject<string>();
+    SelectedHeaders:string[] = [];
+    
+
     //ohlc
     selectedOHLC:SelectedOHLCFields;
-    //scatter
+    
     ScatterModes:string[] = ["lines", "markers", "lines+markers", "lines+markers+text", "none"];
     SelectedScatterMode:string = this.ScatterModes[0];
     ScatterMarker:Partial<PlotlyJS.ScatterMarker> = {};
@@ -143,8 +148,19 @@ interface Trace{
       this.Trace =  {}  as Trace;
       this.selectedFields = {} as SelectedXYZFields;
       this.selectedOHLC = {} as SelectedOHLCFields;
-          
+      
+      
+      this.SelectedHeader$.subscribe({
+        next:(h:string) =>{
+          let expression = data[this.SelectedDataIndex].syntax;
+          this.SelectedHeaders.push(`${h} from Expression: ${expression}`);
+        }
+      });
+
       this.layout = {} as PlotlyJS.Layout;
+
+      
+    
     }
     ngAfterViewInit(): void {
   
@@ -153,6 +169,7 @@ interface Trace{
       //tracedefaults
       this.TraceDefaults();
       this.OHLCDefaults();
+      this.SelectedDataIndex = 0;
     }
     private TraceDefaults(){
       this.SelectedTrace = "scatter";
@@ -212,6 +229,7 @@ interface Trace{
   
         let ohlcTrace:Partial<PlotlyJS.CandlestickData> = {
           type:"candlestick",
+          name:this.SelectedTraceName,
           xaxis:this.selectedOHLC.xaxis,       
           //yaxis:this.selectedOHLC.yaxis,
           high:this.data[this.selectedOHLC.highindex].data.map((x:any) => x[this.selectedOHLC.high]),
@@ -229,6 +247,7 @@ interface Trace{
         this.ScatterMarker.line = this.ScatterMarkerLine;
         let scatterTrace:Partial<PlotlyJS.ScatterData> = {
           type:"scattergl",
+          name:this.SelectedTraceName,
           //@ts-ignore
           mode:this.SelectedScatterMode,
           x:this.data[this.selectedFields.xindex].data.map( (x:any) => x[this.selectedFields.x]),
@@ -259,6 +278,7 @@ interface Trace{
       else if(this.SelectedTrace == "surface"){
         let surface= {
           type:"surface",
+          
           x: this.data[this.selectedFields.xindex].data.map((x:any) => x[this.selectedFields.x]),
           y:this.data[this.selectedFields.yindex].data.map((x:any) => x[this.selectedFields.y]),
           z: this.data[this.selectedFields.zindex].data.map((x:any) => x[this.selectedFields.z]),
@@ -278,6 +298,7 @@ interface Trace{
       else if(this.SelectedTrace == "contour"){
         let contour= {
           type:"contour",
+          
           x: this.data[this.selectedFields.xindex].data.map((x:any) => x[this.selectedFields.x]),
           y:this.data[this.selectedFields.yindex].data.map((x:any) => x[this.selectedFields.y]),
           z: this.data[this.selectedFields.zindex].data.map((x:any) => x[this.selectedFields.z]),
@@ -290,6 +311,12 @@ interface Trace{
     }
   
     CreateLayout(){
+    
+      this.xAxis.color = "#ADD8E6";
+      this.yAxis.color = "#ADD8E6";
+      this.xAxis.gridcolor = "silver";
+      this.yAxis.gridcolor = "silver";
+
       this.xAxis.range = [this.SelectedRangeStart.get('x'), this.SelectedRangeEnd.get('x')];
       this.x2Axis.range = [this.SelectedRangeStart.get('x2'), this.SelectedRangeEnd.get('x2')];
       this.yAxis.range = [this.SelectedRangeStart.get('y'), this.SelectedRangeEnd.get('y')];
@@ -304,6 +331,8 @@ interface Trace{
       this.layout.yaxis = this.yAxis;
       this.layout.yaxis2 = this.y2Axis;
       this.layout.legend = this.LegendLayout;
+      this.layout.paper_bgcolor = "#fafafa"; //for light theme
+      this.layout.plot_bgcolor = "#fafafa"; //for light theme
       
       var image:Partial<PlotlyJS.Image>;
       image = {
@@ -319,8 +348,9 @@ interface Trace{
         opacity: 0.05,
         layer: "below"
       }
-  
-      this.layout.images = [image];
+
+
+      //this.layout.images = [image];
       
     }
   }

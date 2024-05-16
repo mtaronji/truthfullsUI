@@ -1,54 +1,168 @@
-<h1> <strong>Punk Documentation </strong></h1>
+<div id="documentation-container">
+    <h3>Overview</h3>
+    <p>Punk is a weakly typed Interpreted programming language for doing data analysis and mathematical graphing, and stock market analysis. Punk is designed around the concept of data registers to dig into data using simple 
+    linq style syntax, and also digging into user supplied csv files. Our Server handles the processing of the queries and returns the output to the screen for analysis and plotting. 
+    </p>
 
-<h2> Base Types</h2>
-<br>
-<h4>Number:</h4>
-<p> Any <span> Real</span> number. This includes the natural numbers such a 10 or fractional amounts like 5.777. Internally, we store these numbers as longs and doubles respectfully. Computationally, the 
-    numbers are 8 bytes (64 bits) </p>
+    <h3 id="DocBaseTypes"><strong>Base Types</strong></h3>
+    <h4><strong>Number Type</strong></h4>
+    <p>Internally, represents a double or long. To declare a number variable is as simple as :</p>
+    <p>        x = 5 or x = 4.5</p>
+    <p>Internally Punk figures out the type on it's own, no need to declare the type</p>
 
-<p>As punk isn't a strongly typed language, the only thing you need to do to set a variable to a long is set it equal. The parser will determine it's type by the input</p>
-<p>x = 5.6</p>
-<p>y = 5</p>
-<p>Doubles have range </p>
-<p>              $ \approx \pm{{'{'}}5.0 \times 10^{{'{'}}324{{'}'}}  \pm 1.7 \times 10^{{'{'}}308{{'}'}} $</p> 
-<p>Longs have a range of</p>
-<p>              $ {{'{'}} -2,147,483,648 to 2,147,483,647{{'}'}} $</p> 
+    <h4><strong>Data Type</strong></h4>
+    <p>Data type is an array style type. It's purpose is to store a collection of numbers. For example:</p> 
+    <p>         [1.5<span class="bold">,</span> 2<span class="bold">,</span>40.0] </p>
+    <p>is a datatype. Another way to initialize a Data type is to create an interval: </p>
+    <p>         [-10<span class="bold">...</span>10]</p>
+    <p></p>
+    <h3 id="DocOperators"><strong>Base Operations </strong></h3>
+    <p><span class="color-blue bold">+</span>   Addition operator: adds two values together </p>
+    <p><span class="color-blue bold">-</span>   Subtraction Operator: subtracts two values or negates a positive number</p>
+    <p><span class="color-blue bold">*</span>   Multiplication Operator : Multiplies two values together</p>
+    <p><span class="color-blue bold">/</span>   Division Operator: divides two values. Please note if your numerator and demoninator are both integers, it will be integer division.</p>
+    <p><span class="color-blue bold">|</span>   Pipe Operator : This operator takes output from the left operand and pushes it into the right. See integration below </p>
+    <p><span class="color-blue bold">.</span>   Instance Function Operator : Calls functions of types. if x is a matrix, X.transpose() is an exmaple of an instance function of the matrix type</p>
+    <p><span class="color-blue bold">=</span>   Assignment Operator : assigns a variable</p>
+    <p><span class="color-blue bold">&</span>   Modulus Operator : returns remainder of a division</p>
 
-<h4>String:</h4>
-<p> These are elements that are meant to represent text.Any type declared as a string must have double quotes(" ") surrounding the text content. </p>
+    <h3 id="DocMatrices"><strong>Matrices </strong></h3>
+    <p>To declare a matrix you use the following syntax:</p>
+    <p class="code">x = ||10 12 7; 2 5 7; ||</p>
+    <p>This creates a 2 row matrix with <span class="bold">10, 12, 7</span> in the first row and <span class="bold">2, 5, 7</span> in the second row </p>
+    <p>The following operators are implemented:  <span class="bold">+</span> , <span class="bold">-</span>, <span class="bold">*</span>, <span class="bold">/</span> and <span class="bold">%</span>  </p>
+    <h4>Matrix Instance Functions</h4>
+     <p><span class="bold">transpose</span> : <span class="code">x = ||10 12 7; 2 5 7; || ===> x.Transpose() or x = ||10 12 7; 2 5 7; ||.transpose() </span></p>
+     <p><span class="bold">inverse</span> : <span class="code">x = ||10 12 7; 2 5 7; || ===> x.inverse() or x = ||10 12 7; 2 5 7; ||.inverse() </span></p>
+     <p><span class="bold">determinant</span> : <span class="code">x = ||10 12 7; 2 5 7; || ===> x.determinant() or x = ||10 12 7; 2 5 7; ||.determinant()</span> </p>
+     <p><span class="bold">kernel</span> :<span class="code"> x = ||10 12 7; 2 5 7; || ===> x.kernel() or x = ||10 12 7; 2 5 7; ||.kernel() </span></p>
+     <p><span class="bold">column</span> :<span class="code">x = ||10 12 7; 2 5 7; || ===> x.column(0) or x = ||10 12 7; 2 5 7; ||.column(0)  returns [10, 2] </span></p>
+     <p><span class="bold">transposethismultiply</span>: <span class="code">x = ||10 12 7; 2 5 7; || ===> x.transposethismultiply(y) where y is a matrix,  transpose x and multiplied it with y </span></p>
+     <p><span class="bold">transposemultiply</span> :<span class="code">x = ||10 12 7; 2 5 7; || ===> x.transposemultiply(y) x multiplied by y transpose </span></p>
+     <p><span class="bold">choleskysolve </span> : Cholesky decompose and then solve the equation </p>
 
-<h4>Data:</h4>
-<p> A data type is an array of <strong>numbers</strong>. No other types are supported as an element of data  </p>
-<p>You can declare an array in 2 ways: </p>
-<p>     x = [45,43.0,7.11,7] </p>
-<p> or  x = [-100...100] </p>
-<p> The latter will initialize an array with 200 elements: [-100, -99....99,100] .</p>
+    <h4 id="DocSequences"><strong>Sequence Operator</strong></h4>
+    <p>Sequences have 2 classes. The first type of sequence are functions(or calculations) run on each piece of data, which  transforms the data. An example of such a sequence is:
+    <p class="code"> x = [-10...10]{{'{'}}x0 : return Pow(x0,2);{{'}'}} =====> x = [100,81,<span>...</span>, 81,100]</p>
+    <p>This sequence runs a power function on each element in the interval. The first part of the sequence(x0) represents the input(which is an element of the Data). and the second part(return) 
+        specifies the calculation you want outputed followed by a semicolon(<span class="bold">;</span>).So in this example, we input each 21 elements in the interval -10...10 and square them. 
+        This returns the sequence above. You can read more about the Pow function <a href="/documentation/DocMath">below</a>.
+    </p> 
+    <p> We could also declare 2 dimensional sequences. You can do this for contour or surface plotting or analysis. An example of this would be the following sequence: </p>
+    <p class="code">          x = [-7...7,-7...7]{{'{'}}x0, x1 : return Sin(x0) + Cos(x1); {{'}'}}</p>
+    <p>This produces a matrix of numbers of a surface. Which you can plot as a contour or 3d surface in the plot. </p>
+    <p>We can also create indefinite sequences which serve as input to other sequences who take sequence input such as <a href="/documentation/DocIntegration">integration</a>. The syntax to do this is : </p>
+    <p class="code">[ ] {{'{'}}x : return f(x);{{'}'}}</p>
 
+    <h3 id='DocRegisters'><strong>Data Registers </strong></h3>
+    <p>Data Registers are internal databases hosted within our applications ecosystem. You are able to query against them for information for helping to build your own probability models.</p>
+    <p>To access a particular dataregister, your syntax should be as follows:</p>
+    <p class="code">     ##stocks{{'{'}}stocks.QueryFunction{{'}'}} </p>
+    <p>Here we access the register using ##stocks{{'{'}}stocks.....{{'}'}}
+    <h3>Current Registers:</h3>
+    <h4>Stock Register:</h4>
+    <p>This register pulls stock data. Fields are 'date', 'open', 'Low' 'close' 'adjclose' 'high' 'volume' 'ticker' </p>
+    <!-- <h4>Options Register:</h4> -->
+    <!-- <p>This register pulls option data. </p> -->
 
-<p>fsadfdffffffffffffffffdfasdsddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd</p>
-<p>fsadfdffffffffffffffffdfasdsddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd</p>
-<p>fsadfdffffffffffffffffdfasdsddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd</p>
-<p>fsadfdffffffffffffffffdfasdsddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd</p>
-<p>fsadfdffffffffffffffffdfasdsddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd</p>
-<p>fsadfdffffffffffffffffdfasdsddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd</p>
-<p>fsadfdffffffffffffffffdfasdsddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd</p>
-<p>fsadfdffffffffffffffffdfasdsddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd</p>
-<p>fsadfdffffffffffffffffdfasdsddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd</p>
-<p>fsadfdffffffffffffffffdfasdsddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd</p>
-<p>fsadfdffffffffffffffffdfasdsddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd</p>
-<p>fsadfdffffffffffffffffdfasdsddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd</p>
-<p>fsadfdffffffffffffffffdfasdsddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd</p>
-<p>fsadfdffffffffffffffffdfasdsddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd</p>
-<p>fsadfdffffffffffffffffdfasdsddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd</p>
-<p>fsadfdffffffffffffffffdfasdsddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd</p>
-<p>fsadfdffffffffffffffffdfasdsddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd</p>
-<p>fsadfdffffffffffffffffdfasdsddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd</p>
-<p>fsadfdffffffffffffffffdfasdsddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd</p>
-<p>fsadfdffffffffffffffffdfasdsddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd</p>
-<p>fsadfdffffffffffffffffdfasdsddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd</p>
+    <h4>Federal Reserve Register:</h4>
+    <p>This register pulls economic data from the federal reserve</p>
 
+    <h3 id="DocQueries"><strong>Queries </strong></h3>
+    <p>Queries are search operations run on data registers to pull data for analysis. Queries are run on data registers</p>
+    <h2>Stock Register Queries</h2>
+    <p>Lead : Returns prices with Lead prices   <span class="code">##stocks{{'{'}}stocks.Lead("SPY",LookforwardFinancialDays ,start_date(optional), end_date(optional) ){{'}'}} </span> </p>
+    <p>Example : <span class="code">##stocks{{'{'}}stocks.Lead("SPY",5 ,"2020-01-03" ){{'}'}}</span> Returns all prices past 01/03/2020 as well as the data 5 days into the future</p>
+    <p>Lag : Returns prices with lag prices   <span class="code">##stocks{{'{'}}stocks.Lag("SPY",LookBackFinancialDays ,start_date(optional), end_date(optional) ){{'}'}} </span> </p>
+    <p>Example : <span class="code">##stocks{{'{'}}stocks.Lag("SPY",5 ,"2020-01-03" ){{'}'}}</span> Returns all prices past 01/03/2020 as well as the data 5 days into the past(when available)</p>
+    <p>EMA : returns Exponential moving average <span class="code">##stocks{{'{'}}stocks.EMA("SPY",AverageDuration ,start_date(optional), end_date(optional) ){{'}'}}</span> Returns the Exponential moving average for the specified duration</p>
+    <p>Example : <span class="code">##stocks{{'{'}}stocks.EMA("SPY",20 ,"2020-01-03" ){{'}'}}</span> Returns the 20 day exponential moving average for SPY</p>
+    <h2>Option Register queries</h2>
 
-<h4 #docSequence>Sequence:</h4>
-<p>A sequence operates on Data. You can look at a sequence as a Action that is done on each and every element in the data.</p>
-<p> Please note that applying a sequence transforms the value in any data variable
+    <h3 id='DocFiles'><strong>Files</strong></h3>
+    <p> We allow input of CSV files for processing in our language. To input csv files, you click the paperclick icon in the IDE, select your files. Our application will grab the files and parse them into matrixes you can use for 
+        calculations. Please note that we ignore any string fields and parse the data and a 8 byte double, even if it's an integer value. To use files in your application you reference the 1st as F0 the second as F1 the third as F2
+        ....etc. This is an example of creating a normal equation using the F
+    </p>
+    <p class="code">xr = F0.column(5) </p>
+    <p class="code">ysolve = xr.transposethismultiply(F0)</p>
+    <p class="code">weights = xr.transposethismultiply(xr).choleskysolve(ysolve)</p>
+    <p class="code">yhats = xr * weights
 
+    <h3 id="DocProbability"><strong>Probability</strong></h3>
+    <p>The following distributions can be declared and used. For the discrete distributions, you have the probability at point k available as well as the cdf. For the continuous distributions, there is the probability at points
+        so we have the cdf. You can declare a distribution the following way:
+    </p>
+    <p class="code"> x = Binomial(0.6, 20)</p>
+    <p>This declares a binomial distribution with 0.6 probability of success and 20 trials. To get the probability of the distribution at point 2:</p>
+    <p class="code"> p = x.probability(2)</p>
+    <h2>   Discrete Distributions:</h2>
+    <p>   Uniform(<span class="color-blue">int</span> lower, <span class="color-blue">int</span>  upper) (Discrete)</p>
+    <p>   Bernoulli(<span class="color-primary500">double</span> probability) </p>
+    <p>   Binomial(<span class="color-primary500">double</span> probability, <span class="color-blue">int</span>  number of trials) </p>
+    <p>   Negative Binomial(<span class="color-primary500">double</span> r, <span class="color-primary500">double</span> p) -> models N </p>
+    <p>   Geometric(<span class="color-primary500">double</span> p) </p>
+    <p>   Hypergeometric(<span class="color-blue">int</span>  population , <span class="color-blue">int</span>  sucess, <span class="color-blue">int</span>  draws) </p>
+    <p>   Poisson(<span class="color-primary500">double</span> lambda) </p>
+    <p>   Categorical(<span class="color-primary500">double</span>[] probability mass) </p>
+    <p>   Conway-Maxwell-Poisson(<span class="color-primary500">double</span> lambda, <span class="color-primary500">double</span> mu) </p>
+    <p>   Zipf(<span class="color-primary500">double</span> s, <span class="color-blue">int</span>  n) </p>
+
+    <p></p>
+    <p><strong>Continuous Distributions:</strong></p>
+    <p>   Uniform(<span class="color-primary500">double</span> lower, <span class="color-primary500">double</span> upper) (continuous)
+    <p>   Normal(<span class="color-primary500">double</span> mean, <span class="color-primary500">double</span> standard deviation)</p>
+    <p>   Log Normal(<span class="color-primary500">double</span> mu, <span class="color-primary500">double</span> sigma)</p>
+    <p>   Beta(<span class="color-primary500">double</span> a, <span class="color-primary500">double</span> b)</p>
+    <p>   Cauchy(<span class="color-primary500">double</span> location, <span class="color-primary500">double</span> scale)</p>
+    <p>   Chi(<span class="color-primary500">double</span> freedom)</p>
+    <p>   Chi Squared(<span class="color-primary500">double</span> freedom)</p>
+    <p>   Erlang(int shape, <span class="color-primary500">double</span> rate)</p>
+    <p>   Exponential(<span class="color-primary500">double</span> rate)</p>
+    <p>   Fisher-Snedecor (F-Distribution)(<span class="color-primary500">double</span> d1, <span class="color-primary500">double</span> d2)</p>
+    <p>   Gamma(<span class="color-primary500">double</span> shape, <span class="color-primary500">double</span> rate)</p>
+    <p>   Inverse Gamma(<span class="color-primary500">double</span> shape, <span class="color-primary500">double</span> scale)</p>
+    <p>   Laplace(<span class="color-primary500">double</span> location, <span class="color-primary500">double</span> scale)</p>
+    <p>   Pareto(<span class="color-primary500">double</span> scale, <span class="color-primary500">double</span> shape)</p>
+    <p>   Rayleigh(<span class="color-primary500">double</span> scale)</p>
+    <p>   Stable(<span class="color-primary500">double</span> alpha, <span class="color-primary500">double</span> beta, <span class="color-primary500">double</span> scale, <span class="color-primary500">double</span> location)</p>
+    <p>   Student-T(<span class="color-primary500">double</span> location, <span class="color-primary500">double</span> scale, <span class="color-primary500">double</span> freedom)</p>
+    <p>   Weibull(<span class="color-primary500">double</span> shape, <span class="color-primary500">double</span> scale)</p>
+    <p>   Triangular(<span class="color-primary500">double</span> lower, <span class="color-primary500">double</span> upper, <span class="color-primary500">double</span> mode)</p>
+
+    <p></p>
+    <h3 id="DocIntegration"><strong>Integration</strong></h3>
+    <p>Integration is the process of finding areas under curves. We have a couple of procedures to integrate functions. The general procedure for integrating functions using Punk is to pipe in a sequence and pass it into another sequence 
+        which integrates it. The syntax looks like this(for SimpsonRule.IntegrateComposite) : <p>
+    <p class="code">SimpsonRule.IntegrateComposite(<span class="color-green bold">x</span> <span class="color-blue bold">=></span> <span class="italics bold">fn</span>, 0.0, 10.0, 4); </p>
+    <p class="code">NewtonCotesTrapeziumRule.IntegrateAdaptive(<span class="color-green bold">x</span> <span class="color-blue bold">=></span> <span class="italics bold">fn</span>, 0.0, 10.0, <span class="color-red">1e-5</span>); </p>
+    <p class ="code">DoubleExponentialTransformation.Integrate(<span class="color-green bold">x</span> <span class="color-blue bold">=></span> <span class="italics bold">fn</span>, 0.0, 10.0, <span class="color-red">1e-5</span>);</p>
+
+    <p><span class="color-green">[</span><span class="color-green">]</span> {{'{'}}x0 : return Pow(x0,2);{{'}'}} | <span class="color-green">[</span> <span class="color-green">]</span>{{'{'}}fn: return SimpsonRule.IntegrateComposite(x => fn(x), 0.0, 10.0, 4);{{'}'}}</p>
+    <p>Here we use the pipe operator "|" to pass the function into the sequence above. You can think of pipe operators as a flow, it's job is to push a value into an object. In this case, we are pushing the power function into the 
+       indefinite sequence. 
+    </p>
+
+    <h3 id="DocMath"> Common Math functions</h3>
+    <p>We provide a list of common mathematical operators.</p>
+    <p>Cos(<span class="color-primary500">double</span> x) : returns the Cosine of a value x</p>
+    <p>Sin(<span class="color-primary500">double</span> x) : returns the Sin of a value</p>
+    <p>Tan(<span class="color-primary500">double</span> x) : returns the Tan of x</p>
+    <p>Pow(<span class="color-primary500">double</span> x, <span class="color-primary500">double</span> y) : raised x to the yth power. Both x and y are doubles</p>
+    <p>Sqrt(<span class="color-primary500">double</span> x) : returns the square root of x</p>
+    <p>Exp(<span class="color-primary500">double</span> x) : raised e to the xth power</p>
+    <p>Log(<span class="color-primary500">double</span> x) : returns the natural log of x</p>
+    <p>Floor(<span class="color-primary500">double</span> x) : returns the next integer down from x</p>
+    <p>Ceiling(<span class="color-primary500">double</span> x) returns the next integer up from x</p>
+    <p>Round(<span class="color-primary500">double</span> x,<span class="color-primary500">double</span> y) : Rounds x to y places</p>
+    <p>Truncate(<span class="color-primary500">double</span> x) : slices the decimals off and returns the integer part</p>
+    <p>Abs(<span class="color-primary500">double</span> x) : returns the absolute value of the number x</p>
+
+    <h3 id="DocPlotting"> <strong>Plotting</strong></h3>
+    <p>Plotting functions can be done from the IDE. In order to plot, you must create an expression using our language. Any Queries or data types can be plotted within the Graphing Utility
+    </p>
+    <h3>Traces</h3>
+    <p>Traces are each contintiguous series of lines. For example, a candlestick chart of AMZN from 2022-01-01 - present would be a trace. </p>
+    <p>Please check out some of the graphing utilities on the page</p>
+
+</div>

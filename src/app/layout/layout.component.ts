@@ -9,6 +9,8 @@ import {MatButtonModule} from '@angular/material/button';
 import {MatTooltipModule} from '@angular/material/tooltip';
 import { EventemitService } from '../Services/eventemit.service';
 import { DashboardComponent } from '../dashboard/dashboard.component';
+import { FooterComponent } from '../footer/footer.component';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-layout',
@@ -16,7 +18,7 @@ import { DashboardComponent } from '../dashboard/dashboard.component';
   styleUrls: ['./layout.component.css'],
   standalone:true,
   imports:[MatToolbarModule, LoginComponent,RouterOutlet, 
-          MatIconModule,MatButtonModule,MatTooltipModule,CommonModule,DashboardComponent
+          MatIconModule,MatButtonModule,MatTooltipModule,CommonModule,DashboardComponent,FooterComponent,RouterModule
           ]
 
 })
@@ -25,6 +27,7 @@ export class LayoutComponent implements AfterViewInit  {
 
   constructor(private snackbar:MatSnackBar, private _sharedevents:EventemitService){
     this._authenticated = false;
+    
   }
 
   ngAfterViewInit(): void {
