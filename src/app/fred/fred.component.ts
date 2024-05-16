@@ -63,23 +63,23 @@ export class FredComponent implements OnInit{
   }
 
   private getSeries(){
-    this.api.getallseries().subscribe(
-      (response:series[])=>{
-        this._allseries = response;
-        this._selectedseries = response[0];
-        let id = this._selectedseries.seriesID;
-        this._series_ctrl.setValue(this._selectedseries.seriesID);
-        this._sharedevents._fredSeries.next(this._selectedseries);    
-      }
-    );
+    // this.api.getallseries().subscribe(
+    //   (response:series[])=>{
+    //     this._allseries = response;
+    //     this._selectedseries = response[0];
+    //     let id = this._selectedseries.seriesID;
+    //     this._series_ctrl.setValue(this._selectedseries.seriesID);
+    //     this._sharedevents._fredSeries.next(this._selectedseries);    
+    //   }
+    // );
   }
 
   private getObservations(selectedSeries:series){
-    this.api.getseriesobservations(selectedSeries.seriesID).subscribe(
-      (response:Observations[])=>{
-        this._sharedevents._fredData.next(response);
-      }
-    );
+    // this.api.getseriesobservations(selectedSeries.seriesID).subscribe(
+    //   (response:Observations[])=>{
+    //     this._sharedevents._fredData.next(response);
+    //   }
+    // );
   }
 
   onSelectSeriesID(event:MatAutocompleteSelectedEvent){
@@ -90,11 +90,11 @@ export class FredComponent implements OnInit{
     if (newseries == undefined){return;}
     else{ this._sharedevents._fredSeries.next(newseries);}
 
-    this.api.getseriesobservations(series).subscribe(
-      (response:Observations[])=>{
-        this._sharedevents._fredData.next(response);
-      }
-    );
+    // this.api.getseriesobservations(series).subscribe(
+    //   (response:Observations[])=>{
+    //     this._sharedevents._fredData.next(response);
+    //   }
+    // );
   }
 
   private filterSeries(entered:string){

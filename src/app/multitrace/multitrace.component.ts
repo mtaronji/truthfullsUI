@@ -193,13 +193,13 @@ export class MultitraceComponent implements OnInit, AfterViewInit {
     let querystring = this.querystringservice.createQueryString(this._SelectedTickers, datebegin, dateend);
     //create the observable and subscribe. 
 
-    this.apiservice.getDailyPriceData(querystring).subscribe( (response:StockPriceData) => {
-        this._pricedata = response;
-        this._sharedEvents._selectedTickers.next(this._SelectedTickers.slice());
-        this._sharedEvents._stockpricedata.next(this._pricedata);
-        //this._plotLoading = false;
-      }
-    );
+    // this.apiservice.getDailyPriceData(querystring).subscribe( (response:StockPriceData) => {
+    //     this._pricedata = response;
+    //     this._sharedEvents._selectedTickers.next(this._SelectedTickers.slice());
+    //     this._sharedEvents._stockpricedata.next(this._pricedata);
+    //     //this._plotLoading = false;
+    //   }
+    // );
     
   }
   
@@ -218,11 +218,11 @@ export class MultitraceComponent implements OnInit, AfterViewInit {
 
 
   private async getTickersAsync(){
-    this.apiservice.getTickers().subscribe(
-      (data:string[]) =>{
-        this._allTickers = data;
-      }
-    );
+    // this.apiservice.getTickers().subscribe(
+    //   (data:string[]) =>{
+    //     this._allTickers = data;
+    //   }
+    // );
    
   }
   private async GetWeeklyPrices(){

@@ -1,6 +1,10 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { FeedbackComponent } from './feedback.component';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { RouterModule } from '@angular/router';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
 
 describe('FeedbackComponent', () => {
   let component: FeedbackComponent;
@@ -8,7 +12,7 @@ describe('FeedbackComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [FeedbackComponent]
+      imports: [FeedbackComponent,HttpClientTestingModule,RouterModule.forRoot([]),BrowserAnimationsModule],
     })
     .compileComponents();
     

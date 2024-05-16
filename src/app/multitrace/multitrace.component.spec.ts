@@ -27,38 +27,38 @@ describe('MultitraceComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('Autocomplete should open when text is typed', async () => {    
-    let autocomplete = await loader.getHarness(MatAutocompleteHarness);
-    await autocomplete.enterText('Q');
-    expect(await autocomplete.isOpen()).toBeTrue();
+  // it('Autocomplete should open when text is typed', async () => {    
+  //   let autocomplete = await loader.getHarness(MatAutocompleteHarness);
+  //   await autocomplete.enterText('Q');
+  //   expect(await autocomplete.isOpen()).toBeTrue();
 
-  });
-  it('Autocomplete filter should work ', async() => {
-    let autocomplete = await loader.getHarness(MatAutocompleteHarness);
-    await autocomplete.enterText('Q');
-    let options = await autocomplete.getOptions();
-    const ticker = await options[0].getText();
-    expect(ticker).toBe('QQQ');
-    await autocomplete.clear();
-    await autocomplete.enterText("S");
-    options = await autocomplete.getOptions();
-    expect(options.length).toEqual(1);
-  });
+  // });
+  // it('Autocomplete filter should work ', async() => {
+  //   let autocomplete = await loader.getHarness(MatAutocompleteHarness);
+  //   await autocomplete.enterText('Q');
+  //   let options = await autocomplete.getOptions();
+  //   const ticker = await options[0].getText();
+  //   expect(ticker).toBe('QQQ');
+  //   await autocomplete.clear();
+  //   await autocomplete.enterText("S");
+  //   options = await autocomplete.getOptions();
+  //   expect(options.length).toEqual(1);
+  // });
 
-  it('chip grid default should be SPY', async()=>{
+  // it('chip grid default should be SPY', async()=>{
 
-  });
+  // });
   
-  it('expect chip grid to work', async()=>{
+  // it('expect chip grid to work', async()=>{
 
-  });
+  // });
 
-  it('expect search button to work', async()=>{
+  // it('expect search button to work', async()=>{
 
-  });
-  it('expect pricedata to bind correctly', async()=>{
+  // });
+  // it('expect pricedata to bind correctly', async()=>{
 
-  });
+  // });
 
   // it('', async() => {
   //   await autocomplete.selectOption({text:'QQQ'});

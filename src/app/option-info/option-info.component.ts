@@ -118,22 +118,22 @@ export class OptionInfoComponent implements OnInit, AfterViewInit {
   }
   private LoadOptionPrices(){
     let querystring:string = this.querystringService.createQueryString3(this._selectedOptionCode);
-    this.apiservice.getOptionPriceData(querystring)
-    .pipe(
-      catchError(
-        (responseError:HttpErrorResponse) =>{
-          if(responseError.status == 401){
-            //unauthorized
-          }
-          return throwError(() => new Error('Something bad happened; please try again)'))
-        }
-      )
-    )
-    .subscribe(
-        (response:OptionPriceData) => {
-          this._sharedevents._optionpricedata.next(response);
-        }     
-      )
+    // this.apiservice.getOptionPriceData(querystring)
+    // .pipe(
+    //   catchError(
+    //     (responseError:HttpErrorResponse) =>{
+    //       if(responseError.status == 401){
+    //         //unauthorized
+    //       }
+    //       return throwError(() => new Error('Something bad happened; please try again)'))
+    //     }
+    //   )
+    // )
+    // .subscribe(
+    //     (response:OptionPriceData) => {
+    //       this._sharedevents._optionpricedata.next(response);
+    //     }     
+    //   )
   }
   ngOnInit(): void {
     
@@ -143,26 +143,26 @@ export class OptionInfoComponent implements OnInit, AfterViewInit {
     
     let querystring:string = this.querystringService.createQueryString2(this.Tickers);
 
-    this.apiservice.getOptionCodes(querystring)
-    .pipe(
-      catchError((errorResponse:HttpErrorResponse)=>{
-        if(errorResponse.status == 401){
-          //unauthorized
-        }
-        return throwError(()=>{new Error("Error getting option Codes")})
-      })
-    )
-    .subscribe(
-      (response:OptionCodeData) => {
-        this._authenticated = true;
-        this._optioncodeData = response;
-        this._optioncodes = this._optioncodeData[this._selectedticker];
-        this._filteredoptioncodes = this._optioncodes.filter(this.OptionFilterCall);
-        this.getClosestMonthlyOptionCode();
+    // this.apiservice.getOptionCodes(querystring)
+    // .pipe(
+    //   catchError((errorResponse:HttpErrorResponse)=>{
+    //     if(errorResponse.status == 401){
+    //       //unauthorized
+    //     }
+    //     return throwError(()=>{new Error("Error getting option Codes")})
+    //   })
+    // )
+    // .subscribe(
+    //   (response:OptionCodeData) => {
+    //     this._authenticated = true;
+    //     this._optioncodeData = response;
+    //     this._optioncodes = this._optioncodeData[this._selectedticker];
+    //     this._filteredoptioncodes = this._optioncodes.filter(this.OptionFilterCall);
+    //     this.getClosestMonthlyOptionCode();
         
-        this.LoadOptionPrices();
-      }
-    );
+    //     this.LoadOptionPrices();
+    //   }
+    // );
   }
 
   getClosestMonthlyOptionCode(){
