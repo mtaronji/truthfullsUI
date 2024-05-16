@@ -22,13 +22,24 @@ resources:
     endpoint: mtaronji
     name: mtaronji/truthfullswebapi
     ref: "refs/heads/development"
+  - repository:  ui
+    type: github
+    endpoint: mtaronji
+    name: mtaronji/truthfullsUI
+    ref: "refs/heads/dev"
+  - repository:  punk
+    type: github
+    endpoint: mtaronji
+    name: mtaronji/punk
+    ref: "refs/heads/dev"
+    
   pipelines:
     - pipeline: 10 # Required as first property. ID of the pipeline resource.
       source: mtaronji.truthfullswebapi # Name of the pipeline that produces the artifact.
       branch: development # Branch to pick the artifact. Optional; defaults to all branches, used only for manual or scheduled triggers.
       trigger: true
 stages:
-- stage: BuildTest
+- stage: BuildAndTest
   displayName: "Build and Test TruthfullsUI"
   jobs:
   - job: 
@@ -37,6 +48,7 @@ stages:
     steps:
     - checkout: self
     - checkout: webapi
+    - checkout: punk
     - task: NodeTool@0
       inputs:
         versionSpec: '20.11.x'
@@ -46,7 +58,10 @@ stages:
       inputs:
         version: '8.x'
         packageType: sdk
-      
+    - script: |
+              cd $(System.DefaultWorkingDirectory)/Punk
+              dotnet build --configuration $(buildConfiguration)
+      displayName: 'Building Latest Punk Dev version'
     - script: |
          cd $(System.DefaultWorkingDirectory)/truthfullsUI
          npm ci
