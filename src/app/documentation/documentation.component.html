@@ -75,14 +75,16 @@
     <p>Example : <span class="code">##stocks{{'{'}}stocks.Lead("SPY",5 ,"2020-01-03" ){{'}'}}</span> Returns all prices past 01/03/2020 as well as the data 5 days into the future</p>
     <p>Lag : Returns prices with lag prices   <span class="code">##stocks{{'{'}}stocks.Lag("SPY",LookBackFinancialDays ,start_date(optional), end_date(optional) ){{'}'}} </span> </p>
     <p>Example : <span class="code">##stocks{{'{'}}stocks.Lag("SPY",5 ,"2020-01-03" ){{'}'}}</span> Returns all prices past 01/03/2020 as well as the data 5 days into the past(when available)</p>
-    <p>EMA : returns Exponential moving average <span class="code">##stocks{{'{'}}stocks.EMA("SPY",AverageDuration ,start_date(optional), end_date(optional) ){{'}'}}</span> Returns the Exponential moving average for the specified duration</p>
+    <p>EMA : returns Exponential moving average <span class="code">##stocks{{'{'}}stocks.EMA(Duration, Symbol ,start_date(optional), end_date(optional) ){{'}'}}</span> Returns the Exponential moving average for the specified duration for symbol</p>
     <p>Example : <span class="code">##stocks{{'{'}}stocks.EMA("SPY",20 ,"2020-01-03" ){{'}'}}</span> Returns the 20 day exponential moving average for SPY</p>
+    <p>SMA : returns Simple moving average <span class="code">##stocks{{'{'}}stocks.SMA(Duration,Symbol ,start_date(optional), end_date(optional) ){{'}'}}</span> Returns the Simple moving average for the specified duration for the symbol</p>
+    <p>Example : <span class="code">##stocks{{'{'}}stocks.SMA(20,"SPY" ,"2020-01-03" ){{'}'}}</span> Returns the 20 day exponential moving average for SPY</p>
     <h2>Option Register queries</h2>
 
     <h3 id='DocFiles'><strong>Files</strong></h3>
-    <p> We allow input of CSV files for processing in our language. To input csv files, you click the paperclick icon in the IDE, select your files. Our application will grab the files and parse them into matrixes you can use for 
-        calculations. Please note that we ignore any string fields and parse the data and a 8 byte double, even if it's an integer value. To use files in your application you reference the 1st as F0 the second as F1 the third as F2
-        ....etc. This is an example of creating a normal equation using the F
+    <p> We allow input of CSV files for processing. We parse them into a matrix with vectors that are the columns. To input csv files, you click the paperclick icon in the IDE and select your files. Our application will grab the files and parse them into matrixes you can use for 
+        further calculations. Please note that we ignore any string fields and parse the data into 8 byte doubles, even if it's an integer value. To use files in your Syntax Expressions  you reference them F0 for the first file, F1 for the second, the third as F2
+        ....etc. This is an example of creating a normal equation using the files data
     </p>
     <p class="code">xr = F0.column(5) </p>
     <p class="code">ysolve = xr.transposethismultiply(F0)</p>
