@@ -33,11 +33,6 @@ resources:
     name: mtaronji/punk
     ref: "refs/heads/dev"
     
-  pipelines:
-    - pipeline: 10 # Required as first property. ID of the pipeline resource.
-      source: mtaronji.truthfullswebapi # Name of the pipeline that produces the artifact.
-      branch: development # Branch to pick the artifact. Optional; defaults to all branches, used only for manual or scheduled triggers.
-      trigger: true
 stages:
 - stage: BuildAndTest
   displayName: "Build and Test TruthfullsUI"
