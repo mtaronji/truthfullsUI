@@ -1,7 +1,6 @@
 <div id="documentation-container">
     <h3>Overview</h3>
-    <p>Punk is a weakly typed Interpreted programming language for doing data analysis and mathematical graphing, and stock market analysis. Punk is designed around the concept of data registers to dig into data using simple 
-    linq style syntax, and also digging into user supplied csv files. Our Server handles the processing of the queries and returns the output to the screen for analysis and plotting. 
+    <p>Punk is a weakly typed Interpreted programming language for doing data analysis, mathematics, mathematics graphing, and stock market data pulls and building probability models. 
     </p>
 
     <h3 id="DocBaseTypes"><strong>Base Types</strong></h3>
@@ -136,13 +135,14 @@
     <h3 id="DocIntegration"><strong>Integration</strong></h3>
     <p>Integration is the process of finding areas under curves. We have a couple of procedures to integrate functions. The general procedure for integrating functions using Punk is to pipe in a sequence and pass it into another sequence 
         which integrates it. The syntax looks like this(for SimpsonRule.IntegrateComposite) : <p>
-    <p class="code">SimpsonRule.IntegrateComposite(<span class="color-green bold">x</span> <span class="color-blue bold">=></span> <span class="italics bold">fn</span>, 0.0, 10.0, 4); </p>
-    <p class="code">NewtonCotesTrapeziumRule.IntegrateAdaptive(<span class="color-green bold">x</span> <span class="color-blue bold">=></span> <span class="italics bold">fn</span>, 0.0, 10.0, <span class="color-red">1e-5</span>); </p>
-    <p class ="code">DoubleExponentialTransformation.Integrate(<span class="color-green bold">x</span> <span class="color-blue bold">=></span> <span class="italics bold">fn</span>, 0.0, 10.0, <span class="color-red">1e-5</span>);</p>
-
-    <p><span class="color-green">[</span><span class="color-green">]</span> {{'{'}}x0 : return Pow(x0,2);{{'}'}} | <span class="color-green">[</span> <span class="color-green">]</span>{{'{'}}fn: return SimpsonRule.IntegrateComposite(x => fn(x), 0.0, 10.0, 4);{{'}'}}</p>
-    <p>Here we use the pipe operator "|" to pass the function into the sequence above. You can think of pipe operators as a flow, it's job is to push a value into an object. In this case, we are pushing the power function into the 
-       indefinite sequence. 
+    <p class="code">SimpsonRule.IntegrateComposite(<span class="color-green bold">x</span> <span class="color-blue bold">=></span> <span class="italics bold">fn(x)</span>, 0.0, 10.0, 4); </p>
+    <p class="code">NewtonCotesTrapeziumRule.IntegrateAdaptive(<span class="color-green bold">x</span> <span class="color-blue bold">=></span> <span class="italics bold">fn(x)</span>, 0.0, 10.0, <span class="color-red">1e-5</span>); </p>
+    <p class ="code">DoubleExponentialTransformation.Integrate(<span class="color-green bold">x</span> <span class="color-blue bold">=></span> <span class="italics bold">fn(x)</span>, 0.0, 10.0, <span class="color-red">1e-5</span>);</p>
+    
+    <p> For example the following code shows how to integrate using SimpsonRule.Integrate Composite: </p>
+    <p><span class="code">[</span><span class="color-green">]</span> {{'{'}}x0 : return Pow(x0,2);{{'}'}} | <span class="color-green">[</span> <span class="color-green">]</span>{{'{'}}fn: return SimpsonRule.IntegrateComposite(x => fn(x), 0.0, 10.0, 4);{{'}'}}</p>
+    <p>Here we use the pipe operator "|" to pass the function into the integration sequence above. You can think of pipe operators as a flow, it's job is to push a value into the object on the right. The integration sequence expects a 
+        function (fn). The rest of the arguments are the range(0.0 - 10.0) and the partitions for IntegrateComposite. Other integration functions expect a solve solution precision. (1e -5 ) for example, is solving for 1/100000 precision.
     </p>
 
     <h3 id="DocMath"> Common Math functions</h3>

@@ -24,3 +24,6 @@ span.code{
     font-size: 8;
     color:cornflowerblue;
 }
+p{
+    word-wrap: break-word;
+}
