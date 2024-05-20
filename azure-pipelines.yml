@@ -80,6 +80,14 @@ stages:
                cd $(System.DefaultWorkingDirectory)/truthfullswebapi
                dotnet test
       displayName: 'Testing WEB API'
+      
+    - script: |             
+               cd $(System.DefaultWorkingDirectory)/truthfullswebapi/truthfulls.com
+               dotnet add truthfulls.com.csproj package Punk
+               cd $(System.DefaultWorkingDirectory)/truthfullswebapi/TruthfullsTests
+               dotnet add TruthfullsTests.csproj package Punk
+               dotnet test
+      displayName: 'Install Punk & Test'
     - task: DotNetCoreCLI@2
       inputs:
         command: publish
