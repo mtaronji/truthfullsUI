@@ -70,6 +70,12 @@
     <h3 id="DocQueries"><strong>Queries </strong></h3>
     <p>Queries are search operations run on data registers to pull data for analysis. Queries are run on data registers</p>
     <h2>Stock Register Queries</h2>
+    <p>GetPrices : Returns OHLCV prices for the specified Ticker <span class="code">##stocks{{'{'}}stocks.GetPrices(Symbol,StartDate(optional), EndDate(optional)){{'}'}}</span></p>
+    <p>Example: <span class="code">##stocks{{'{'}}stocks.GetPrices("SPY","2020-01-03" ){{'}'}}</span> Returns all prices past 01/03/2020 </p>
+    <p>Query : Returns OHLCV prices for the specified Query Expression <span class="code">##stocks{{'{'}}stocks.Query(var => expression(var)){{'}'}}</span></p>
+    <p>Query Expressions are lambda expressions that return a true or false value(boolean). The following example ret urn alls closes above 120.0 for symbol XLY</p>
+    <p class="code">##stocks{{'{'}}stocks.Query(x => x.Ticker == ""XLY"" && x.Close > 120.0){{'}'}}</p>
+    <p>In the preceeding query, I can name my variable whatever I want. In this case it was x, but I could have named it 'p' or 'y'. The naming is your choice</p>
     <p>Lead : Returns prices with Lead prices   <span class="code">##stocks{{'{'}}stocks.Lead("SPY",LookforwardFinancialDays ,start_date(optional), end_date(optional) ){{'}'}} </span> </p>
     <p>Example : <span class="code">##stocks{{'{'}}stocks.Lead("SPY",5 ,"2020-01-03" ){{'}'}}</span> Returns all prices past 01/03/2020 as well as the data 5 days into the future</p>
     <p>Lag : Returns prices with lag prices   <span class="code">##stocks{{'{'}}stocks.Lag("SPY",LookBackFinancialDays ,start_date(optional), end_date(optional) ){{'}'}} </span> </p>
@@ -78,7 +84,15 @@
     <p>Example : <span class="code">##stocks{{'{'}}stocks.EMA("SPY",20 ,"2020-01-03" ){{'}'}}</span> Returns the 20 day exponential moving average for SPY</p>
     <p>SMA : returns Simple moving average <span class="code">##stocks{{'{'}}stocks.SMA(Duration,Symbol ,start_date(optional), end_date(optional) ){{'}'}}</span> Returns the Simple moving average for the specified duration for the symbol</p>
     <p>Example : <span class="code">##stocks{{'{'}}stocks.SMA(20,"SPY" ,"2020-01-03" ){{'}'}}</span> Returns the 20 day exponential moving average for SPY</p>
-    <h2>Option Register queries</h2>
+    <h2>FRED Register queries</h2>
+    <p>FRED is the nickname for the economic data published from the ST Luis FED. Series ID's and more data could be found on there website. </p>
+    <p> Currently we support the following Series Id's. If you wish to request more economic data, please shoot us an email, we can see if we can accomadate it.</p>
+    <p class="color-green">T10Y2Y, MORTGAGE30US,DHHNGSP,DGS3MO,DGS1,
+        DGS2,DGS5,DGS10,DGS30,EXPINF2YR,WM2NS,
+        RRPONTSYD,EFFR,WTISPLC,UNRATE,UNRATE,
+        T10Y3M,NGDPSAXDCUSQ,CCLACBW027SBOG,SWPT</p>
+    <p>In terms of the sequences supported, we support all the same sequences as the stock data register, with the exception of GetPrices. FRED data uses 'GetObservations', though the signature remains the same:</p>
+    <p class="code">##fred{{'{'}}fred.GetObservations("T10Y2Y","2023-01-01"){{'}'}}</p>
 
     <h3 id='DocFiles'><strong>Files</strong></h3>
     <p> We allow input of CSV files for processing. We parse them into a matrix with vectors that are the columns. To input csv files, you click the paperclick icon in the IDE and select your files. Our application will grab the files and parse them into matrixes you can use for 
