@@ -39,7 +39,7 @@ stages:
   jobs:
   - job: 
 
-    displayName: "Testing App"
+    displayName: "Build And Test Truthfulls UI"
     steps:
     - checkout: self
     - checkout: webapi
