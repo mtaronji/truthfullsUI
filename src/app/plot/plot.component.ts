@@ -115,14 +115,17 @@ export class PlotComponent implements AfterViewInit {
         //this.data = [];
         for(let i = 0; i < expressions.length;i++){
           
+          let syntax = "";
           if(expressions[i].results.length == 0){
-            this.data.push({type: expressions[i].type, data: expressions[i].results, syntax:`${expressions[i].print} --> No Data Returned`, headers:Object.keys(expressions[i].results)});
-           
+            syntax = "Query didn't return data";
+            //this.data.push({type: expressions[i].type, data: expressions[i].results, syntax:`${syntax}`, headers:Object.keys(expressions[i].results)});           
           }
           else{
-            this.data.push({type: expressions[i].type, data: expressions[i].results, syntax:expressions[i].print, headers: Object.keys(expressions[i].results[0])});
+            syntax = expressions[i].print;
+            this.data.push({type: expressions[i].type, data: expressions[i].results, syntax:syntax, headers: Object.keys(expressions[i].results[0])});
+            
           }
-          this.Expressions.push({syntax:`${expressions[i].print}`, index:this.Expressions.length});
+          this.Expressions.push({syntax:`${syntax}`, index:this.Expressions.length});
         }
       },
       error: (err:Error) =>{
