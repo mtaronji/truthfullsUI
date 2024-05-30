@@ -17,16 +17,82 @@
         }                         
       </mat-list>
     }
+
     <p class="color-warn800">{{PunkErrorMsg}}</p>
+    <div class="morph-container">
+      @if(tracedata[0] != undefined){
+  
+        <div class="morph-width-70 height-90 resizeable" cdkDrag>
+          <div class="move-handle" cdkDragHandle>
+            <svg width="20px" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M10 9h4V6h3l-5-5-5 5h3v3zm-1 1H6V7l-5 5 5 5v-3h3v-4zm14 2l-5-5v3h-3v4h3v3l5-5zm-9 3h-4v3H7l5 5 5-5h-3v-3z"></path>
+              <path d="M0 0h24v24H0z" fill="none"></path>
+            </svg>
+          </div>
+          <plotly-plot [data]= tracedata1 [divId]=plt1
+          [layout] = layout1
+          [style]="{width:'95%', height:'95%', autosize:'true'}" 
+          [config]=config1
+          [useResizeHandler]="true"
+          >
+          </plotly-plot>
+        </div>
+      }       
+      @if(tracedata[1] != undefined){
+        <div class=" morph-width-25 height-90 resizeable" cdkDrag >
+          <div class="move-handle" cdkDragHandle>
+            <svg width="20px" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M10 9h4V6h3l-5-5-5 5h3v3zm-1 1H6V7l-5 5 5 5v-3h3v-4zm14 2l-5-5v3h-3v4h3v3l5-5zm-9 3h-4v3H7l5 5 5-5h-3v-3z"></path>
+              <path d="M0 0h24v24H0z" fill="none"></path>
+            </svg>
+          </div>
+          <plotly-plot  [data]= tracedata2 [divId]=plt2
+          [layout] = layout2
+          [style]="{width:'95%', height:'95%', autosize:'true'}" 
+          [config]=config2
+          [useResizeHandler]="true"
+          >
+          </plotly-plot>
+        </div>
+      }
+    </div>
+      @if(tracedata[2] != undefined){
+        <div class="width-95 height-85 resizeable" cdkDrag id="plt3">
+          <div class="move-handle" cdkDragHandle>
+            <svg width="20px" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M10 9h4V6h3l-5-5-5 5h3v3zm-1 1H6V7l-5 5 5 5v-3h3v-4zm14 2l-5-5v3h-3v4h3v3l5-5zm-9 3h-4v3H7l5 5 5-5h-3v-3z"></path>
+              <path d="M0 0h24v24H0z" fill="none"></path>
+            </svg>
+          </div>
+          <plotly-plot [useResizeHandler] = true [data]= "tracedata[2]"  
+          [layout] = "layout3"
+          [style]="{width: '95%', height:'95%'}" 
+         
+          >
+          </plotly-plot>
+        </div>
+      }
 
-    <plotly-plot [useResizeHandler] = true [data]=  "tracedata" *ngIf="ViewPlot"
-      [layout] = "layout"
-      [style]="{width: '100%', height:'85vh', autosize: 'true',border:'1px solid #BEFF53'}" 
-      [config]=config 
-    >
-    </plotly-plot>
+      @if(tracedata[3] != undefined){
+        <div class="width-95 height-85 resizeable" cdkDrag id="plt4">
+          <div class="move-handle" cdkDragHandle>
+            <svg width="20px" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M10 9h4V6h3l-5-5-5 5h3v3zm-1 1H6V7l-5 5 5 5v-3h3v-4zm14 2l-5-5v3h-3v4h3v3l5-5zm-9 3h-4v3H7l5 5 5-5h-3v-3z"></path>
+              <path d="M0 0h24v24H0z" fill="none"></path>
+            </svg>
+          </div>
+          <plotly-plot [useResizeHandler] = true [data]= "tracedata[3]" 
+          [layout] = "layout4"
+          [style]="{width: '95%', height:'95%'}" 
+         
+          >
+          </plotly-plot>
+        </div>
+      }
 
-    <table mat-table [dataSource]="tabledata" class="mat-elevation-z8" *ngIf="ViewTable">
+
+  
+    <!-- <table mat-table [dataSource]="tabledata" class="mat-elevation-z8" *ngIf="ViewTable">
 
         <ng-container [matColumnDef]="col" *ngFor="let col of  headers">
           <th mat-header-cell *matHeaderCellDef> {{col | uppercase}} </th>
@@ -40,6 +106,6 @@
     <mat-paginator [pageSizeOptions]="[5, 10, 20]" *ngIf="ViewTable"
     showFirstLastButtons
     aria-label="Select Page">
-    </mat-paginator>
+    </mat-paginator> -->
 
 </div>

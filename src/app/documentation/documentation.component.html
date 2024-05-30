@@ -56,8 +56,8 @@
     <h3 id='DocRegisters'><strong>Data Registers </strong></h3>
     <p>Data Registers are internal databases hosted within our applications ecosystem. You are able to query against them for information for helping to build your own probability models.</p>
     <p>To access a particular dataregister, your syntax should be as follows:</p>
-    <p class="code">     ##stocks{{'{'}}stocks.QueryFunction{{'}'}} </p>
-    <p>Here we access the register using ##stocks{{'{'}}stocks.....{{'}'}}
+    <p class="code">     ##stocks{{'{'}}QueryFunction{{'}'}} </p>
+    <p>Here we access the register using ##stocks{{'{'}}.....{{'}'}}
     <h3>Current Registers:</h3>
     <h4>Stock Register:</h4>
     <p>This register pulls stock data. Fields are 'date', 'open', 'Low' 'close' 'adjclose' 'high' 'volume' 'ticker' </p>
@@ -71,19 +71,20 @@
     <p>Queries are search operations run on data registers to pull data for analysis. Queries are run on data registers</p>
     <h2>Stock Register Queries</h2>
     <p>GetPrices : Returns OHLCV prices for the specified Ticker <span class="code">##stocks{{'{'}}stocks.GetPrices(Symbol,StartDate(optional), EndDate(optional)){{'}'}}</span></p>
-    <p>Example: <span class="code">##stocks{{'{'}}stocks.GetPrices("SPY","2020-01-03" ){{'}'}}</span> Returns all prices past 01/03/2020 </p>
-    <p>Query : Returns OHLCV prices for the specified Query Expression <span class="code">##stocks{{'{'}}stocks.Query(var => expression(var)){{'}'}}</span></p>
+    <p>Example: <span class="code">##stocks{{'{'}}GetPrices("SPY","2020-01-03" ){{'}'}}</span> Returns all prices past 01/03/2020 </p>
+    <p>Query : Returns OHLCV prices for the specified Query Expression <span class="code">##stocks{{'{'}}Query(var => expression(var)){{'}'}}</span></p>
     <p>Query Expressions are lambda expressions that return a true or false value(boolean). The following example ret urn alls closes above 120.0 for symbol XLY</p>
-    <p class="code">##stocks{{'{'}}stocks.Query(x => x.Ticker == ""XLY"" && x.Close > 120.0){{'}'}}</p>
+    <p class="code">##stocks{{'{'}}Query(x => x.Ticker == ""XLY"" && x.Close > 120.0){{'}'}}</p>
+    <p>Try to make your query as specific as you can. Returning too much data will result in an error.</p>
     <p>In the preceeding query, I can name my variable whatever I want. In this case it was x, but I could have named it 'p' or 'y'. The naming is your choice</p>
-    <p>Lead : Returns prices with Lead prices   <span class="code">##stocks{{'{'}}stocks.Lead("SPY",LookforwardFinancialDays ,start_date(optional), end_date(optional) ){{'}'}} </span> </p>
-    <p>Example : <span class="code">##stocks{{'{'}}stocks.Lead("SPY",5 ,"2020-01-03" ){{'}'}}</span> Returns all prices past 01/03/2020 as well as the data 5 days into the future</p>
-    <p>Lag : Returns prices with lag prices   <span class="code">##stocks{{'{'}}stocks.Lag("SPY",LookBackFinancialDays ,start_date(optional), end_date(optional) ){{'}'}} </span> </p>
-    <p>Example : <span class="code">##stocks{{'{'}}stocks.Lag("SPY",5 ,"2020-01-03" ){{'}'}}</span> Returns all prices past 01/03/2020 as well as the data 5 days into the past(when available)</p>
+    <p>Lead : Returns prices with Lead prices   <span class="code">##stocks{{'{'}}Lead("SPY",LookforwardFinancialDays ,start_date(optional), end_date(optional) ){{'}'}} </span> </p>
+    <p>Example : <span class="code">##stocks{{'{'}}Lead("SPY",5 ,"2020-01-03" ){{'}'}}</span> Returns all prices past 01/03/2020 as well as the data 5 days into the future</p>
+    <p>Lag : Returns prices with lag prices   <span class="code">##stocks{{'{'}}Lag("SPY",LookBackFinancialDays ,start_date(optional), end_date(optional) ){{'}'}} </span> </p>
+    <p>Example : <span class="code">##stocks{{'{'}}Lag("SPY",5 ,"2020-01-03" ){{'}'}}</span> Returns all prices past 01/03/2020 as well as the data 5 days into the past(when available)</p>
     <p>EMA : returns Exponential moving average <span class="code">##stocks{{'{'}}stocks.EMA(Duration, Symbol ,start_date(optional), end_date(optional) ){{'}'}}</span> Returns the Exponential moving average for the specified duration for symbol</p>
-    <p>Example : <span class="code">##stocks{{'{'}}stocks.EMA("SPY",20 ,"2020-01-03" ){{'}'}}</span> Returns the 20 day exponential moving average for SPY</p>
-    <p>SMA : returns Simple moving average <span class="code">##stocks{{'{'}}stocks.SMA(Duration,Symbol ,start_date(optional), end_date(optional) ){{'}'}}</span> Returns the Simple moving average for the specified duration for the symbol</p>
-    <p>Example : <span class="code">##stocks{{'{'}}stocks.SMA(20,"SPY" ,"2020-01-03" ){{'}'}}</span> Returns the 20 day exponential moving average for SPY</p>
+    <p>Example : <span class="code">##stocks{{'{'}}EMA("SPY",20 ,"2020-01-03" ){{'}'}}</span> Returns the 20 day exponential moving average for SPY</p>
+    <p>SMA : returns Simple moving average <span class="code">##stocks{{'{'}}SMA(Duration,Symbol ,start_date(optional), end_date(optional) ){{'}'}}</span> Returns the Simple moving average for the specified duration for the symbol</p>
+    <p>Example : <span class="code">##stocks{{'{'}}SMA(20,"SPY" ,"2020-01-03" ){{'}'}}</span> Returns the 20 day exponential moving average for SPY</p>
     <h2>FRED Register queries</h2>
     <p>FRED is the nickname for the economic data published from the ST Luis FED. Series ID's and more data could be found on there website. </p>
     <p> Currently we support the following Series Id's. If you wish to request more economic data, please shoot us an email, we can see if we can accomadate it.</p>
@@ -92,11 +93,11 @@
         RRPONTSYD,EFFR,WTISPLC,UNRATE,UNRATE,
         T10Y3M,NGDPSAXDCUSQ,CCLACBW027SBOG,SWPT</p>
     <p>In terms of the sequences supported, we support all the same sequences as the stock data register, with the exception of GetPrices. FRED data uses 'GetObservations', though the signature remains the same:</p>
-    <p class="code">##fred{{'{'}}fred.GetObservations("T10Y2Y","2023-01-01"){{'}'}}</p>
+    <p class="code">##fred{{'{'}}GetObservations("T10Y2Y","2023-01-01"){{'}'}}</p>
 
     <h3 id='DocFiles'><strong>Files</strong></h3>
     <p> We allow input of CSV files for processing. We parse them into a matrix with vectors that are the columns. To input csv files, you click the paperclick icon in the IDE and select your files. Our application will grab the files and parse them into matrixes you can use for 
-        further calculations. Please note that we ignore any string fields and parse the data into 8 byte doubles, even if it's an integer value. To use files in your Syntax Expressions  you reference them F0 for the first file, F1 for the second, the third as F2
+        further calculations. Please note that we ignore any string fields and parse the data into 8 byte doubles, regardless even if it's an integer value. To use files in your Syntax Expressions  you reference them F0 for the first file, F1 for the second, the third as F2
         ....etc. This is an example of creating a normal equation using the files data
     </p>
     <p class="code">xr = F0.column(5) </p>
@@ -144,6 +145,12 @@
     <p>   Student-T(<span class="color-primary500">double</span> location, <span class="color-primary500">double</span> scale, <span class="color-primary500">double</span> freedom)</p>
     <p>   Weibull(<span class="color-primary500">double</span> shape, <span class="color-primary500">double</span> scale)</p>
     <p>   Triangular(<span class="color-primary500">double</span> lower, <span class="color-primary500">double</span> upper, <span class="color-primary500">double</span> mode)</p>
+    <p>   For any of the following distributions, we will allow sampling from the distribution. To do so you need to pipe data into the distribution:</p>
+
+    <p class="code">d = binomial(0.5, 10)</p>
+    <p class="code">[1...10] | d</p>
+    <p>This code declares a binomial distribution with p = 0.5 and n = 10. We then randomly sample the distribution 10 times(one for every element in the data array). The expression returns a data array with all the samples</p>
+    <p> Each probability distribution has a sample function. </p>
 
     <p></p>
     <h3 id="DocIntegration"><strong>Integration</strong></h3>

@@ -30,3 +30,39 @@
 .font-tiny{
     font-size: x-small;
 }
+#plt1{
+    width:100%;
+    height:100%;
+}
+#plt2{
+    width:100%;
+    height:100%;
+}
+.display-inline{
+    display: inline-block;
+}
+
+.morph-container{
+    display:flex;
+    flex-direction: column;
+    width:100%;
+    @media only screen and (min-width: 1200px){ 
+        height:100%;
+        flex-direction: row;
+   } 
+}
+.morph-width-70{
+    width:100%;
+    @media only screen and (min-width: 1200px){ 
+        height:100%;
+        width:70%;
+   } 
+}
+.morph-width-25{
+    width:100%;
+    @media only screen and (min-width: 1200px){ 
+        height:100%;
+        width:25%;
+  
+   } 
+}
