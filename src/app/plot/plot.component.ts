@@ -4,7 +4,7 @@ import { PunkLibModule } from 'punk-lib';
 import {UpperCasePipe,CommonModule } from '@angular/common';
 import {ViewChild } from '@angular/core';
 
-import * as PlotlyJS from 'plotly.js-dist';
+import * as PlotlyJS from 'plotly.js-dist-min';
 import { PlotlyModule } from 'angular-plotly.js';
 PlotlyModule.plotlyjs = PlotlyJS;
 
