@@ -1,5 +1,5 @@
 <cdk-accordion class="">
-    <cdk-accordion-item role="button" tabindex="0"  #accordionItem="cdkAccordionItem" expanded="true">
+    <cdk-accordion-item role="button" tabindex="0"  #accordionItem="cdkAccordionItem" [expanded]=SideBarExpanded >
         <div class="example-accordion-item-header" (click)="accordionItem.toggle()">
             
             <button mat-icon-button color="charcoal" aria-label="">

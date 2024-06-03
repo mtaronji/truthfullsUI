@@ -5,90 +5,115 @@
       <button mat-icon-button  color = "primary" (click)="fileInput.click()"><mat-icon fontIcon="attach_file">Attach</mat-icon></button>
       <input hidden (change)="onFileSelected($event)" #fileInput type="file" multiple  accept=".csv">
       <button mat-button (click)="ClearData()" class="width-100px" color="warn">Clear Data</button>
-      <button mat-button (click)="OpenExpressionSettings()" class="width-100px" color="primary">Plot</button>
+      <button mat-button (click)="OpenExpressionSettings()" class="width-100px" color="primary">Plot Trace</button>
     </p>
-
-   
-    @if(Expressions.length > 0){
-      <h4 class="color-primary900">Expressions</h4> 
-      <mat-list role="list" >
-        @for(exp of Expressions; track exp){
-          <mat-list-item  role="listitem" color="accent" >{{exp.syntax}}</mat-list-item>        
-        }                         
-      </mat-list>
-    }
+    <mat-progress-bar mode="indeterminate" color="blue" *ngIf="this.Loading == true;"></mat-progress-bar>
+    
+    <mat-expansion-panel hideToggle (afterExpand)=HandleExpandCollapse() (afterCollapse)=HandleExpandCollapse()>
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          Evaluated Expressions
+        </mat-panel-title>
+        <mat-panel-description>
+          Click to see Expressions that have been evaluated
+        </mat-panel-description>
+      </mat-expansion-panel-header>
+      @for(exp of Expressions; track exp){
+        <p color="accent" >{{exp.syntax}}</p>        
+      }                       
+    </mat-expansion-panel>
 
     <p class="color-warn800">{{PunkErrorMsg}}</p>
-    <div class="morph-container">
+    <div class="morph-container">  <!-- Row 1-->
+
       @if(tracedata[0] != undefined){
   
-        <div class="morph-width-70 height-90 resizeable" cdkDrag>
+        <div class="morph-width-70 height-full resizeable" cdkDrag cdkDragBoundary=".plot-component-container">
           <div class="move-handle" cdkDragHandle>
             <svg width="20px" fill="currentColor" viewBox="0 0 24 24">
               <path d="M10 9h4V6h3l-5-5-5 5h3v3zm-1 1H6V7l-5 5 5 5v-3h3v-4zm14 2l-5-5v3h-3v4h3v3l5-5zm-9 3h-4v3H7l5 5 5-5h-3v-3z"></path>
               <path d="M0 0h24v24H0z" fill="none"></path>
             </svg>
           </div>
-          <plotly-plot [data]= tracedata1 [divId]=plt1
-          [layout] = layout1
+          <button class="place-right bg-white" (click)="DeleteChart(1)">
+            <span class="close-x-red">&times;</span>
+          </button>
+
+          <plotly-plot [data]= tracedata[0] [divId]=plt1
+          [layout] = layout[0]
           [style]="{width:'95%', height:'95%', autosize:'true'}" 
-          [config]=config1
+          [config]=config[0]
           [useResizeHandler]="true"
           >
           </plotly-plot>
         </div>
-      }       
+      }     
+
       @if(tracedata[1] != undefined){
-        <div class=" morph-width-25 height-90 resizeable" cdkDrag >
+        <div class=" morph-width-25 height-full resizeable" cdkDrag cdkDragBoundary=".plot-component-container">
           <div class="move-handle" cdkDragHandle>
             <svg width="20px" fill="currentColor" viewBox="0 0 24 24">
               <path d="M10 9h4V6h3l-5-5-5 5h3v3zm-1 1H6V7l-5 5 5 5v-3h3v-4zm14 2l-5-5v3h-3v4h3v3l5-5zm-9 3h-4v3H7l5 5 5-5h-3v-3z"></path>
               <path d="M0 0h24v24H0z" fill="none"></path>
             </svg>
           </div>
-          <plotly-plot  [data]= tracedata2 [divId]=plt2
-          [layout] = layout2
+
+          <button class="place-right bg-white" (click)="DeleteChart(2)">
+            <span class="close-x-red">&times;</span>
+          </button>
+          <plotly-plot  [data]= tracedata[1] [divId]=plt2
+          [layout] = layout[1]
           [style]="{width:'95%', height:'95%', autosize:'true'}" 
-          [config]=config2
+          [config]=config[1]
           [useResizeHandler]="true"
           >
           </plotly-plot>
         </div>
-      }
+      } 
+      
     </div>
+    <div class="morph-container"> <!-- row 2-->
+     
       @if(tracedata[2] != undefined){
-        <div class="width-95 height-85 resizeable" cdkDrag id="plt3">
+        <div class="width-95 height-90vh resizeable" cdkDrag cdkDragBoundary=".plot-component-container">
           <div class="move-handle" cdkDragHandle>
             <svg width="20px" fill="currentColor" viewBox="0 0 24 24">
               <path d="M10 9h4V6h3l-5-5-5 5h3v3zm-1 1H6V7l-5 5 5 5v-3h3v-4zm14 2l-5-5v3h-3v4h3v3l5-5zm-9 3h-4v3H7l5 5 5-5h-3v-3z"></path>
               <path d="M0 0h24v24H0z" fill="none"></path>
             </svg>
           </div>
-          <plotly-plot [useResizeHandler] = true [data]= "tracedata[2]"  
-          [layout] = "layout3"
-          [style]="{width: '95%', height:'95%'}" 
-         
+          <button class="place-right bg-white" (click)="DeleteChart(3)">
+            <span class="close-x-red">&times;</span>
+          </button>
+          <plotly-plot  [data]= "tracedata[2]"  [divId]=plt3
+          [layout] = "layout[2]"
+          [style]="{width: '95%', height:'95%', autosize:'true'}" 
+          [config]="config[2]"
           >
           </plotly-plot>
         </div>
-      }
+      } 
 
       @if(tracedata[3] != undefined){
-        <div class="width-95 height-85 resizeable" cdkDrag id="plt4">
+        <div class="width-95 height-90vh resizeable" cdkDrag cdkDragBoundary=".plot-component-container">
           <div class="move-handle" cdkDragHandle>
             <svg width="20px" fill="currentColor" viewBox="0 0 24 24">
               <path d="M10 9h4V6h3l-5-5-5 5h3v3zm-1 1H6V7l-5 5 5 5v-3h3v-4zm14 2l-5-5v3h-3v4h3v3l5-5zm-9 3h-4v3H7l5 5 5-5h-3v-3z"></path>
               <path d="M0 0h24v24H0z" fill="none"></path>
             </svg>
           </div>
-          <plotly-plot [useResizeHandler] = true [data]= "tracedata[3]" 
-          [layout] = "layout4"
-          [style]="{width: '95%', height:'95%'}" 
-         
+          <button class="place-right bg-white" (click)="DeleteChart(4)">
+            <span class="close-x-red">&times;</span>
+          </button>
+          <plotly-plot  [data]= "tracedata[3]" [divId]=plt4
+          [layout] = "layout[3]"
+          [style]="{width: '95%', height:'95%',autosize:'true'}" 
+          [config]="config[3]"
           >
           </plotly-plot>
         </div>
-      }
+      } 
+    </div>
 
 
   

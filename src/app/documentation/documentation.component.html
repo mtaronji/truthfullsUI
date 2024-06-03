@@ -38,7 +38,7 @@
      <p><span class="bold">column</span> :<span class="code">x = ||10 12 7; 2 5 7; || ===> x.column(0) or x = ||10 12 7; 2 5 7; ||.column(0)  returns [10, 2] </span></p>
      <p><span class="bold">transposethismultiply</span>: <span class="code">x = ||10 12 7; 2 5 7; || ===> x.transposethismultiply(y) where y is a matrix,  transpose x and multiplied it with y </span></p>
      <p><span class="bold">transposemultiply</span> :<span class="code">x = ||10 12 7; 2 5 7; || ===> x.transposemultiply(y) x multiplied by y transpose </span></p>
-     <p><span class="bold">choleskysolve </span> : Cholesky decompose and then solve the equation </p>
+     <p><span class="bold">solve </span> : Cholesky decompose and then solve the equation </p>
 
     <h4 id="DocSequences"><strong>Sequence Operator</strong></h4>
     <p>Sequences have 2 classes. The first type of sequence are functions(or calculations) run on each piece of data, which  transforms the data. An example of such a sequence is:
@@ -102,7 +102,7 @@
     </p>
     <p class="code">xr = F0.column(5) </p>
     <p class="code">ysolve = xr.transposethismultiply(F0)</p>
-    <p class="code">weights = xr.transposethismultiply(xr).choleskysolve(ysolve)</p>
+    <p class="code">weights = xr.transposethismultiply(xr).solve(ysolve)</p>
     <p class="code">yhats = xr * weights
 
     <h3 id="DocProbability"><strong>Probability</strong></h3>
@@ -127,7 +127,7 @@
     <p></p>
     <p><strong>Continuous Distributions:</strong></p>
     <p>   Uniform(<span class="color-primary500">double</span> lower, <span class="color-primary500">double</span> upper) (continuous)
-    <p>   Normal(<span class="color-primary500">double</span> mean, <span class="color-primary500">double</span> standard deviation)</p>
+    <p>   Normal(<span class="color-primary500">double</span> optional:mean, <span class="color-primary500">double</span>optional: standard deviation) ** defaults to 0 mean and 1 variance</p>
     <p>   Log Normal(<span class="color-primary500">double</span> mu, <span class="color-primary500">double</span> sigma)</p>
     <p>   Beta(<span class="color-primary500">double</span> a, <span class="color-primary500">double</span> b)</p>
     <p>   Cauchy(<span class="color-primary500">double</span> location, <span class="color-primary500">double</span> scale)</p>

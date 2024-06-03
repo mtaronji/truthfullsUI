@@ -7,15 +7,15 @@
 
     <h4>Evaluated Expressions Data</h4> 
     <mat-selection-list #Evaluations [multiple]="false" [(ngModel)]="SelectedDataIndex" >
-      @for(d of data;track d){
+      @for(d of input.data;track d){
         <mat-list-option [selected]="$index == 0" [value]="$index" >{{d.syntax}}</mat-list-option>        
       }  
     </mat-selection-list>
 
-    <p>Type : {{data[SelectedDataIndex].type}}</p>
-    <p>Syntax : {{data[SelectedDataIndex].syntax}}</p>
+    <p>Type : {{input.data[SelectedDataIndex].type}}</p>
+    <p>Syntax : {{input.data[SelectedDataIndex].syntax}}</p>
     <strong><p >Fields Availble to plot:</p> </strong>
-    @for(h of data[SelectedDataIndex].headers; track h){
+    @for(h of input.data[SelectedDataIndex].headers; track h){
       <p class="color-primary800">{{h}}</p>
     }
     
@@ -40,21 +40,30 @@
           </mat-select>
         </mat-form-field>
 
-        <h4 class="color-primary800">Selected</h4>
+        <h4 class="color-primary800">Selected </h4>
+        <p class="font-tiny alert">**Which chart you wish to plot the values on</p>
         @for(h of SelectedHeaders; track h){
           <p class="color-blue">{{h }}</p>
         }
         
+        <h4>Chart Index</h4> 
+        <span><mat-selection-list #Evaluations [multiple]="false" [(ngModel)]="SelectedChartIndex" >
+          @for(d of ChartCountArray; track d; ){
+            <mat-list-option [selected]="$index == 0" [value]="$index" >{{$index}}</mat-list-option>        
+          }  
+        </mat-selection-list>
+        </span>
+
         @if(SelectedTrace == "candlestick"){    
           <p>
           <mat-form-field><mat-label> Trace Name </mat-label><input matInput [(ngModel)] = "SelectedTraceName" placeholder="Label" ></mat-form-field>  
-          <mat-form-field><mat-label>  X Axis Data </mat-label><mat-select [(ngModel)] = "selectedOHLC.X">@for(h of data[SelectedDataIndex].headers;track h){<mat-option [value] = "h" (click)="selectedOHLC.xindex = SelectedDataIndex; SelectedHeader$.next(h + ' (x ohlc)')" >{{h}}</mat-option>}</mat-select></mat-form-field>                 
-          <mat-form-field><mat-label> Open</mat-label><mat-select [(ngModel)] = "selectedOHLC.open">@for(h of data[SelectedDataIndex].headers;track h){<mat-option [value] = "h" (click)="selectedOHLC.openindex = SelectedDataIndex; SelectedHeader$.next(h + ' (open ohlc)')">{{h}}</mat-option>}</mat-select></mat-form-field>
-          <mat-form-field><mat-label>Close</mat-label><mat-select [(ngModel)] = "selectedOHLC.close">@for(h of data[SelectedDataIndex].headers;track h){<mat-option [value] = "h" (click)="selectedOHLC.closeindex = SelectedDataIndex; SelectedHeader$.next(h + ' (close ohlc)' )">{{h}}</mat-option>}</mat-select></mat-form-field>
-          <mat-form-field><mat-label> High</mat-label><mat-select [(ngModel)] = "selectedOHLC.high">@for(h of data[SelectedDataIndex].headers;track h){<mat-option [value] = "h" (click)="selectedOHLC.highindex = SelectedDataIndex; SelectedHeader$.next(h + ' (high ohlc)')">{{h}}</mat-option>}</mat-select></mat-form-field>
+          <mat-form-field><mat-label>  X Axis Data </mat-label><mat-select [(ngModel)] = "selectedOHLC.X">@for(h of input.data[SelectedDataIndex].headers;track h){<mat-option [value] = "h" (click)="selectedOHLC.xindex = SelectedDataIndex; SelectedHeader$.next(h + ' (x ohlc)')" >{{h}}</mat-option>}</mat-select></mat-form-field>                 
+          <mat-form-field><mat-label> Open</mat-label><mat-select [(ngModel)] = "selectedOHLC.open">@for(h of input.data[SelectedDataIndex].headers;track h){<mat-option [value] = "h" (click)="selectedOHLC.openindex = SelectedDataIndex; SelectedHeader$.next(h + ' (open ohlc)')">{{h}}</mat-option>}</mat-select></mat-form-field>
+          <mat-form-field><mat-label>Close</mat-label><mat-select [(ngModel)] = "selectedOHLC.close">@for(h of input.data[SelectedDataIndex].headers;track h){<mat-option [value] = "h" (click)="selectedOHLC.closeindex = SelectedDataIndex; SelectedHeader$.next(h + ' (close ohlc)' )">{{h}}</mat-option>}</mat-select></mat-form-field>
+          <mat-form-field><mat-label> High</mat-label><mat-select [(ngModel)] = "selectedOHLC.high">@for(h of input.data[SelectedDataIndex].headers;track h){<mat-option [value] = "h" (click)="selectedOHLC.highindex = SelectedDataIndex; SelectedHeader$.next(h + ' (high ohlc)')">{{h}}</mat-option>}</mat-select></mat-form-field>
           </p>
           <p>
-          <mat-form-field><mat-label>  Low</mat-label><mat-select [(ngModel)] = "selectedOHLC.low">@for(h of data[SelectedDataIndex].headers;track h){<mat-option [value] = "h" (click)="selectedOHLC.lowindex = SelectedDataIndex; SelectedHeader$.next(h + ' (low ohlc)')" >{{h}}</mat-option>}</mat-select></mat-form-field>   
+          <mat-form-field><mat-label>  Low</mat-label><mat-select [(ngModel)] = "selectedOHLC.low">@for(h of input.data[SelectedDataIndex].headers;track h){<mat-option [value] = "h" (click)="selectedOHLC.lowindex = SelectedDataIndex; SelectedHeader$.next(h + ' (low ohlc)')" >{{h}}</mat-option>}</mat-select></mat-form-field>   
           <mat-form-field><mat-label>  Decrease Color</mat-label><input matInput [(ngModel)] = "selectedOHLC.decreasecolor" type="color"></mat-form-field>   
           <mat-form-field><mat-label>  Increase Color</mat-label><input matInput [(ngModel)] = "selectedOHLC.increasecolor" type="color"></mat-form-field>   
           <mat-form-field><mat-label>Xaxis Name</mat-label><mat-select [(ngModel)] = "selectedOHLC.xaxis">@for(a of XAxes;track a){<mat-option [value] = "a">{{a}}</mat-option>}</mat-select></mat-form-field>
@@ -65,9 +74,9 @@
         }
         @else if(SelectedTrace == "scatter"){
           <p>
-            <mat-form-field><mat-label> Trace Name </mat-label><input matInput [(ngModel)] = "SelectedTraceName" placeholder="Label" ></mat-form-field>  
-          <mat-form-field><mat-label> X </mat-label><mat-select [(ngModel)] = "selectedFields.x">@for(h of data[SelectedDataIndex].headers;track h){<mat-option [value] = "h" (click)="selectedFields.xindex= SelectedDataIndex; SelectedHeader$.next(h + ' (x scatter)')">{{h}}</mat-option>}</mat-select></mat-form-field>
-          <mat-form-field><mat-label>Y</mat-label><mat-select [(ngModel)] = "selectedFields.y">@for(h of data[SelectedDataIndex].headers;track h){<mat-option [value] = "h" (click)="selectedFields.yindex = SelectedDataIndex; SelectedHeader$.next(h + ' (y scatter)')">{{h}}</mat-option>}</mat-select></mat-form-field>
+          <mat-form-field><mat-label> Trace Name </mat-label><input matInput [(ngModel)] = "SelectedTraceName" placeholder="Label" ></mat-form-field>  
+          <mat-form-field><mat-label> X </mat-label><mat-select [(ngModel)] = "selectedFields.x">@for(h of input.data[SelectedDataIndex].headers;track h){<mat-option [value] = "h" (click)="selectedFields.xindex= SelectedDataIndex; SelectedHeader$.next(h + ' (x scatter)')">{{h}}</mat-option>}</mat-select></mat-form-field>
+          <mat-form-field><mat-label>Y</mat-label><mat-select [(ngModel)] = "selectedFields.y">@for(h of input.data[SelectedDataIndex].headers;track h){<mat-option [value] = "h" (click)="selectedFields.yindex = SelectedDataIndex; SelectedHeader$.next(h + ' (y scatter)')">{{h}}</mat-option>}</mat-select></mat-form-field>
           <mat-form-field><mat-label>Xaxis Name</mat-label><mat-select [(ngModel)] = "selectedFields.xaxis">@for(a of XAxes;track a){<mat-option [value] = "a">{{a}}</mat-option>}</mat-select></mat-form-field>
           <mat-form-field><mat-label>Yaxis Name</mat-label><mat-select [(ngModel)] = "selectedFields.yaxis">@for(a of YAxes;track a){<mat-option [value] = "a">{{a}}</mat-option>}</mat-select></mat-form-field>
           </p>
@@ -87,7 +96,7 @@
             </p>
             <p>
               @if(SelectedScatterMode == "lines+markers+text"){
-                <mat-form-field><mat-label> X </mat-label><mat-select [(ngModel)] = "selectedFields.x">@for(h of data[SelectedDataIndex].headers;track h){<mat-option [value] = "h" (click)="selectedFields.xindex= SelectedDataIndex">{{h}}</mat-option>}</mat-select></mat-form-field>
+                <mat-form-field><mat-label> X </mat-label><mat-select [(ngModel)] = "selectedFields.x">@for(h of input.data[SelectedDataIndex].headers;track h){<mat-option [value] = "h" (click)="selectedFields.xindex= SelectedDataIndex">{{h}}</mat-option>}</mat-select></mat-form-field>
               }
             </p>
 
@@ -105,14 +114,20 @@
 
         @else if(SelectedTrace == "surface" || SelectedTrace == "contour"){
           <p>
-          <mat-form-field><mat-label> X </mat-label><mat-select [(ngModel)] = "selectedFields.x">@for(h of data[SelectedDataIndex].headers;track h){<mat-option [value] = "h" (click)="selectedFields.xindex = SelectedDataIndex; SelectedHeader$.next(h + ' (x contour/surface)')">{{h}}</mat-option>}</mat-select></mat-form-field>
-          <mat-form-field><mat-label>Y</mat-label><mat-select [(ngModel)] = "selectedFields.y">@for(h of data[SelectedDataIndex].headers;track h){<mat-option [value] = "h" (click)="selectedFields.yindex = SelectedDataIndex;SelectedHeader$.next(h + ' (y contour/surface)')">{{h}}</mat-option>}</mat-select></mat-form-field>
-          <mat-form-field><mat-label>Z</mat-label><mat-select [(ngModel)] = "selectedFields.z">@for(h of data[SelectedDataIndex].headers;track h){<mat-option [value] = "h" (click)="selectedFields.zindex = SelectedDataIndex;SelectedHeader$.next(h + ' (z contour/surface)')">{{h}}</mat-option>}</mat-select></mat-form-field>
+          <mat-form-field><mat-label> X </mat-label><mat-select [(ngModel)] = "selectedFields.x">@for(h of input.data[SelectedDataIndex].headers;track h){<mat-option [value] = "h" (click)="selectedFields.xindex = SelectedDataIndex; SelectedHeader$.next(h + ' (x contour/surface)')">{{h}}</mat-option>}</mat-select></mat-form-field>
+          <mat-form-field><mat-label>Y</mat-label><mat-select [(ngModel)] = "selectedFields.y">@for(h of input.data[SelectedDataIndex].headers;track h){<mat-option [value] = "h" (click)="selectedFields.yindex = SelectedDataIndex;SelectedHeader$.next(h + ' (y contour/surface)')">{{h}}</mat-option>}</mat-select></mat-form-field>
+          <mat-form-field><mat-label>Z</mat-label><mat-select [(ngModel)] = "selectedFields.z">@for(h of input.data[SelectedDataIndex].headers;track h){<mat-option [value] = "h" (click)="selectedFields.zindex = SelectedDataIndex;SelectedHeader$.next(h + ' (z contour/surface)')">{{h}}</mat-option>}</mat-select></mat-form-field>
           <mat-form-field><mat-label>Color Scales</mat-label><mat-select [(ngModel)] = "SelectedColorScale">@for(cs of ColorScales;track cs){<mat-option [value] = "cs">{{cs}}</mat-option>}</mat-select></mat-form-field>
           </p>
           
         }
         @else if(SelectedTrace == "heatmap"){
+
+        }
+        @else if(SelectedTrace == "bar"){
+
+        }
+        @else if(SelectedTrace == "pie"){
 
         }
         @else{

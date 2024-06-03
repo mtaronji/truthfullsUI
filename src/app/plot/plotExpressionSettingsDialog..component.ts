@@ -13,8 +13,8 @@ import {FormsModule} from '@angular/forms';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatInputModule } from '@angular/material/input';
 import {MatListModule} from '@angular/material/list';
-import { PunkData } from './plot.component';
-import { Observable, Subject, from,of } from 'rxjs';
+import { AppData, DialogInput } from './plot.component';
+import { Subject} from 'rxjs';
 
 interface Trace{
     ["OHLC"] : PlotlyJS.OhlcData,
@@ -72,7 +72,9 @@ interface Trace{
     
   })
   export class ExpressionSettingsDialog implements AfterViewInit {
-  
+    
+    SelectedChartIndex:number = 0;
+    ChartCountArray:number[] = []; //used to iterate number of charts in the template
     //traces
     SelectedTrace:string;
     TraceNames:string[] = ["candlestick","scatter","scatter3d","bar","pie","heatmap","contour","surface"];
@@ -138,11 +140,13 @@ interface Trace{
     @ViewChild(MatAccordion) accordion: MatAccordion;
     constructor(
       public dialogRef: MatDialogRef<ExpressionSettingsDialog>,
-      @Inject(MAT_DIALOG_DATA) public data : PunkData[],
+      @Inject(MAT_DIALOG_DATA) public input : DialogInput,
     ) {
-      if(data[0].data[0] == undefined){
+      if(input.data[0].data[0] == undefined){
         dialogRef.close();
       }
+      
+      this.ChartCountArray = new Array(Math.min(input.chartcount + 1, 4));   
       this.accordion = {} as MatAccordion;
       this.SelectedTrace = "";
       this.Trace =  {}  as Trace;
@@ -152,15 +156,12 @@ interface Trace{
       
       this.SelectedHeader$.subscribe({
         next:(h:string) =>{
-          let expression = data[this.SelectedDataIndex].syntax;
+          let expression = input.data[this.SelectedDataIndex].syntax;
           this.SelectedHeaders.push(`${h} from Expression: ${expression}`);
         }
       });
 
-      this.layout = {} as PlotlyJS.Layout;
-
-      
-    
+      this.layout = {} as PlotlyJS.Layout; 
     }
     ngAfterViewInit(): void {
   
@@ -208,19 +209,19 @@ interface Trace{
     }
   
     onNoClick(): void {
-      this.data = [];
+      this.input.data = [];
       this.dialogRef.close();
     }
   
     onCreatePlot():void{
       let trace = this.CreateTrace();
       this.CreateLayout();
-      this.data = [];
-      this.dialogRef.close({Trace:trace, Layout:this.layout, PlotTraces:true});
+      this.input.data = [];
+      this.dialogRef.close({Trace:trace, Layout:this.layout, PlotTraces:true, SelectedChartIndex:this.SelectedChartIndex});
     }
   
     onCreateTable():void{
-      this.dialogRef.close({data:this.data, PlotTraces:false, ViewTable:true});
+      this.dialogRef.close({data:this.input.data, PlotTraces:false, ViewTable:true});
     }
   
     CreateTrace():any{
@@ -232,11 +233,11 @@ interface Trace{
           name:this.SelectedTraceName,
           xaxis:this.selectedOHLC.xaxis,       
           //yaxis:this.selectedOHLC.yaxis,
-          high:this.data[this.selectedOHLC.highindex].data.map((x:any) => x[this.selectedOHLC.high]),
-          low:this.data[this.selectedOHLC.lowindex].data.map((x:any) => x[this.selectedOHLC.low]),
-          close:this.data[this.selectedOHLC.closeindex].data.map((x:any) => x[this.selectedOHLC.close]),
-          open:this.data[this.selectedOHLC.openindex].data.map((x:any) => x[this.selectedOHLC.open]),
-          x: this.data[this.selectedOHLC.xindex].data.map( (x:any) => x[this.selectedOHLC.X]),
+          high:this.input.data[this.selectedOHLC.highindex].data.map((x:any) => x[this.selectedOHLC.high]),
+          low:this.input.data[this.selectedOHLC.lowindex].data.map((x:any) => x[this.selectedOHLC.low]),
+          close:this.input.data[this.selectedOHLC.closeindex].data.map((x:any) => x[this.selectedOHLC.close]),
+          open:this.input.data[this.selectedOHLC.openindex].data.map((x:any) => x[this.selectedOHLC.open]),
+          x: this.input.data[this.selectedOHLC.xindex].data.map( (x:any) => x[this.selectedOHLC.X]),
           increasing:{line:{color:this.selectedOHLC.increasecolor}},
           decreasing:{line:{color:this.selectedOHLC.decreasecolor}} ,
           opacity:0.65 
@@ -250,8 +251,8 @@ interface Trace{
           name:this.SelectedTraceName,
           //@ts-ignore
           mode:this.SelectedScatterMode,
-          x:this.data[this.selectedFields.xindex].data.map( (x:any) => x[this.selectedFields.x]),
-          y:this.data[this.selectedFields.yindex].data.map( (x:any) => x[this.selectedFields.y]),
+          x:this.input.data[this.selectedFields.xindex].data.map( (x:any) => x[this.selectedFields.x]),
+          y:this.input.data[this.selectedFields.yindex].data.map( (x:any) => x[this.selectedFields.y]),
          
           xaxis:this.selectedFields.xaxis,
           yaxis:this.selectedFields.yaxis,
@@ -279,9 +280,9 @@ interface Trace{
         let surface= {
           type:"surface",
           
-          x: this.data[this.selectedFields.xindex].data.map((x:any) => x[this.selectedFields.x]),
-          y:this.data[this.selectedFields.yindex].data.map((x:any) => x[this.selectedFields.y]),
-          z: this.data[this.selectedFields.zindex].data.map((x:any) => x[this.selectedFields.z]),
+          x: this.input.data[this.selectedFields.xindex].data.map((x:any) => x[this.selectedFields.x]),
+          y:this.input.data[this.selectedFields.yindex].data.map((x:any) => x[this.selectedFields.y]),
+          z: this.input.data[this.selectedFields.zindex].data.map((x:any) => x[this.selectedFields.z]),
 
           contours: {
             z: {
@@ -299,9 +300,9 @@ interface Trace{
         let contour= {
           type:"contour",
           
-          x: this.data[this.selectedFields.xindex].data.map((x:any) => x[this.selectedFields.x]),
-          y:this.data[this.selectedFields.yindex].data.map((x:any) => x[this.selectedFields.y]),
-          z: this.data[this.selectedFields.zindex].data.map((x:any) => x[this.selectedFields.z]),
+          x: this.input.data[this.selectedFields.xindex].data.map((x:any) => x[this.selectedFields.x]),
+          y:this.input.data[this.selectedFields.yindex].data.map((x:any) => x[this.selectedFields.y]),
+          z: this.input.data[this.selectedFields.zindex].data.map((x:any) => x[this.selectedFields.z]),
           colorscale:this.SelectedColorScale
         };
         trace = contour;

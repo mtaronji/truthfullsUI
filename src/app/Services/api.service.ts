@@ -4,7 +4,7 @@ import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http
 import { OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRouteSnapshot, CanActivateFn, RouterStateSnapshot } from '@angular/router';
 import { User } from 'src/assets/authmodels';
-import { PunkSyntaxObject } from '../plot/plot.component';
+import { PunkInput } from '../plot/plot.component';
 
 export interface ErrorModel{
   error:string;//message about error
@@ -41,7 +41,7 @@ export class APIService implements OnDestroy, OnInit {
   //   return this.httpclient.get<StockPriceData>(url);
   // }
 
-  public EvaluatePunkSyntax(evaluationobj:PunkSyntaxObject):Observable<any>{
+  public EvaluatePunkInput(evaluationobj:PunkInput):Observable<any>{
     // let encoded = encodeURIComponent(syntax);
     let url = `${this.URLRoot}/interpret`;
     let resultFiles = evaluationobj.csvfiles;

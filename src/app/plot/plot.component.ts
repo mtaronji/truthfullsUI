@@ -26,33 +26,40 @@ import { MatIconModule } from '@angular/material/icon';
 import { PapaparseService } from '../Services/papaparse.service';
 import { RouterModule } from '@angular/router';
 import {CdkDrag, CdkDragHandle} from '@angular/cdk/drag-drop';
+import {MatExpansionModule} from '@angular/material/expansion';
+import {MatProgressBarModule} from '@angular/material/progress-bar';
 
-export interface PunkData {
+export interface AppData {
   type: string;
   data: any;
   syntax:string;
   headers:string[];
   matrix:any;
 }
+export interface DialogInput{
+  data:Partial<AppData>[];
+  chartcount:number;
+}
 export interface PunkExpression{
   syntax:string,
   index:number
 }
 
-export interface PunkSyntaxObject{
+export interface PunkInput{
   syntax:string;
   csvfiles:any;
 }
 @Component({
   selector: 'punk-plot',
   standalone: true,
-  imports: [PunkLibModule,PlotlyModule,MatTableModule,UpperCasePipe, CommonModule,MatPaginatorModule, MatListModule,MatButtonModule,MatIconModule,RouterModule, CdkDrag, CdkDragHandle],
+  imports: [PunkLibModule,PlotlyModule,MatTableModule,UpperCasePipe, CommonModule,MatPaginatorModule, MatListModule,MatButtonModule,MatIconModule,RouterModule, CdkDrag, CdkDragHandle,MatExpansionModule,MatProgressBarModule],
   templateUrl: './plot.component.html',
   styleUrl: './plot.component.scss'
   
 })
 export class PlotComponent implements AfterViewInit, AfterViewChecked {
- 
+  
+  Loading:boolean = false;
   DataUsage:number = 0;
   ViewTable:boolean;
   ViewPlot:boolean;
@@ -67,24 +74,18 @@ export class PlotComponent implements AfterViewInit, AfterViewChecked {
    
   }
 
-  data:Partial<PunkData>[]                     //data object can be one of many different values. We will forgoe type checking
+  data:Partial<AppData>[]                     //data object can be one of many different values. We will forgoe type checking
   tracedata:any[][];
-  tracedata1:any[] = [];
-  tracedata2:any[] = [];
-  tracedata3:any[] = [];
-  tracedata4:any[] = [];
-  tracedata5:any[] = [];
-  tracedata6:any[] = [];
+  // tracedata1:any[] = [];
+  // tracedata2:any[] = [];
+  // tracedata3:any[] = [];
+  // tracedata4:any[] = [];
+  // tracedata5:any[] = [];
+  // tracedata6:any[] = [];
 
   tabledata = new MatTableDataSource<any>();
-  layout1:Partial<PlotlyJS.Layout>;
-  layout2:Partial<PlotlyJS.Layout>;
-  layout3:Partial<PlotlyJS.Layout>;
-  layout4:Partial<PlotlyJS.Layout>;
-  config1:Partial<PlotlyJS.Config>;
-  config2:Partial<PlotlyJS.Config>;
-  config3:Partial<PlotlyJS.Config>;
-  config4:Partial<PlotlyJS.Config>;
+  layout:Partial<PlotlyJS.Layout>[] = [];
+  config:Partial<PlotlyJS.Config>[] = [];
   headers:string[];
   Expressions: PunkExpression[];
   SelectedExpression:string = "";
@@ -92,31 +93,33 @@ export class PlotComponent implements AfterViewInit, AfterViewChecked {
   PunkErrorMsg:string = "";
   plt1:string = "plt1";
   plt2:string = "plt2";
+  plt3:string = "plt3";
+  plt4:string = "plt4";
+  totalplots:number = 0;
   constructor(private api:APIService, public dialog:MatDialog, private parser:PapaparseService
   ){
     this.tracedata = [];
+    this.tracedata[0] = []; //create arrays for first 2 charts
+    this.tracedata[1] = [];
+
     this.data = [];
     this.ViewTable = false;
     this.ViewPlot = false;
     this.paginator = {} as MatPaginator;
     this.headers = [];
     this.Expressions = [];
-    this.layout1 = {} as PlotlyJS.Layout;
-    this.layout2 = {} as PlotlyJS.Layout;
-    this.layout3 = {} as PlotlyJS.Layout;
-    this.layout4 = {} as PlotlyJS.Layout;
-
+    this.Loading = true;
     
-    this.config1 = {
+    this.config[0] = {
       displayModeBar:false, responsive:true
     }
-    this.config2 = {
+    this.config[1] = {
       displayModeBar:false, responsive:true
     }
-    this.config3= {
+    this.config[2]= {
       displayModeBar:false, responsive:true
     }
-    this.config4 = {
+    this.config[3] = {
       displayModeBar:false, responsive:true
     }
   }
@@ -129,19 +132,26 @@ export class PlotComponent implements AfterViewInit, AfterViewChecked {
     this.tabledata.paginator = this.paginator;
 
     //init landing data
-    let syntax = "##stocks{GetPrices(\"SPY\", \"2024-01-01\")} ##stocks{SectorDailyGains()}";
-    let obj:PunkSyntaxObject = {
+    let syntax = "##stocks{GetPrices(\"SPY\", \"2024-01-01\")} "
+                  + "##stocks{SMA(200,\"SPY\", \"2024-01-01\")} "
+                  + "##stocks{SMA(100,\"SPY\", \"2024-01-01\")} "
+                  + "##stocks{EMA(8,\"SPY\", \"2024-01-01\")} "
+                  + "##stocks{GetPrices(\"^VIX\", \"2024-01-01\")} "
+                  + "##stocks{SectorDailyGains()} ";
+    let input:PunkInput = {
       syntax:syntax, csvfiles:this.csvFilesData
     }
-    this.api.EvaluatePunkSyntax(obj).pipe(catchError(this.PunkError))
+    this.api.EvaluatePunkInput(input).pipe(catchError(this.PunkError))
     .subscribe({
       next:(expressions:any) =>{  
+       
         this.LoadExpressions(expressions);
         this.InitLandingTrace1();
+        this.InitMovingAverageAndVixTraces();
         this.InitLandingTrace2();
-        this.CreateLayout2();
         this.CreateLayout1();
-      
+        this.CreateLayout2();
+        this.Loading = false;
       },
       error: (err:Error) =>{
         this.PunkErrorMsg = err.message;
@@ -158,20 +168,22 @@ export class PlotComponent implements AfterViewInit, AfterViewChecked {
         window.dispatchEvent(new Event('resize'));
       }
     });
+    
   }
 
   NewSyntax(syntax:string):void{
-
+    this.Loading = true;
     //send syntax to backend to evaluate   
     this.PunkErrorMsg = "";
     //this.Expressions = [];
-    let obj:PunkSyntaxObject = {
+    let input:PunkInput = {
       syntax:syntax, csvfiles:this.csvFilesData
     }
-    this.api.EvaluatePunkSyntax(obj).pipe(catchError(this.PunkError))
+    this.api.EvaluatePunkInput(input).pipe(catchError(this.PunkError))
     .subscribe({
       next:(expressions:any) =>{  
         this.LoadExpressions(expressions);
+        this.Loading = false;
       },
       error: (err:Error) =>{
         this.PunkErrorMsg = err.message;
@@ -180,8 +192,7 @@ export class PlotComponent implements AfterViewInit, AfterViewChecked {
   }
 
   LoadExpressions(expressions:any){
-    for(let i = 0; i < expressions.length;i++){
-          
+    for(let i = 0; i < expressions.length;i++){       
       let syntax = "";
       if(expressions[i].results.length == 0){
         syntax = "Query didn't return data";
@@ -209,9 +220,51 @@ export class PlotComponent implements AfterViewInit, AfterViewChecked {
       decreasing:{line:{color:'ren'}} ,
       opacity:0.65 
     }
-    this.tracedata[0] = [];
-    //this.tracedata[0].push(ohlcTrace);
-    this.tracedata1 = [ohlcTrace];
+
+    this.tracedata[0].push(ohlcTrace);
+  }
+  InitMovingAverageAndVixTraces(){
+    let sma200:Partial<PlotlyJS.ScatterData> = {
+      type:"scatter",
+      name:"200 Day SPY SMA",
+      xaxis:"x",       
+      y:this.data[1].data.map((x:any) => x['adjClose']),
+      x: this.data[1].data.map( (x:any) => x['date']),
+      opacity:0.65,
+      line:{color:'black'}
+    }
+    let sma100:Partial<PlotlyJS.ScatterData> = {
+      type:"scatter",
+      name:"100 Day SPY SMA",
+      xaxis:"x",       
+      y:this.data[2].data.map((x:any) => x['adjClose']),
+      x: this.data[2].data.map( (x:any) => x['date']),
+      opacity:0.65,
+      line:{color:'orange'}
+    }
+    let ema10:Partial<PlotlyJS.ScatterData> = {
+      type:"scatter",
+      name:"10 Day SPY EMA",
+      xaxis:"x",       
+      y:this.data[3].data.map((x:any) => x['adjClose']),
+      x: this.data[3].data.map( (x:any) => x['date']),
+      opacity:0.65,
+      line:{color:'yellow'}
+    }
+    let vix:Partial<PlotlyJS.ScatterData> = {
+      type:"scatter",
+      name:"vix",
+      xaxis:"x",   
+      yaxis:'y2', 
+      y:this.data[4].data.map((x:any) => x['adjClose']),
+      x: this.data[4].data.map( (x:any) => x['date']),
+      opacity:0.65,
+      line:{color:'red'}
+    }
+    this.tracedata[0].push(sma200);
+    this.tracedata[0].push(sma100);
+    this.tracedata[0].push(ema10);
+    this.tracedata[0].push(vix);
   }
   InitLandingTrace2(){
     let colorscale = [
@@ -226,7 +279,7 @@ export class PlotComponent implements AfterViewInit, AfterViewChecked {
       ['1.0','#006400'],
       ['1.0','#006400']
     ];
-    let gains:number[] = this.data[1].data.map((x:any) => x['gain']);
+    let gains:number[] = this.data[5].data.map((x:any) => x['gain']);
     let heatmaptrace:any= {
       type: 'heatmap',
       hoverongaps: false,
@@ -248,14 +301,12 @@ export class PlotComponent implements AfterViewInit, AfterViewChecked {
       zmin: -2,
       zmax: 2,
     }
-    this.tracedata[1] = [];
     this.tracedata[1].push(heatmaptrace);
-    this.tracedata2 = [heatmaptrace];
   }
 
   CreateLayout1(){
     //spy mapped with the daily volatility
-      this.layout1 = {
+      this.layout[0] = {
         autosize:true,
         xaxis: {
           autorange: true, 
@@ -268,8 +319,15 @@ export class PlotComponent implements AfterViewInit, AfterViewChecked {
           type: '-',
           title:'Prices'
         },      
+        yaxis2:{
+          autorange: true, 
+          type: '-',
+          title:'VIX prices',
+          overlaying:'y',
+          side:'right'
+        },
         title:{
-          text:"SPY YTD",
+          text:"SPY YTD With VIX",
           font:{
             size:25,
             family:"Gravitas One",
@@ -280,7 +338,7 @@ export class PlotComponent implements AfterViewInit, AfterViewChecked {
   }
   CreateLayout2(){
     //sector heatmap
-    let sectors:string[] = this.data[1].data.map((x:any) => x['sectorETF']);
+    let sectors:string[] = this.data[5].data.map((x:any) => x['sectorETF']);
     let annotations: Partial<PlotlyJS.Annotations>[] = [];
     let count = 0;
     for(let i = 0; i < 9; i++){
@@ -303,7 +361,7 @@ export class PlotComponent implements AfterViewInit, AfterViewChecked {
         count++;
       }
     }
-    this.layout2 = {
+    this.layout[1] = {
       autosize:true,
       xaxis: {
         showgrid: false,
@@ -345,8 +403,13 @@ export class PlotComponent implements AfterViewInit, AfterViewChecked {
   }
 
   OpenExpressionSettings(){
+    let chartcount = this.tracedata.length;
+    let input:DialogInput = {
+      data:this.data,
+      chartcount:chartcount
+    }
     const dialogRef = this.dialog.open(ExpressionSettingsDialog, 
-      {data:this.data, autoFocus:true,maxHeight: '90vh' }
+      {data:input, autoFocus:true,maxHeight: '90vh' }
     );
 
     dialogRef.afterClosed().subscribe(result => {
@@ -360,22 +423,9 @@ export class PlotComponent implements AfterViewInit, AfterViewChecked {
 
   onClose(result:any){
     if(result.PlotTraces == true){
-      let size = this.tracedata.length;
-      this.tracedata[size] = [];
-      this.tracedata[size].push(result.Trace); 
-      if(size == 0){
-        this.layout1 = result.Layout;
-      }
-      else if(size == 1){
-        this.layout2 = result.Layout;
-      }
-      else if(size == 2){
-        this.layout3 = result.Layout;
-      }
-      else if(size == 3){
-        this.layout4 = result.Layout;
-      }
-      
+      if (this.tracedata[result.SelectedChartIndex] === undefined) {this.tracedata[result.SelectedChartIndex] = [];}
+      this.tracedata[result.SelectedChartIndex].push(result.Trace); 
+      this.layout[result.SelectedChartIndex] = result.Layout;
       this.ViewPlot = true;
     }
     if(result.ViewTable == true){
@@ -424,6 +474,13 @@ export class PlotComponent implements AfterViewInit, AfterViewChecked {
     this.csvFilesData = [];
     this.SelectedFiles = [];
     this.Expressions = [];
+  }
+  HandleExpandCollapse(){
+    window.dispatchEvent(new Event('resize'));
+  }
+
+  DeleteChart(chartnumber:number){
+    PlotlyJS.purge(`plt${chartnumber}`);
   }
 
 

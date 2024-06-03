@@ -1,5 +1,5 @@
 
-import {Component,Output, EventEmitter, ViewChild, ElementRef, } from '@angular/core';
+import {Component,Output, EventEmitter, ViewChild, ElementRef, AfterViewInit, } from '@angular/core';
 import {MatIconModule} from '@angular/material/icon';
 import {MatButtonModule} from '@angular/material/button';
 import { RouterLink } from '@angular/router';
@@ -14,12 +14,18 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
   styleUrl: './sidebar.component.css'
 })
 
-export class SidebarComponent {
+export class SidebarComponent implements AfterViewInit {
 
-
+  SideBarExpanded:boolean = false;
   
   constructor(){
-
+    let w = window.innerWidth;
+    if (w > 1200){
+      this.SideBarExpanded = true;
+    }
+  }
+  ngAfterViewInit(): void {
+   
   }
 
   SequenceClick() {
