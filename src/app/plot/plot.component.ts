@@ -309,6 +309,8 @@ export class PlotComponent implements AfterViewInit, AfterViewChecked {
     //spy mapped with the daily volatility
       this.layout[0] = {
         autosize:true,
+        paper_bgcolor:  "#fafafa", 
+        plot_bgcolor: "#fafafa",
         xaxis: {
           autorange: true, 
           title: 'Date', 
@@ -364,6 +366,8 @@ export class PlotComponent implements AfterViewInit, AfterViewChecked {
     }
     this.layout[1] = {
       autosize:true,
+      paper_bgcolor:  "#fafafa", 
+      plot_bgcolor: "#fafafa",
       xaxis: {
         showgrid: false,
         showline: false,
