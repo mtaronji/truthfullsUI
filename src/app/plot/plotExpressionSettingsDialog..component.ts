@@ -187,7 +187,9 @@ interface Trace{
       this.x2Axis.title = "X2";this.x2Axis.type = "-"; this.x2font = Object.create(this.DefaultFont); this.x2Axis.range = [this.SelectedRangeStart.get('x2'), this.SelectedRangeEnd.get('x2')];
       this.yAxis.title = "Y"; this.yAxis.type = "-"; this.yfont = Object.create(this.DefaultFont); this.yAxis.range = [this.SelectedRangeStart.get('y'), this.SelectedRangeEnd.get('y')];
       this.y2Axis.title = "Y2"; this.y2Axis.type = "-"; this.y2font = Object.create(this.DefaultFont); this.y2Axis.range = [this.SelectedRangeStart.get('y2'), this.SelectedRangeEnd.get('y2')];
-  
+      this.y2Axis.side = "right";
+      this.y2Axis.overlaying = "y";
+
     }
     private OHLCDefaults(){
       this.selectedOHLC.decreasecolor = "#FB607F";

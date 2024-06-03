@@ -186,6 +186,7 @@ export class PlotComponent implements AfterViewInit, AfterViewChecked {
         this.Loading = false;
       },
       error: (err:Error) =>{
+        this.Loading = false;
         this.PunkErrorMsg = err.message;
       }
     });
