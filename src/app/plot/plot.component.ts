@@ -143,8 +143,8 @@ export class PlotComponent implements AfterViewInit, AfterViewChecked {
       next:(expressions:any) =>{  
        
         this.LoadExpressions(expressions);
-        this.InitLandingTrace1();
-        this.InitMovingAverageAndVixTraces();
+        this.InitLandingTrace1(initialSector);
+        this.InitMovingAverageAndVixTraces(initialSector);
         this.InitLandingTrace2();
         this.CreateLayout1(initialSector);
         this.CreateLayout2();
@@ -205,10 +205,10 @@ export class PlotComponent implements AfterViewInit, AfterViewChecked {
     }
   }
 
-  InitLandingTrace1(){
+  InitLandingTrace1(ticker:string){
     let ohlcTrace:Partial<PlotlyJS.CandlestickData> = {
       type:"candlestick",
-      name:"SPY",
+      name:`${ticker}`,
       xaxis:"x",       
       high:this.data[0].data.map((x:any) => x['high']),
       low:this.data[0].data.map((x:any) => x['low']),
@@ -222,10 +222,10 @@ export class PlotComponent implements AfterViewInit, AfterViewChecked {
 
     this.tracedata[0].push(ohlcTrace);
   }
-  InitMovingAverageAndVixTraces(){
+  InitMovingAverageAndVixTraces(ticker:string){
     let sma200:Partial<PlotlyJS.ScatterData> = {
       type:"scatter",
-      name:"200 Day SPY SMA",
+      name:`200 Day ${ticker} SMA`,
       xaxis:"x",       
       y:this.data[1].data.map((x:any) => x['adjClose']),
       x: this.data[1].data.map( (x:any) => x['date']),
@@ -234,7 +234,7 @@ export class PlotComponent implements AfterViewInit, AfterViewChecked {
     }
     let sma100:Partial<PlotlyJS.ScatterData> = {
       type:"scatter",
-      name:"100 Day SPY SMA",
+      name:`100 Day ${ticker} SMA`,
       xaxis:"x",       
       y:this.data[2].data.map((x:any) => x['adjClose']),
       x: this.data[2].data.map( (x:any) => x['date']),
@@ -243,7 +243,7 @@ export class PlotComponent implements AfterViewInit, AfterViewChecked {
     }
     let ema10:Partial<PlotlyJS.ScatterData> = {
       type:"scatter",
-      name:"10 Day SPY EMA",
+      name:`10 Day ${ticker} EMA`,
       xaxis:"x",       
       y:this.data[3].data.map((x:any) => x['adjClose']),
       x: this.data[3].data.map( (x:any) => x['date']),
@@ -267,16 +267,16 @@ export class PlotComponent implements AfterViewInit, AfterViewChecked {
   }
   InitLandingTrace2(){
     let colorscale = [
-      ['0.0','#8B0000'],
-      ['0.0','#8B0000'],
-      ['0.25','#FFC0CB'],
-      ['0.25','#FFC0CB'],
-      ['0.5','#E5E4E2'],
-      ['0.5','#E5E4E2'],
-      ['0.75','#AFE1AF'],
-      ['0.75','#AFE1AF'],
-      ['1.0','#006400'],
-      ['1.0','#006400']
+      ['0.0','rgba(139, 0, 0, 0.5)'],
+      ['0.0','rgba(139, 0, 0, 0.5)'],
+      ['0.25','rgba(255, 192, 203, 0.5)'],
+      ['0.25','rgba(255, 192, 203, 0.5)'],
+      ['0.5','rgba(229, 228, 226, 1)'],
+      ['0.5','rgba(229, 228, 226, 1)'],
+      ['0.75','rgba(175, 225, 175, 0.5)'],
+      ['0.75','rgba(175, 225, 175, 0.5)'],
+      ['1.0','rgba(0, 100, 0, 0.5)'],
+      ['1.0','rgba(0, 100, 0, 0.5)']
     ];
     let gains:number[] = this.data[5].data.map((x:any) => x['gain']);
     let heatmaptrace:any= {
@@ -311,30 +311,30 @@ export class PlotComponent implements AfterViewInit, AfterViewChecked {
         plot_bgcolor: "#fafafa",
         xaxis: {
           autorange: true, 
-          title: 'Date', 
+          // title: 'Date', 
           type: '-',
           rangeslider:{visible:false}
         }, 
         yaxis: {
           autorange: true, 
           type: '-',
-          title:'Prices'
+          // title:'Prices'
         },      
         yaxis2:{
           autorange: true, 
           type: '-',
-          title:'VIX prices',
+          // title:'VIX prices',
           overlaying:'y',
           side:'right'
         },
-        title:{
-          text:`${ticker} YTD With VIX`,
-          font:{
-            size:25,
-            family:"Gravitas One",
-            color:"black"
-          }
-        } 
+        // title:{
+        //   text:`${ticker} YTD With VIX`,
+        //   font:{
+        //     size:25,
+        //     family:"Gravitas One",
+        //     color:"black"
+        //   }
+        // } 
       } 
   }
   CreateLayout2(){
@@ -385,14 +385,14 @@ export class PlotComponent implements AfterViewInit, AfterViewChecked {
         type:'linear',
         visible:false
       },    
-      title:{
-        text:"Sector Heat Map",
-        font:{
-          size:25,
-          family:"Gravitas One",
-          color:"black"
-        }
-      }, 
+      // title:{
+      //   text:"Sector Heat Map",
+      //   font:{
+      //     size:25,
+      //     family:"Gravitas One",
+      //     color:"black"
+      //   }
+      // }, 
       annotations:annotations
     } 
   }
@@ -505,8 +505,8 @@ export class PlotComponent implements AfterViewInit, AfterViewChecked {
         this.DeleteChart(1); this.DeleteChart(2);
         this.ClearData(); this.tracedata[0] = []; this.tracedata[1] = [];
         this.LoadExpressions(expressions);
-        this.InitLandingTrace1();
-        this.InitMovingAverageAndVixTraces();
+        this.InitLandingTrace1(sector);
+        this.InitMovingAverageAndVixTraces(sector);
         this.InitLandingTrace2();
         this.CreateLayout1(sector);
         this.CreateLayout2();
