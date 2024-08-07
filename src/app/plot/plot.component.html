@@ -44,6 +44,7 @@
           [style]="{width:'95%', height:'95%', autosize:'true'}" 
           [config]=config[0]
           [useResizeHandler]="true"
+
           >
           </plotly-plot>
         </div>
@@ -63,9 +64,10 @@
           </button>
           <plotly-plot  [data]= tracedata[1] [divId]=plt2
           [layout] = layout[1]
-          [style]="{width:'95%', height:'95%', autosize:'true'}" 
+          [style]="{width:'95%', height:'95%', autosize:'true',cursor:'pointer'}" 
           [config]=config[1]
           [useResizeHandler]="true"
+          (clickAnnotation)="HeatMapClickEvent($event)"
           >
           </plotly-plot>
         </div>

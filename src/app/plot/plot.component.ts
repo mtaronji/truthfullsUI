@@ -16,7 +16,7 @@ import {MatPaginator, MatPaginatorModule} from '@angular/material/paginator';
 
 import {MatListModule, MatListOption, MatSelectionListChange} from '@angular/material/list';
 import { SelectionModel } from '@angular/cdk/collections';
-import { catchError, throwError,from , mergeMap, map, fromEvent} from 'rxjs';
+import { catchError, throwError,from , mergeMap, map, fromEvent, of} from 'rxjs';
 
 import { HttpErrorResponse } from '@angular/common/http';
 import { ExpressionSettingsDialog,ReturnDialogData } from './plotExpressionSettingsDialog..component';
@@ -28,6 +28,7 @@ import { RouterModule } from '@angular/router';
 import {CdkDrag, CdkDragHandle} from '@angular/cdk/drag-drop';
 import {MatExpansionModule} from '@angular/material/expansion';
 import {MatProgressBarModule} from '@angular/material/progress-bar';
+import { PresetsService } from '../Services/presets.service';
 
 export interface AppData {
   type: string;
@@ -58,7 +59,8 @@ export interface PunkInput{
   
 })
 export class PlotComponent implements AfterViewInit, AfterViewChecked {
-  
+  SectorList:string[] = ["XLU","XLK","XLRE","XLI","XLV","XLE","XLP","XLY","XLC","XLF","SMH","XLB"]; //hardcode for now
+  CurrentYear = new Date().getFullYear()  
   Loading:boolean = false;
   DataUsage:number = 0;
   ViewTable:boolean;
@@ -96,7 +98,7 @@ export class PlotComponent implements AfterViewInit, AfterViewChecked {
   plt3:string = "plt3";
   plt4:string = "plt4";
   totalplots:number = 0;
-  constructor(private api:APIService, public dialog:MatDialog, private parser:PapaparseService
+  constructor(private api:APIService, public dialog:MatDialog, private parser:PapaparseService, private presetservice:PresetsService
   ){
     this.tracedata = [];
     this.tracedata[0] = []; //create arrays for first 2 charts
@@ -128,16 +130,11 @@ export class PlotComponent implements AfterViewInit, AfterViewChecked {
   }
 
   ngAfterViewInit(): void {
-   
+    
+    let initialSector = "SPY";
     this.tabledata.paginator = this.paginator;
 
-    //init landing data
-    let syntax = "##stocks{GetPrices(\"SPY\", \"2024-01-01\")} "
-                  + "##stocks{SMA(200,\"SPY\", \"2024-01-01\")} "
-                  + "##stocks{SMA(100,\"SPY\", \"2024-01-01\")} "
-                  + "##stocks{EMA(8,\"SPY\", \"2024-01-01\")} "
-                  + "##stocks{GetPrices(\"^VIX\", \"2024-01-01\")} "
-                  + "##stocks{SectorDailyGains()} ";
+    let syntax = this.presetservice.InitialTraces(initialSector, `${this.CurrentYear.toString()}-01-01`);
     let input:PunkInput = {
       syntax:syntax, csvfiles:this.csvFilesData
     }
@@ -149,12 +146,13 @@ export class PlotComponent implements AfterViewInit, AfterViewChecked {
         this.InitLandingTrace1();
         this.InitMovingAverageAndVixTraces();
         this.InitLandingTrace2();
-        this.CreateLayout1();
+        this.CreateLayout1(initialSector);
         this.CreateLayout2();
         this.Loading = false;
       },
       error: (err:Error) =>{
         this.PunkErrorMsg = err.message;
+        this.Loading = false;
       }
     });
 
@@ -305,7 +303,7 @@ export class PlotComponent implements AfterViewInit, AfterViewChecked {
     this.tracedata[1].push(heatmaptrace);
   }
 
-  CreateLayout1(){
+  CreateLayout1(ticker:string){
     //spy mapped with the daily volatility
       this.layout[0] = {
         autosize:true,
@@ -330,7 +328,7 @@ export class PlotComponent implements AfterViewInit, AfterViewChecked {
           side:'right'
         },
         title:{
-          text:"SPY YTD With VIX",
+          text:`${ticker} YTD With VIX`,
           font:{
             size:25,
             family:"Gravitas One",
@@ -343,6 +341,7 @@ export class PlotComponent implements AfterViewInit, AfterViewChecked {
     //sector heatmap
     let sectors:string[] = this.data[5].data.map((x:any) => x['sectorETF']);
     let annotations: Partial<PlotlyJS.Annotations>[] = [];
+
     let count = 0;
     for(let i = 0; i < 9; i++){
       for(let j = 0; j < 3;j++){
@@ -359,6 +358,8 @@ export class PlotComponent implements AfterViewInit, AfterViewChecked {
             color: 'white'
           },
           showarrow: false,
+          captureevents:true,
+          
         };
         annotations.push(result);
         count++;
@@ -479,6 +480,7 @@ export class PlotComponent implements AfterViewInit, AfterViewChecked {
     this.csvFilesData = [];
     this.SelectedFiles = [];
     this.Expressions = [];
+    this.data = [];
   }
   HandleExpandCollapse(){
     window.dispatchEvent(new Event('resize'));
@@ -488,5 +490,33 @@ export class PlotComponent implements AfterViewInit, AfterViewChecked {
     PlotlyJS.purge(`plt${chartnumber}`);
   }
 
+  HeatMapClickEvent(event:any){
+
+    let sector = event.annotation.text; 
+    if(!this.SectorList.includes(sector)){return;}
+
+    let syntax = this.presetservice.InitialTraces(sector, `${this.CurrentYear.toString()}-01-01`);
+    let input:PunkInput = {
+      syntax:syntax, csvfiles:this.csvFilesData
+    }
+    this.api.EvaluatePunkInput(input).pipe(catchError(this.PunkError))
+    .subscribe({
+      next:(expressions:any) =>{  
+        this.DeleteChart(1); this.DeleteChart(2);
+        this.ClearData(); this.tracedata[0] = []; this.tracedata[1] = [];
+        this.LoadExpressions(expressions);
+        this.InitLandingTrace1();
+        this.InitMovingAverageAndVixTraces();
+        this.InitLandingTrace2();
+        this.CreateLayout1(sector);
+        this.CreateLayout2();
+        this.Loading = false;
+      },
+      error: (err:Error) =>{
+        this.PunkErrorMsg = err.message;
+        this.Loading = false;
+      }
+    });
+  }
 
 }
