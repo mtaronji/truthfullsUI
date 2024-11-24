@@ -1,7 +1,8 @@
 import { TestBed } from '@angular/core/testing';
 import { APIService } from './api.service';
-import {HttpClientTestingModule} from '@angular/common/http/testing';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { of,Observable } from 'rxjs';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 
 describe('APIService', () => {
   let service: APIService;
@@ -9,8 +10,9 @@ describe('APIService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-        imports:[HttpClientTestingModule]
-    });
+    imports: [],
+    providers: [provideHttpClient(withInterceptorsFromDi()), provideHttpClientTesting()]
+});
     mockedAPIService = jasmine.createSpyObj('APIService',['getTickers']);
     service = TestBed.inject(APIService);
   });

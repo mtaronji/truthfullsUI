@@ -4,7 +4,7 @@ import { PrivacyComponent } from './app/privacy/privacy.component';
 import { TermsofserviceComponent } from './app/termsofservice/termsofservice.component';
 import { provideAnimations } from '@angular/platform-browser/animations';
 import { importProvidersFrom, inject } from '@angular/core';
-import {HttpClientModule} from '@angular/common/http';
+import {} from '@angular/common/http';
 import {RouterModule, Routes, provideRouter, withComponentInputBinding} from '@angular/router';
 import { PlotComponent } from './app/plot/plot.component';
 

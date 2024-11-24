@@ -2,9 +2,10 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { HarnessLoader } from '@angular/cdk/testing';
 import { MultitraceComponent } from './multitrace.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import {HttpClientTestingModule} from '@angular/common/http/testing';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { MatAutocompleteHarness } from '@angular/material/autocomplete/testing';
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 
 describe('MultitraceComponent', () => {
   let component: MultitraceComponent;
@@ -13,9 +14,10 @@ describe('MultitraceComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [], 
-      imports:[MultitraceComponent,BrowserAnimationsModule, HttpClientTestingModule]
-    });
+    declarations: [],
+    imports: [MultitraceComponent, BrowserAnimationsModule],
+    providers: [provideHttpClient(withInterceptorsFromDi()), provideHttpClientTesting()]
+});
     fixture = TestBed.createComponent(MultitraceComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
