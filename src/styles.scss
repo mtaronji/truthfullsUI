@@ -75,20 +75,20 @@ $purple-palette: (
 );
 
 
-$app-primary: mat.define-palette($purple-palette,500);
-$app-accent: mat.define-palette($cyber-yellow-palette,500);
-$app-warn: mat.define-palette(mat.$pink-palette,800);
+$app-primary: mat.m2-define-palette($purple-palette,500);
+$app-accent: mat.m2-define-palette($cyber-yellow-palette,500);
+$app-warn: mat.m2-define-palette(mat.$m2-pink-palette,800);
 
-$app-light-theme: mat.define-light-theme((
+$app-light-theme: mat.m2-define-light-theme((
   color: (primary: $app-primary, accent: $app-accent, warn: $app-warn)
 ));
 
-$app-primary-dark: mat.define-palette($purple-palette,200);
-$app-accent-dark: mat.define-palette($cyber-yellow-palette,500);
-$app-warn-dark: mat.define-palette(mat.$pink-palette,300);
+$app-primary-dark: mat.m2-define-palette($purple-palette,200);
+$app-accent-dark: mat.m2-define-palette($cyber-yellow-palette,500);
+$app-warn-dark: mat.m2-define-palette(mat.$m2-pink-palette,300);
 
 
-$app-dark-theme: mat.define-dark-theme((
+$app-dark-theme: mat.m2-define-dark-theme((
   color: (primary: $app-primary-dark, accent: $app-accent-dark, warn: $app-warn-dark)
 ));
 
@@ -422,10 +422,10 @@ mat-tab-body, mat-tab-group, mat-tab, .mat-mdc-tab-body-wrapper{
 
 //punkide styling for syntax
 #PunkEditor{
-    border:2px solid mat.get-color-from-palette($app-primary, 700);
+    border:2px solid mat.m2-get-color-from-palette($app-primary, 700);
 }
 #PunkEditor:focus{
-  outline: 1px solid mat.get-color-from-palette($app-accent,700);
+  outline: 1px solid mat.m2-get-color-from-palette($app-accent,700);
   border:none;
 }
 
@@ -504,25 +504,25 @@ playground{
 }
 
 .color-primary500{
-    color: mat.get-color-from-palette($app-primary,500);
+    color: mat.m2-get-color-from-palette($app-primary,500);
 }
 .color-primary900{
-    color: mat.get-color-from-palette($app-primary,900);
+    color: mat.m2-get-color-from-palette($app-primary,900);
 }
 .bg-color-primary900{
-    background: mat.get-color-from-palette($app-primary,900);
+    background: mat.m2-get-color-from-palette($app-primary,900);
 }
 .color-primary800{
-    color : mat.get-color-from-palette($app-primary,800);
+    color : mat.m2-get-color-from-palette($app-primary,800);
 }
 .color-accent900{
-    color: mat.get-color-from-palette($app-accent,900);
+    color: mat.m2-get-color-from-palette($app-accent,900);
 }
 .bg-color-accent900{
-    background: mat.get-color-from-palette($app-accent,900);
+    background: mat.m2-get-color-from-palette($app-accent,900);
 }
 .color-warn800{
-    color: mat.get-color-from-palette($app-warn,800);
+    color: mat.m2-get-color-from-palette($app-warn,800);
 }
 
 .mdc-button.mat-charcoal{
@@ -552,19 +552,19 @@ playground{
 $type: mat.get-theme-type($theme);
 
 .mdc-button.mat-ASidebar{
-    color: if($type == dark,mat.get-color-from-palette($purple-palette,100)!important, mat.get-color-from-palette($purple-palette,700)!important); // if($type == dark, mat.get-color-from-palette($app-primary,200), mat.get-color-from-palette($app-primary,900));
+    color: if($type == dark,mat.m2-get-color-from-palette($purple-palette,100)!important, mat.m2-get-color-from-palette($purple-palette,700)!important); // if($type == dark, mat.get-color-from-palette($app-primary,200), mat.get-color-from-palette($app-primary,900));
 }
 .mdc-button.mat-ASidebar:hover {
-    background-color: if($type == dark, mat.get-color-from-palette($cyber-yellow-palette,50)!important, mat.get-color-from-palette($cyber-yellow-palette,700)!important); 
-    color: if($type == dark,mat.get-color-from-palette($purple-palette,700)!important, mat.get-color-from-palette($purple-palette,700)!important);
+    background-color: if($type == dark, mat.m2-get-color-from-palette($cyber-yellow-palette,50)!important, mat.m2-get-color-from-palette($cyber-yellow-palette,700)!important); 
+    color: if($type == dark,mat.m2-get-color-from-palette($purple-palette,700)!important, mat.m2-get-color-from-palette($purple-palette,700)!important);
 }
 
 .mdc-button.mat-primary2{
-    color: if($type == dark,mat.get-color-from-palette($purple-palette,100)!important, mat.get-color-from-palette($purple-palette,700)!important);
-    background-color: if($type == dark, mat.get-color-from-palette($cyber-yellow-palette,50)!important, mat.get-color-from-palette($cyber-yellow-palette,700)!important); 
+    color: if($type == dark,mat.m2-get-color-from-palette($purple-palette,100)!important, mat.m2-get-color-from-palette($purple-palette,700)!important);
+    background-color: if($type == dark, mat.m2-get-color-from-palette($cyber-yellow-palette,50)!important, mat.m2-get-color-from-palette($cyber-yellow-palette,700)!important); 
 }
 .contrast-900{
-    color:mat.get-contrast-color-from-palette($cyber-yellow-palette,900);
+    color:mat.m2-get-contrast-color-from-palette($cyber-yellow-palette,900);
 }
 
 .center-text{
