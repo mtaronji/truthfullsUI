@@ -28,7 +28,7 @@
     "plotly": "^1.0.6",
     "plotly.js-dist": "^2.33.0",
     "plotly.js-dist-min": "^2.26.0",
-    "punk-lib": "^1.0.10",
+    "punk-lib": "^1.0.21",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.15.0"
