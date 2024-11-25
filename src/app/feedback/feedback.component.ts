@@ -6,11 +6,10 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatButtonModule } from '@angular/material/button';
 import { APIService } from '../Services/api.service';
 @Component({
-  selector: 'app-feedback',
-  standalone: true,
-  imports: [FormsModule, ReactiveFormsModule,CommonModule, MatFormFieldModule,MatInputModule,MatButtonModule],
-  templateUrl: './feedback.component.html',
-  styleUrl: './feedback.component.css'
+    selector: 'app-feedback',
+    imports: [FormsModule, ReactiveFormsModule, CommonModule, MatFormFieldModule, MatInputModule, MatButtonModule],
+    templateUrl: './feedback.component.html',
+    styleUrl: './feedback.component.css'
 })
 export class FeedbackComponent implements OnInit {
   feedbackForm: FormGroup = {} as FormGroup;

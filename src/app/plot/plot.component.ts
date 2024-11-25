@@ -51,12 +51,10 @@ export interface PunkInput{
   csvfiles:any;
 }
 @Component({
-  selector: 'punk-plot',
-  standalone: true,
-  imports: [PunkLibModule,PlotlyModule,MatTableModule,UpperCasePipe, CommonModule,MatPaginatorModule, MatListModule,MatButtonModule,MatIconModule,RouterModule, CdkDrag, CdkDragHandle,MatExpansionModule,MatProgressBarModule],
-  templateUrl: './plot.component.html',
-  styleUrl: './plot.component.scss'
-  
+    selector: 'punk-plot',
+    imports: [PunkLibModule, PlotlyModule, MatTableModule, UpperCasePipe, CommonModule, MatPaginatorModule, MatListModule, MatButtonModule, MatIconModule, RouterModule, CdkDrag, CdkDragHandle, MatExpansionModule, MatProgressBarModule],
+    templateUrl: './plot.component.html',
+    styleUrl: './plot.component.scss'
 })
 export class PlotComponent implements AfterViewInit, AfterViewChecked {
   SectorList:string[] = ["XLU","XLK","XLRE","XLI","XLV","XLE","XLP","XLY","XLC","XLF","SMH","XLB"]; //hardcode for now

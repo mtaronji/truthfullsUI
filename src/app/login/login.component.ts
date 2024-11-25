@@ -19,13 +19,11 @@ import { Router } from '@angular/router';
 
 
 @Component({
-  selector: 'login',
-  templateUrl: './login.component.html',
-  styleUrls: ['./login.component.css'],
-  standalone:true,
-  imports:[MatButtonModule, MatFormFieldModule, MatInputModule, MatDialogModule, MatIconModule, CommonModule,MatTooltipModule,MatSnackBarModule],
-  providers:[]
-  
+    selector: 'login',
+    templateUrl: './login.component.html',
+    styleUrls: ['./login.component.css'],
+    imports: [MatButtonModule, MatFormFieldModule, MatInputModule, MatDialogModule, MatIconModule, CommonModule, MatTooltipModule, MatSnackBarModule],
+    providers: []
 })
 export class LoginComponent implements AfterViewInit {
   username:string;
@@ -125,10 +123,9 @@ export class LoginComponent implements AfterViewInit {
 }
 
 @Component({
-  selector: 'logindialog',
-  templateUrl: 'logindialog.html',
-  standalone: true,
-  imports: [MatDialogModule, MatFormFieldModule, MatInputModule, FormsModule, MatButtonModule, MatIconModule]
+    selector: 'logindialog',
+    templateUrl: 'logindialog.html',
+    imports: [MatDialogModule, MatFormFieldModule, MatInputModule, FormsModule, MatButtonModule, MatIconModule]
 })
 export class logindialog {
   redirecturl:string;
@@ -162,10 +159,9 @@ export class logindialog {
 
 
 @Component({
-  selector: 'logoutdialog',
-  templateUrl: 'logoutdialog.html',
-  standalone: true,
-  imports: [MatDialogModule, MatFormFieldModule, MatInputModule, FormsModule, MatButtonModule]
+    selector: 'logoutdialog',
+    templateUrl: 'logoutdialog.html',
+    imports: [MatDialogModule, MatFormFieldModule, MatInputModule, FormsModule, MatButtonModule]
 })
 export class logoutdialog {
 

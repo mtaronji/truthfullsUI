@@ -24,26 +24,25 @@ import { EventemitService } from '../Services/eventemit.service';
 
 
 @Component({
-  selector: 'Multitrace',
-  templateUrl: './Multitrace.component.html',
-  styleUrls: ['./Multitrace.component.css'],
-  imports:[
-    FormsModule,
-    MatProgressSpinnerModule,
-    MatAutocompleteModule,
-    MatChipsModule,
-    ReactiveFormsModule,
-    MatIconModule,
-    MatFormFieldModule,
-    MatDatepickerModule,
-    MatNativeDateModule,
-    MatButtonModule,
-    MatTabsModule,
-    CommonModule,
-    MatRadioModule
-  ],
-  providers:[],
-  standalone:true
+    selector: 'Multitrace',
+    templateUrl: './Multitrace.component.html',
+    styleUrls: ['./Multitrace.component.css'],
+    imports: [
+        FormsModule,
+        MatProgressSpinnerModule,
+        MatAutocompleteModule,
+        MatChipsModule,
+        ReactiveFormsModule,
+        MatIconModule,
+        MatFormFieldModule,
+        MatDatepickerModule,
+        MatNativeDateModule,
+        MatButtonModule,
+        MatTabsModule,
+        CommonModule,
+        MatRadioModule
+    ],
+    providers: []
 })
 
 export class MultitraceComponent implements OnInit, AfterViewInit {

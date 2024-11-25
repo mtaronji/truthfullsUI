@@ -7,11 +7,10 @@ import {CdkAccordionModule} from '@angular/cdk/accordion';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @Component({
-  selector: 'sidebar',
-  standalone: true,
-  imports: [MatButtonModule, MatIconModule, RouterLink,CdkAccordionModule],
-  templateUrl: './sidebar.component.html',
-  styleUrl: './sidebar.component.css'
+    selector: 'sidebar',
+    imports: [MatButtonModule, MatIconModule, RouterLink, CdkAccordionModule],
+    templateUrl: './sidebar.component.html',
+    styleUrl: './sidebar.component.css'
 })
 
 export class SidebarComponent implements AfterViewInit {

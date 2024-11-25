@@ -4,11 +4,10 @@ import { MultitraceComponent } from '../multitrace/multitrace.component';
 
 
 @Component({
-  selector: 'model',
-  templateUrl: './model.component.html',
-  styleUrls: ['./model.component.css'],
-  standalone:true,
-  imports:[MatCheckboxModule]
+    selector: 'model',
+    templateUrl: './model.component.html',
+    styleUrls: ['./model.component.css'],
+    imports: [MatCheckboxModule]
 })
 export class ModelComponent {
   @Output() NewDataSet = new EventEmitter<string>()
@@ -22,11 +21,10 @@ export class ModelComponent {
 }
 
 @Component({
-  selector: 'modelinput',
-  templateUrl: './modelinput.html',
-  styleUrls: ['./model.component.css'],
-  standalone:true,
-  imports:[MatCheckboxModule, MultitraceComponent]
+    selector: 'modelinput',
+    templateUrl: './modelinput.html',
+    styleUrls: ['./model.component.css'],
+    imports: [MatCheckboxModule, MultitraceComponent]
 })
 export class Modelinputdialog {
   @Output() NewDataSet = new EventEmitter<string>()

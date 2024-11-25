@@ -11,20 +11,19 @@ import { PlotComponent } from '../plot/plot.component';
 import { SidebarComponent } from '../sidebar/sidebar.component';
 import {RouterOutlet, RouterModule } from '@angular/router';
 @Component({
-  selector: 'app-dashboard',
-  templateUrl: './dashboard.component.html',
-  styleUrls: ['./dashboard.component.css'],
-  standalone:true,
-  imports:[
-    CommonModule,
-    MatToolbarModule,
-    LoginComponent,
-    MatSnackBarModule,
-    PlotComponent,
-    SidebarComponent,
-    RouterOutlet,
-    RouterModule
-  ]
+    selector: 'app-dashboard',
+    templateUrl: './dashboard.component.html',
+    styleUrls: ['./dashboard.component.css'],
+    imports: [
+        CommonModule,
+        MatToolbarModule,
+        LoginComponent,
+        MatSnackBarModule,
+        PlotComponent,
+        SidebarComponent,
+        RouterOutlet,
+        RouterModule
+    ]
 })
 export class DashboardComponent implements AfterViewInit{
 

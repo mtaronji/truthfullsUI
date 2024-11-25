@@ -14,20 +14,18 @@ import {MatFormFieldModule} from '@angular/material/form-field';
 
 
 @Component({
-  selector: 'fred',
-  templateUrl: './fred.component.html',
-  styleUrls: ['./fred.component.css'],
-  standalone:true,
-  imports:[
-    PlotlyModule,
-    MatAutocompleteModule,
-    ReactiveFormsModule,
-    CommonModule,
-    MatSelectModule,
-    MatFormFieldModule,
-    FormsModule
-  ]
-
+    selector: 'fred',
+    templateUrl: './fred.component.html',
+    styleUrls: ['./fred.component.css'],
+    imports: [
+        PlotlyModule,
+        MatAutocompleteModule,
+        ReactiveFormsModule,
+        CommonModule,
+        MatSelectModule,
+        MatFormFieldModule,
+        FormsModule
+    ]
 })
 export class FredComponent implements OnInit{
   

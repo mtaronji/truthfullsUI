@@ -13,14 +13,12 @@ import { FooterComponent } from '../footer/footer.component';
 import { RouterModule } from '@angular/router';
 
 @Component({
-  selector: 'app-layout',
-  templateUrl: './layout.component.html',
-  styleUrls: ['./layout.component.css'],
-  standalone:true,
-  imports:[MatToolbarModule, LoginComponent,RouterOutlet, 
-          MatIconModule,MatButtonModule,MatTooltipModule,CommonModule,DashboardComponent,FooterComponent,RouterModule
-          ]
-
+    selector: 'app-layout',
+    templateUrl: './layout.component.html',
+    styleUrls: ['./layout.component.css'],
+    imports: [MatToolbarModule, LoginComponent, RouterOutlet,
+        MatIconModule, MatButtonModule, MatTooltipModule, CommonModule, DashboardComponent, FooterComponent, RouterModule
+    ]
 })
 export class LayoutComponent implements AfterViewInit  {
   _authenticated:boolean;

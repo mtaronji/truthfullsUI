@@ -65,12 +65,10 @@ interface Trace{
 
 @Component({
     selector: 'punk-plot',
-    standalone: true,
-    imports: [MatDialogModule,MatDialogTitle,MatDialogContent,MatDialogActions,MatDialogClose, CommonModule,MatExpansionModule,MatFormFieldModule,MatSelectModule,MatButtonModule,FormsModule,MatCheckboxModule,MatInputModule,MatListModule],
+    imports: [MatDialogModule, MatDialogTitle, MatDialogContent, MatDialogActions, MatDialogClose, CommonModule, MatExpansionModule, MatFormFieldModule, MatSelectModule, MatButtonModule, FormsModule, MatCheckboxModule, MatInputModule, MatListModule],
     templateUrl: './plotExpressionSettingsDialog.component.html',
     styleUrl: './plot.component.scss'
-    
-  })
+})
   export class ExpressionSettingsDialog implements AfterViewInit {
     
     SelectedChartIndex:number = 0;

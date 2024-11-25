@@ -3,11 +3,10 @@ import { Component, OnInit } from '@angular/core';
 
 
 @Component({
-  selector: 'app-landing',
-  templateUrl: './landing.component.html',
-  styleUrls: ['./landing.component.css'],
-  standalone:true,
-  imports:[]
+    selector: 'app-landing',
+    templateUrl: './landing.component.html',
+    styleUrls: ['./landing.component.css'],
+    imports: []
 })
 export class LandingComponent implements OnInit {
 

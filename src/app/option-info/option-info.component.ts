@@ -14,18 +14,17 @@ import { EventemitService } from '../Services/eventemit.service';
 
 
 @Component({
-  selector: 'option-info',
-  templateUrl: './option-info.component.html',
-  styleUrls: ['./option-info.component.css'],
-  imports:[
-    MatSelectModule,
-    CommonModule,
-    MatRadioModule,
-    FormsModule,
-    MatIconModule
-  ],
-  providers:[QuerystringserviceService, APIService],
-  standalone:true
+    selector: 'option-info',
+    templateUrl: './option-info.component.html',
+    styleUrls: ['./option-info.component.css'],
+    imports: [
+        MatSelectModule,
+        CommonModule,
+        MatRadioModule,
+        FormsModule,
+        MatIconModule
+    ],
+    providers: [QuerystringserviceService, APIService]
 })
 export class OptionInfoComponent implements OnInit, AfterViewInit {
   private _tickers:string[];
