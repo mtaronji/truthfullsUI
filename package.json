@@ -23,7 +23,7 @@
     "@angular/router": "^19.0.0",
     "angular-plotly.js": "^5.2.2",
     "luxon": "^3.4.0",
-    "ngx-cookie-service": "^17.1.0",
+    "ngx-cookie-service": "^19.0.0",
     "papaparse": "^5.4.1",
     "plotly": "^1.0.6",
     "plotly.js-dist": "^2.33.0",
