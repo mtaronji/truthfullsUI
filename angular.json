@@ -15,7 +15,8 @@
           "builder": "@angular-devkit/build-angular:application",
           "options": {
             "outputPath": {
-              "base": "dist/truthfulls-ui"
+              "base": "dist/truthfulls-ui",
+              "browser": ""
             },
             "index": "src/index.html",
             "polyfills": [
