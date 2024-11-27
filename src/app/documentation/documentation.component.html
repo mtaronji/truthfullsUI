@@ -70,10 +70,10 @@
     <h3 id="DocQueries"><strong>Queries </strong></h3>
     <p>Queries are search operations run on data registers to pull data for analysis. Queries are run on data registers</p>
     <h2>Stock Register Queries</h2>
-    <p>GetPrices : Returns OHLCV prices for the specified Ticker <span class="code">##stocks{{'{'}}stocks.GetPrices(Symbol,StartDate(optional), EndDate(optional)){{'}'}}</span></p>
+    <p>GetPrices : Returns OHLCV prices for the specified Ticker <span class="code">##stocks{{'{'}}GetPrices(Symbol,StartDate(optional), EndDate(optional)){{'}'}}</span></p>
     <p>Example: <span class="code">##stocks{{'{'}}GetPrices("SPY","2020-01-03" ){{'}'}}</span> Returns all prices past 01/03/2020 </p>
     <p>Query : Returns OHLCV prices for the specified Query Expression <span class="code">##stocks{{'{'}}Query(var => expression(var)){{'}'}}</span></p>
-    <p>Query Expressions are lambda expressions that return a true or false value(boolean). The following example ret urn alls closes above 120.0 for symbol XLY</p>
+    <p>Query Expressions are lambda expressions that return a true or false value(boolean). The following example returns all closes above 120.0 for symbol XLY</p>
     <p class="code">##stocks{{'{'}}Query(x => x.Ticker == ""XLY"" && x.Close > 120.0){{'}'}}</p>
     <p>Try to make your query as specific as you can. Returning too much data will result in an error.</p>
     <p>In the preceeding query, I can name my variable whatever I want. In this case it was x, but I could have named it 'p' or 'y'. The naming is your choice</p>
@@ -145,6 +145,8 @@
     <p>   Student-T(<span class="color-primary500">double</span> location, <span class="color-primary500">double</span> scale, <span class="color-primary500">double</span> freedom)</p>
     <p>   Weibull(<span class="color-primary500">double</span> shape, <span class="color-primary500">double</span> scale)</p>
     <p>   Triangular(<span class="color-primary500">double</span> lower, <span class="color-primary500">double</span> upper, <span class="color-primary500">double</span> mode)</p>
+
+    <p><strong>Sampling:</strong></p>
     <p>   For any of the following distributions, we will allow sampling from the distribution. To do so you need to pipe data into the distribution:</p>
 
     <p class="code">d = binomial(0.5, 10)</p>

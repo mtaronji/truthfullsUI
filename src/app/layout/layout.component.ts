@@ -16,8 +16,8 @@ import { RouterModule } from '@angular/router';
     selector: 'app-layout',
     templateUrl: './layout.component.html',
     styleUrls: ['./layout.component.css'],
-    imports: [MatToolbarModule, LoginComponent, RouterOutlet,
-        MatIconModule, MatButtonModule, MatTooltipModule, CommonModule, DashboardComponent, FooterComponent, RouterModule
+    imports: [MatToolbarModule, RouterOutlet,
+        MatIconModule, MatButtonModule, MatTooltipModule, CommonModule, FooterComponent, RouterModule
     ]
 })
 export class LayoutComponent implements AfterViewInit  {

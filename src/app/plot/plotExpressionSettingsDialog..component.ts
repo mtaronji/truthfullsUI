@@ -65,7 +65,7 @@ interface Trace{
 
 @Component({
     selector: 'punk-plot',
-    imports: [MatDialogModule, MatDialogTitle, MatDialogContent, MatDialogActions, MatDialogClose, CommonModule, MatExpansionModule, MatFormFieldModule, MatSelectModule, MatButtonModule, FormsModule, MatCheckboxModule, MatInputModule, MatListModule],
+    imports: [MatDialogModule, MatDialogContent, MatDialogActions, MatDialogClose, CommonModule, MatExpansionModule, MatFormFieldModule, MatSelectModule, MatButtonModule, FormsModule, MatCheckboxModule, MatInputModule, MatListModule],
     templateUrl: './plotExpressionSettingsDialog.component.html',
     styleUrl: './plot.component.scss'
 })

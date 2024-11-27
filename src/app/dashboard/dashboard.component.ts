@@ -17,9 +17,7 @@ import {RouterOutlet, RouterModule } from '@angular/router';
     imports: [
         CommonModule,
         MatToolbarModule,
-        LoginComponent,
         MatSnackBarModule,
-        PlotComponent,
         SidebarComponent,
         RouterOutlet,
         RouterModule
@@ -33,7 +31,7 @@ export class DashboardComponent implements AfterViewInit{
   ngAfterViewInit(): void {
     let w = window.innerWidth;
     let h = window.innerHeight;
-    let smallscreenAlert:string = "For the best possible experience, we recommend viewing on a larger screen";
+    let smallscreenAlert:string = "Do not recommend using this application on a cell phone. Please use a larger screen for best results";
     if (w < 1200){
       this.snackbar.open(smallscreenAlert, undefined,{duration:10000});
     }

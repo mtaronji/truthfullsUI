@@ -52,12 +52,12 @@ export interface PunkInput{
 }
 @Component({
     selector: 'punk-plot',
-    imports: [PunkLibModule, PlotlyModule, MatTableModule, UpperCasePipe, CommonModule, MatPaginatorModule, MatListModule, MatButtonModule, MatIconModule, RouterModule, CdkDrag, CdkDragHandle, MatExpansionModule, MatProgressBarModule],
+    imports: [PunkLibModule, PlotlyModule, MatTableModule, CommonModule, MatPaginatorModule, MatListModule, MatButtonModule, MatIconModule, RouterModule, CdkDrag, CdkDragHandle, MatExpansionModule, MatProgressBarModule],
     templateUrl: './plot.component.html',
     styleUrl: './plot.component.scss'
 })
 export class PlotComponent implements AfterViewInit, AfterViewChecked {
-  SectorList:string[] = ["XLU","XLK","XLRE","XLI","XLV","XLE","XLP","XLY","XLC","XLF","SMH","XLB"]; //hardcode for now
+  //SectorList:string[] = ["XLU","XLK","XLRE","XLI","XLV","XLE","XLP","XLY","XLC","XLF","SMH","XLB"]; //hardcode for now
   CurrentYear = new Date().getFullYear()  
   Loading:boolean = false;
   DataUsage:number = 0;
@@ -99,8 +99,8 @@ export class PlotComponent implements AfterViewInit, AfterViewChecked {
   constructor(private api:APIService, public dialog:MatDialog, private parser:PapaparseService, private presetservice:PresetsService
   ){
     this.tracedata = [];
-    this.tracedata[0] = []; //create arrays for first 2 charts
-    this.tracedata[1] = [];
+    // this.tracedata[0] = []; //create arrays for first 2 charts
+    // this.tracedata[1] = [];
 
     this.data = [];
     this.ViewTable = false;
@@ -108,7 +108,6 @@ export class PlotComponent implements AfterViewInit, AfterViewChecked {
     this.paginator = {} as MatPaginator;
     this.headers = [];
     this.Expressions = [];
-    this.Loading = true;
     
     this.config[0] = {
       displayModeBar:false, responsive:true
@@ -128,32 +127,8 @@ export class PlotComponent implements AfterViewInit, AfterViewChecked {
   }
 
   ngAfterViewInit(): void {
-    
-    let initialSector = "SPY";
-    this.tabledata.paginator = this.paginator;
 
-    let syntax = this.presetservice.InitialTraces(initialSector, `${this.CurrentYear.toString()}-01-01`);
-    let input:PunkInput = {
-      syntax:syntax, csvfiles:this.csvFilesData
-    }
-    this.api.EvaluatePunkInput(input).pipe(catchError(this.PunkError))
-    .subscribe({
-      next:(expressions:any) =>{  
-       
-        this.LoadExpressions(expressions);
-        this.InitLandingTrace1(initialSector);
-        this.InitMovingAverageAndVixTraces(initialSector);
-        this.InitLandingTrace2();
-        this.CreateLayout1(initialSector);
-        this.CreateLayout2();
-        this.Loading = false;
-      },
-      error: (err:Error) =>{
-        this.PunkErrorMsg = err.message;
-        this.Loading = false;
-      }
-    });
-
+    //for triggering resizing event in plotly
     fromEvent(document,'mouseup').subscribe({
       next:()=>{
         window.dispatchEvent(new Event('resize'));
@@ -164,6 +139,32 @@ export class PlotComponent implements AfterViewInit, AfterViewChecked {
         window.dispatchEvent(new Event('resize'));
       }
     });
+
+    let initialSector = "SPY";
+    this.tabledata.paginator = this.paginator;
+
+    // let syntax = this.presetservice.InitialTraces(initialSector, `${this.CurrentYear.toString()}-01-01`);
+    // let input:PunkInput = {
+    //   syntax:syntax, csvfiles:this.csvFilesData
+    // }
+    // this.api.EvaluatePunkInput(input).pipe(catchError(this.PunkError))
+    // .subscribe({
+    //   next:(expressions:any) =>{  
+       
+    //     this.LoadExpressions(expressions);
+    //     this.InitLandingTrace1(initialSector);
+    //     this.InitMovingAverageAndVixTraces(initialSector);
+    //     this.InitLandingTrace2();
+    //     this.CreateLayout1(initialSector);
+    //     this.CreateLayout2();
+    //     this.Loading = false;
+    //   },
+    //   error: (err:Error) =>{
+    //     this.PunkErrorMsg = err.message;
+    //     this.Loading = false;
+    //   }
+    // });
+
     
   }
 
@@ -203,197 +204,197 @@ export class PlotComponent implements AfterViewInit, AfterViewChecked {
     }
   }
 
-  InitLandingTrace1(ticker:string){
-    let ohlcTrace:Partial<PlotlyJS.CandlestickData> = {
-      type:"candlestick",
-      name:`${ticker}`,
-      xaxis:"x",       
-      high:this.data[0].data.map((x:any) => x['high']),
-      low:this.data[0].data.map((x:any) => x['low']),
-      close:this.data[0].data.map((x:any) => x['adjClose']),
-      open:this.data[0].data.map((x:any) => x['open']),
-      x: this.data[0].data.map( (x:any) => x['date']),
-      increasing:{line:{color:'green'}},
-      decreasing:{line:{color:'ren'}} ,
-      opacity:0.65 
-    }
+  // InitLandingTrace1(ticker:string){
+  //   let ohlcTrace:Partial<PlotlyJS.CandlestickData> = {
+  //     type:"candlestick",
+  //     name:`${ticker}`,
+  //     xaxis:"x",       
+  //     high:this.data[0].data.map((x:any) => x['high']),
+  //     low:this.data[0].data.map((x:any) => x['low']),
+  //     close:this.data[0].data.map((x:any) => x['adjClose']),
+  //     open:this.data[0].data.map((x:any) => x['open']),
+  //     x: this.data[0].data.map( (x:any) => x['date']),
+  //     increasing:{line:{color:'green'}},
+  //     decreasing:{line:{color:'ren'}} ,
+  //     opacity:0.65 
+  //   }
 
-    this.tracedata[0].push(ohlcTrace);
-  }
-  InitMovingAverageAndVixTraces(ticker:string){
-    let sma200:Partial<PlotlyJS.ScatterData> = {
-      type:"scatter",
-      name:`200 Day ${ticker} SMA`,
-      xaxis:"x",       
-      y:this.data[1].data.map((x:any) => x['adjClose']),
-      x: this.data[1].data.map( (x:any) => x['date']),
-      opacity:0.65,
-      line:{color:'black'}
-    }
-    let sma100:Partial<PlotlyJS.ScatterData> = {
-      type:"scatter",
-      name:`100 Day ${ticker} SMA`,
-      xaxis:"x",       
-      y:this.data[2].data.map((x:any) => x['adjClose']),
-      x: this.data[2].data.map( (x:any) => x['date']),
-      opacity:0.65,
-      line:{color:'orange'}
-    }
-    let ema10:Partial<PlotlyJS.ScatterData> = {
-      type:"scatter",
-      name:`10 Day ${ticker} EMA`,
-      xaxis:"x",       
-      y:this.data[3].data.map((x:any) => x['adjClose']),
-      x: this.data[3].data.map( (x:any) => x['date']),
-      opacity:0.65,
-      line:{color:'yellow'}
-    }
-    let vix:Partial<PlotlyJS.ScatterData> = {
-      type:"scatter",
-      name:"vix",
-      xaxis:"x",   
-      yaxis:'y2', 
-      y:this.data[4].data.map((x:any) => x['adjClose']),
-      x: this.data[4].data.map( (x:any) => x['date']),
-      opacity:0.65,
-      line:{color:'red'}
-    }
-    this.tracedata[0].push(sma200);
-    this.tracedata[0].push(sma100);
-    this.tracedata[0].push(ema10);
-    this.tracedata[0].push(vix);
-  }
-  InitLandingTrace2(){
-    let colorscale = [
-      ['0.0','rgba(139, 0, 0, 0.5)'],
-      ['0.0','rgba(139, 0, 0, 0.5)'],
-      ['0.25','rgba(255, 192, 203, 0.5)'],
-      ['0.25','rgba(255, 192, 203, 0.5)'],
-      ['0.5','rgba(229, 228, 226, 1)'],
-      ['0.5','rgba(229, 228, 226, 1)'],
-      ['0.75','rgba(175, 225, 175, 0.5)'],
-      ['0.75','rgba(175, 225, 175, 0.5)'],
-      ['1.0','rgba(0, 100, 0, 0.5)'],
-      ['1.0','rgba(0, 100, 0, 0.5)']
-    ];
-    let gains:number[] = this.data[5].data.map((x:any) => x['gain']);
-    let heatmaptrace:any= {
-      type: 'heatmap',
-      hoverongaps: false,
-      colorscale: colorscale,
-      z: [ 
-          [gains[0]* 100, null,null],
-          [gains[1]* 100,gains[2]* 100, gains[3]* 100],
-          [gains[4]* 100,gains[5]* 100, gains[6]* 100],
-          [gains[7]* 100, gains[8]* 100,gains[9]* 100],
-          [gains[10]* 100,gains[11]* 100,gains[12]* 100],
-          [gains[13]* 100,gains[14]* 100,gains[15]* 100],
-          [gains[16]* 100,gains[17]* 100,gains[18]* 100],
-          [gains[19]* 100,gains[20]* 100,gains[21]* 100],
-          [gains[22]* 100,gains[23]* 100,gains[24]* 100]  
-          ],
-      x: ['1','2','3'],
-      y: ['1','2','3','4','5','6','7','8','9'],
+  //   this.tracedata[0].push(ohlcTrace);
+  // }
+  // InitMovingAverageAndVixTraces(ticker:string){
+  //   let sma200:Partial<PlotlyJS.ScatterData> = {
+  //     type:"scatter",
+  //     name:`200 Day ${ticker} SMA`,
+  //     xaxis:"x",       
+  //     y:this.data[1].data.map((x:any) => x['adjClose']),
+  //     x: this.data[1].data.map( (x:any) => x['date']),
+  //     opacity:0.65,
+  //     line:{color:'black'}
+  //   }
+  //   let sma100:Partial<PlotlyJS.ScatterData> = {
+  //     type:"scatter",
+  //     name:`100 Day ${ticker} SMA`,
+  //     xaxis:"x",       
+  //     y:this.data[2].data.map((x:any) => x['adjClose']),
+  //     x: this.data[2].data.map( (x:any) => x['date']),
+  //     opacity:0.65,
+  //     line:{color:'orange'}
+  //   }
+  //   let ema10:Partial<PlotlyJS.ScatterData> = {
+  //     type:"scatter",
+  //     name:`10 Day ${ticker} EMA`,
+  //     xaxis:"x",       
+  //     y:this.data[3].data.map((x:any) => x['adjClose']),
+  //     x: this.data[3].data.map( (x:any) => x['date']),
+  //     opacity:0.65,
+  //     line:{color:'yellow'}
+  //   }
+  //   let vix:Partial<PlotlyJS.ScatterData> = {
+  //     type:"scatter",
+  //     name:"vix",
+  //     xaxis:"x",   
+  //     yaxis:'y2', 
+  //     y:this.data[4].data.map((x:any) => x['adjClose']),
+  //     x: this.data[4].data.map( (x:any) => x['date']),
+  //     opacity:0.65,
+  //     line:{color:'red'}
+  //   }
+  //   this.tracedata[0].push(sma200);
+  //   this.tracedata[0].push(sma100);
+  //   this.tracedata[0].push(ema10);
+  //   this.tracedata[0].push(vix);
+  // }
+  // InitLandingTrace2(){
+  //   let colorscale = [
+  //     ['0.0','rgba(139, 0, 0, 0.5)'],
+  //     ['0.0','rgba(139, 0, 0, 0.5)'],
+  //     ['0.25','rgba(255, 192, 203, 0.5)'],
+  //     ['0.25','rgba(255, 192, 203, 0.5)'],
+  //     ['0.5','rgba(229, 228, 226, 1)'],
+  //     ['0.5','rgba(229, 228, 226, 1)'],
+  //     ['0.75','rgba(175, 225, 175, 0.5)'],
+  //     ['0.75','rgba(175, 225, 175, 0.5)'],
+  //     ['1.0','rgba(0, 100, 0, 0.5)'],
+  //     ['1.0','rgba(0, 100, 0, 0.5)']
+  //   ];
+  //   let gains:number[] = this.data[5].data.map((x:any) => x['gain']);
+  //   let heatmaptrace:any= {
+  //     type: 'heatmap',
+  //     hoverongaps: false,
+  //     colorscale: colorscale,
+  //     z: [ 
+  //         [gains[0]* 100, null,null],
+  //         [gains[1]* 100,gains[2]* 100, gains[3]* 100],
+  //         [gains[4]* 100,gains[5]* 100, gains[6]* 100],
+  //         [gains[7]* 100, gains[8]* 100,gains[9]* 100],
+  //         [gains[10]* 100,gains[11]* 100,gains[12]* 100],
+  //         [gains[13]* 100,gains[14]* 100,gains[15]* 100],
+  //         [gains[16]* 100,gains[17]* 100,gains[18]* 100],
+  //         [gains[19]* 100,gains[20]* 100,gains[21]* 100],
+  //         [gains[22]* 100,gains[23]* 100,gains[24]* 100]  
+  //         ],
+  //     x: ['1','2','3'],
+  //     y: ['1','2','3','4','5','6','7','8','9'],
 
-      zmin: -2,
-      zmax: 2,
-    }
-    this.tracedata[1].push(heatmaptrace);
-  }
+  //     zmin: -2,
+  //     zmax: 2,
+  //   }
+  //   this.tracedata[1].push(heatmaptrace);
+  // }
 
-  CreateLayout1(ticker:string){
-    //spy mapped with the daily volatility
-      this.layout[0] = {
-        autosize:true,
-        paper_bgcolor:  "#fafafa", 
-        plot_bgcolor: "#fafafa",
-        xaxis: {
-          autorange: true, 
-          // title: 'Date', 
-          type: '-',
-          rangeslider:{visible:false}
-        }, 
-        yaxis: {
-          autorange: true, 
-          type: '-',
-          // title:'Prices'
-        },      
-        yaxis2:{
-          autorange: true, 
-          type: '-',
-          // title:'VIX prices',
-          overlaying:'y',
-          side:'right'
-        },
-        // title:{
-        //   text:`${ticker} YTD With VIX`,
-        //   font:{
-        //     size:25,
-        //     family:"Gravitas One",
-        //     color:"black"
-        //   }
-        // } 
-      } 
-  }
-  CreateLayout2(){
-    //sector heatmap
-    let sectors:string[] = this.data[5].data.map((x:any) => x['sectorETF']);
-    let annotations: Partial<PlotlyJS.Annotations>[] = [];
+  // CreateLayout1(ticker:string){
+  //   //spy mapped with the daily volatility
+  //     this.layout[0] = {
+  //       autosize:true,
+  //       paper_bgcolor:  "#fafafa", 
+  //       plot_bgcolor: "#fafafa",
+  //       xaxis: {
+  //         autorange: true, 
+  //         // title: 'Date', 
+  //         type: '-',
+  //         rangeslider:{visible:false}
+  //       }, 
+  //       yaxis: {
+  //         autorange: true, 
+  //         type: '-',
+  //         // title:'Prices'
+  //       },      
+  //       yaxis2:{
+  //         autorange: true, 
+  //         type: '-',
+  //         // title:'VIX prices',
+  //         overlaying:'y',
+  //         side:'right'
+  //       },
+  //       // title:{
+  //       //   text:`${ticker} YTD With VIX`,
+  //       //   font:{
+  //       //     size:25,
+  //       //     family:"Gravitas One",
+  //       //     color:"black"
+  //       //   }
+  //       // } 
+  //     } 
+  // }
+  // CreateLayout2(){
+  //   //sector heatmap
+  //   let sectors:string[] = this.data[5].data.map((x:any) => x['sectorETF']);
+  //   let annotations: Partial<PlotlyJS.Annotations>[] = [];
 
-    let count = 0;
-    for(let i = 0; i < 9; i++){
-      for(let j = 0; j < 3;j++){
-        if(i == 0 && j > 0){continue;}
-        var result:any = {
-          xref: 'x1',
-          yref: 'y1',
-          x: `${j + 1}`,
-          y: `${i + 1}`,
-          text: sectors[count],
-          font: {
-            family: 'Arial',
-            size: 12,
-            color: 'white'
-          },
-          showarrow: false,
-          captureevents:true,
+  //   let count = 0;
+  //   for(let i = 0; i < 9; i++){
+  //     for(let j = 0; j < 3;j++){
+  //       if(i == 0 && j > 0){continue;}
+  //       var result:any = {
+  //         xref: 'x1',
+  //         yref: 'y1',
+  //         x: `${j + 1}`,
+  //         y: `${i + 1}`,
+  //         text: sectors[count],
+  //         font: {
+  //           family: 'Arial',
+  //           size: 12,
+  //           color: 'white'
+  //         },
+  //         showarrow: false,
+  //         captureevents:true,
           
-        };
-        annotations.push(result);
-        count++;
-      }
-    }
-    this.layout[1] = {
-      autosize:true,
-      paper_bgcolor:  "#fafafa", 
-      plot_bgcolor: "#fafafa",
-      xaxis: {
-        showgrid: false,
-        showline: false,
-        zeroline:false,
-        visible:false,
-        type:'linear',
-        rangeslider:{visible:false}
+  //       };
+  //       annotations.push(result);
+  //       count++;
+  //     }
+  //   }
+  //   this.layout[1] = {
+  //     autosize:true,
+  //     paper_bgcolor:  "#fafafa", 
+  //     plot_bgcolor: "#fafafa",
+  //     xaxis: {
+  //       showgrid: false,
+  //       showline: false,
+  //       zeroline:false,
+  //       visible:false,
+  //       type:'linear',
+  //       rangeslider:{visible:false}
         
-      },
-      yaxis: {
-        showgrid: false,
-        showline: false,
-        zeroline:false,
-        type:'linear',
-        visible:false
-      },    
-      // title:{
-      //   text:"Sector Heat Map",
-      //   font:{
-      //     size:25,
-      //     family:"Gravitas One",
-      //     color:"black"
-      //   }
-      // }, 
-      annotations:annotations
-    } 
-  }
+  //     },
+  //     yaxis: {
+  //       showgrid: false,
+  //       showline: false,
+  //       zeroline:false,
+  //       type:'linear',
+  //       visible:false
+  //     },    
+  //     // title:{
+  //     //   text:"Sector Heat Map",
+  //     //   font:{
+  //     //     size:25,
+  //     //     family:"Gravitas One",
+  //     //     color:"black"
+  //     //   }
+  //     // }, 
+  //     annotations:annotations
+  //   } 
+  // }
   PunkError(response:HttpErrorResponse){
     let msg:string;
     if(response.status === 400 || response.status === 500){
@@ -488,33 +489,33 @@ export class PlotComponent implements AfterViewInit, AfterViewChecked {
     PlotlyJS.purge(`plt${chartnumber}`);
   }
 
-  HeatMapClickEvent(event:any){
+  // HeatMapClickEvent(event:any){
 
-    let sector = event.annotation.text; 
-    if(!this.SectorList.includes(sector)){return;}
+  //   let sector = event.annotation.text; 
+  //   if(!this.SectorList.includes(sector)){return;}
 
-    let syntax = this.presetservice.InitialTraces(sector, `${this.CurrentYear.toString()}-01-01`);
-    let input:PunkInput = {
-      syntax:syntax, csvfiles:this.csvFilesData
-    }
-    this.api.EvaluatePunkInput(input).pipe(catchError(this.PunkError))
-    .subscribe({
-      next:(expressions:any) =>{  
-        this.DeleteChart(1); this.DeleteChart(2);
-        this.ClearData(); this.tracedata[0] = []; this.tracedata[1] = [];
-        this.LoadExpressions(expressions);
-        this.InitLandingTrace1(sector);
-        this.InitMovingAverageAndVixTraces(sector);
-        this.InitLandingTrace2();
-        this.CreateLayout1(sector);
-        this.CreateLayout2();
-        this.Loading = false;
-      },
-      error: (err:Error) =>{
-        this.PunkErrorMsg = err.message;
-        this.Loading = false;
-      }
-    });
-  }
+  //   let syntax = this.presetservice.InitialTraces(sector, `${this.CurrentYear.toString()}-01-01`);
+  //   let input:PunkInput = {
+  //     syntax:syntax, csvfiles:this.csvFilesData
+  //   }
+  //   this.api.EvaluatePunkInput(input).pipe(catchError(this.PunkError))
+  //   .subscribe({
+  //     next:(expressions:any) =>{  
+  //       this.DeleteChart(1); this.DeleteChart(2);
+  //       this.ClearData(); this.tracedata[0] = []; this.tracedata[1] = [];
+  //       this.LoadExpressions(expressions);
+  //       this.InitLandingTrace1(sector);
+  //       this.InitMovingAverageAndVixTraces(sector);
+  //       this.InitLandingTrace2();
+  //       this.CreateLayout1(sector);
+  //       this.CreateLayout2();
+  //       this.Loading = false;
+  //     },
+  //     error: (err:Error) =>{
+  //       this.PunkErrorMsg = err.message;
+  //       this.Loading = false;
+  //     }
+  //   });
+  // }
 
 }
